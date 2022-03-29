@@ -6,12 +6,9 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -20,30 +17,30 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username',null,[
+            ->add('username', null, [
                 'required' => true,
-                'label' => 'Pseudo'
+                'label' => 'Pseudo',
             ])
-            ->add('lastname', null,[
-                'required'=>true,
-                'label' => 'Nom'
+            ->add('lastname', null, [
+                'required' => true,
+                'label' => 'Nom',
             ])
-            ->add('firstname', null,[
-                'required'=>true,
-                'label' => 'Prénom'
+            ->add('firstname', null, [
+                'required' => true,
+                'label' => 'Prénom',
             ])
-            ->add('telephone', null,[
-                'required'=>true,
-                'label' => 'Téléphone'
+            ->add('telephone', null, [
+                'required' => true,
+                'label' => 'Téléphone',
             ])
-            ->add('mail', null,[
-                'required'=>true,
-                'label' => 'Adresse Email'
+            ->add('mail', null, [
+                'required' => true,
+                'label' => 'Adresse Email',
             ])
-            ->add('administrateur', null,[
-                'required'=>true
+            ->add('administrateur', null, [
+                'required' => true,
             ])
-            ->add('campus', EntityType::class,[
+            ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
             ])
