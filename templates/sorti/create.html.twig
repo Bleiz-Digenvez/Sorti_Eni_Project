@@ -16,12 +16,12 @@ Nouvelle sorti | {{ parent() }}
             {{ form_row(sortieForm.infosSortie) }}
         </div>
         <div>
-            {{ form_row(sortieForm.campus, {'attr': {'value': app.user.campus.id}}) }}
             <label>Campus : </label> {{ app.user.campus.nom }}
             {{ form_row(sortieForm.ville) }}
             {{ form_row(sortieForm.lieu) }}
-            <label>Rue :</label>
-            <lable>Code Postal : </lable>
+            <label>Rue :</label> blabla <br>
+            <lable>Code Postal : </lable>blabla
+            {{ form_row(sortieForm.etat) }}
         </div>
 
 

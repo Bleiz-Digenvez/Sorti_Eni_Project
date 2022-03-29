@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,12 +36,15 @@ class SortieType extends AbstractType
                 'widget'=> 'single_text',
                 'label' => 'Date limite d\'inscription : '
             ])
-            ->add('nbInscriptionsMax')
-            ->add('duree')
+            ->add('nbInscriptionsMax', NumberType::class, [
+                'label' => 'Nombre de place : '
+            ])
+            ->add('duree', NumberType::class, [
+                'label' => 'Durée : '
+            ])
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Description et infos : '
             ])
-            ->add('campus', HiddenType::class)
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
@@ -48,6 +53,10 @@ class SortieType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom'
+            ])
+            ->add('etat', EntityType::class, [
+                'class' => Etat::class,
+                'choice_label' => 'libelle'
             ])
         ;
     }
