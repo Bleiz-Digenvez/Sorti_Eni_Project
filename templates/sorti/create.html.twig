@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Nouvelle sorti | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Créer une sortie</h1>
+    <div>
+        {{ form_start(sortieForm) }}
+        <div>
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.nbInscriptionsMax) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.infosSortie) }}
+        </div>
+        <div>
+            {{ form_row(sortieForm.campus, {'attr': {'value': app.user.campus.id}}) }}
+            <label>Campus : </label> {{ app.user.campus.nom }}
+            {{ form_row(sortieForm.ville) }}
+            {{ form_row(sortieForm.lieu) }}
+            <label>Rue :</label>
+            <lable>Code Postal : </lable>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        {{ form_end(sortieForm) }}
+    </div>
+{%  endblock %}

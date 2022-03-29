@@ -7,7 +7,7 @@
         <!-- TODO: Ajouter les chemins  -->
         <div class="d-flex">
             <a class="btn btn-outline-secondary me-2" href="#">Accueil</a>
-            <a class="btn btn-outline-secondary me-2" href="#">Nouvelle Sortie</a>
+            <a class="btn btn-outline-secondary me-2" href="{{ path('create_sorti') }}">Nouvelle Sortie</a>
             <a class="btn btn-outline-secondary me-2"href="#">Mon profil</a>
             <a class="btn btn-outline-secondary me-2"href="{{ path('app_logout') }}">Se déconnecter</a>
             {% if is_granted("ROLE_ADMIN") %}
