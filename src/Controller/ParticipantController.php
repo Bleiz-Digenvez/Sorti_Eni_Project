@@ -37,9 +37,6 @@ class ParticipantController extends AbstractController
         if($formParticipant->isSubmitted()
             && $formParticipant->isValid()
             && $userPasswordHasher->isPasswordValid($participant, $formParticipant->get('oldPassword')->getData())){
-            if($formParticipant->get('newPassword')->getData()){
-                $participant->set
-            }
             $manager->persist($participant);
             $manager->flush();
             $this->addFlash('success','Compte Modifier !');
