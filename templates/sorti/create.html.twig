@@ -7,35 +7,64 @@ Nouvelle sorti | {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <h1>Créer une sortie</h1>
-    <div>
-        {{ form_start(sortieForm) }}
+    <div class="d-flex flex-column justify-content-center">
+        <h1 class="mx-auto">Créer une sortie</h1>
         <div>
-            {{ form_row(sortieForm.nom) }}
-            {{ form_row(sortieForm.dateHeureDebut) }}
-            {{ form_row(sortieForm.dateLimiteInscription) }}
-            {{ form_row(sortieForm.nbInscriptionsMax) }}
-            {{ form_row(sortieForm.duree) }}
-            {{ form_row(sortieForm.infosSortie) }}
+            {{ form_start(sortieForm) }}
+            <div class="d-flex justify-content-center mx-auto">
+                <div class="col-12 col-md-5 text-left">
+
+                    {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+                </div>
+
+                <div class="col-11 col-md-5">
+                    <label class="col-4 my-2">Campus : </label> {{ app.user.campus.nom }}<br>
+
+                    {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.ville, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+
+                    <div id="container-info">
+                    </div>
+
+                    {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
+                    {{ form_widget(sortieForm.etat, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+                </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+            {{ form_end(sortieForm) }}
         </div>
-        <div>
-            <label>Campus : </label> {{ app.user.campus.nom }}
-            {{ form_row(sortieForm.ville) }}
-
-
-            {{ form_row(sortieForm.lieu) }}
-            <label>Rue :</label> blabla <br>
-            <lable>Code Postal : </lable>blabla
-            {{ form_row(sortieForm.etat) }}
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">Ajouter</button>
-        {{ form_end(sortieForm) }}
     </div>
 
-    <script>const RECHERCHE_LIEU = "{{ path('app_rechercheLieu') }}"</script>
+
+    <script>
+        const RECHERCHE_LIEU = "{{ path('app_rechercheLieu') }}"
+        const RECHERCHE_INFO = "{{ path('app_infoRecherche') }}"
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         let ville_choix = document.getElementById('sortie_ville')
         console.log(ville_choix)
@@ -50,6 +79,21 @@ Nouvelle sorti | {{ parent() }}
                     let selectLieux = document.getElementById("sortie_lieu")
                     selectLieux.innerHTML = res.data;
                 })
+        })
+    </script>
+
+    <script>
+        let selectLieux = document.getElementById("sortie_lieu")
+        selectLieux.addEventListener("change", () => {
+            let option = selectLieux.value
+            axios.get(RECHERCHE_INFO, {
+                params: {"option": option}
+            })
+                .then((res) => {
+                console.log(res.data)
+                let containerInfo = document.getElementById("container-info")
+                containerInfo.innerHTML = res.data
+            })
         })
     </script>
 {%  endblock %}

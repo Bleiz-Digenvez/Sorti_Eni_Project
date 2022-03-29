@@ -47,10 +47,22 @@ class SortiController extends AbstractController
     {
         $option = $request->query->get('option');
         $resultat = $lieuRepository->lieuxParVille($option);
-        dump($resultat);
 
         return $this->render("sortie/ajax_lieu.html.twig", [
             "lieux" => $resultat
+        ]);
+    }
+
+    /**
+     * @Route("/lieu/recherchre/info", name="app_infoRecherche")
+     */
+    public function affichageInfoLieu(Request $request, LieuRepository $lieuRepository)
+    {
+        $option = $request->query->get('option');
+        $resultat = $lieuRepository->find($option);
+
+        return $this->render("sortie/ajax_info.html.twig", [
+            "lieu" => $resultat
         ]);
     }
 }
