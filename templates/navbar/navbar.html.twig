@@ -7,7 +7,7 @@
         <!-- TODO: Ajouter les chemins  -->
         <div class="d-flex">
             {% if is_granted('ROLE_USER') %}
-            <a class="btn btn-outline-secondary me-2" href="#">Accueil</a>
+            <a class="btn btn-outline-secondary me-2" href="{{ path('main_home') }}">Accueil</a>
             <a class="btn btn-outline-secondary me-2" href="{{ path('create_sorti') }}">Nouvelle Sortie</a>
             <a class="btn btn-outline-secondary me-2"href="{{ path('participant_profil') }}">Mon profil</a>
             <a class="btn btn-outline-secondary me-2"href="{{ path('app_logout') }}">Se déconnecter</a>
