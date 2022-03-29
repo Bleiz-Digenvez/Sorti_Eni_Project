@@ -8,51 +8,85 @@ Nouvelle sorti | {{ parent() }}
 
 {% block body %}
     <div class="d-flex flex-column justify-content-center">
-        <h1 class="mx-auto">Créer une sortie</h1>
-        <div>
+        <h1 class="mx-auto my-3">Créer une sortie</h1>
+        <div class="my-3">
             {{ form_start(sortieForm) }}
             <div class="d-flex justify-content-center mx-auto">
                 <div class="col-12 col-md-5 text-left">
 
-                    {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.nom, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.duree, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+                    <div class="row">
+                        {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-11 col-md-5">
-                    <label class="col-4 my-2">Campus : </label> {{ app.user.campus.nom }}<br>
-
-                    {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.ville, {'attr': {'class': 'col-5 my-2'}}) }}<br>
-
-                    {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+                    <div class="row">
+                            <label class="col-5 my-2 col-form-label">Campus : </label>
+                        <div class="col-5">
+                            <p class="form-control">{{ app.user.campus.nom }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.ville, {'attr': {'class': 'form-select'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-select'}}) }}<br>
+                        </div>
+                    </div>
 
                     <div id="container-info">
                     </div>
-
-                    {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-4 my-2'}}) }}
-                    {{ form_widget(sortieForm.etat, {'attr': {'class': 'col-5 my-2'}}) }}<br>
+                    <div class="row">
+                        {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.etat, {'attr': {'class': 'form-select'}}) }}<br>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-
-
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary col-3">Ajouter</button>
+                <a href="{{ path('main_home') }}" class="btn btn-danger mx-3 col-3">Annuler</a>
+            </div>
             {{ form_end(sortieForm) }}
         </div>
     </div>
