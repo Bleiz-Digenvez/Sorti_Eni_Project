@@ -38,4 +38,12 @@ class SortiController extends AbstractController
             'sortieForm' => $sortieForm->createView()
         ]);
     }
+
+    /**
+     * @Route("/lieu/recherche", name="app_rechercheLieu")
+     */
+    public function rechercheLieu(): Response
+    {
+        return 'nvfinpz';
+    }
 }

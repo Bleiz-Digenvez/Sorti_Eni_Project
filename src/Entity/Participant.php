@@ -301,4 +301,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getUsername()
+    {
+        return $this->pseudo;
+    }
 }
