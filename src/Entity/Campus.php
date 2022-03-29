@@ -20,17 +20,17 @@ class Campus
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
      */
     private $participants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus")
      */
     private $sorties;
 
@@ -77,13 +77,7 @@ class Campus
 
     public function removeParticipant(Participant $participant): self
     {
-        if ($this->participants->removeElement($participant)) {
-            // set the owning side to null (unless already changed)
-            if ($participant->getCampus() === $this) {
-                $participant->setCampus(null);
-            }
-        }
-
+        $this->participants->removeElement($participant);
         return $this;
     }
 
@@ -107,12 +101,7 @@ class Campus
 
     public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getCampus() === $this) {
-                $sorty->setCampus(null);
-            }
-        }
+        $this->sorties->removeElement($sorty);
 
         return $this;
     }

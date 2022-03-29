@@ -71,12 +71,7 @@ class Etat
 
     public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getEtat() === $this) {
-                $sorty->setEtat(null);
-            }
-        }
+        $this->sorties->removeElement($sorty);
 
         return $this;
     }

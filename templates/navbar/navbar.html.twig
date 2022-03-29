@@ -8,7 +8,7 @@
         <div class="d-flex">
             <a class="btn btn-outline-secondary me-2" href="#">Accueil</a>
             <a class="btn btn-outline-secondary me-2" href="{{ path('create_sorti') }}">Nouvelle Sortie</a>
-            <a class="btn btn-outline-secondary me-2"href="#">Mon profil</a>
+            <a class="btn btn-outline-secondary me-2"href="{{ path('participant_profil') }}">Mon profil</a>
             <a class="btn btn-outline-secondary me-2"href="{{ path('app_logout') }}">Se déconnecter</a>
             {% if is_granted("ROLE_ADMIN") %}
                 <div class="dropdown">
@@ -21,7 +21,7 @@
                         <li><a class="dropdown-item" href="#">Utilisateurs</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <p class="ms-3 me-3"> Ajouter un utilisateur :</p>
-                        <li><a class="dropdown-item" href="#">Formulaire</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_register') }}">Formulaire</a></li>
                         <li><a class="dropdown-item" href="#">Import par fichier</a></li>
                     </ul>
                 </div>

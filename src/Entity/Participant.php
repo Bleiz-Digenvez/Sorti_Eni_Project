@@ -6,13 +6,16 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
- * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"pseudo"})
+ * @UniqueEntity(fields={"mail"})
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,28 +29,23 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $username;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    private $pseudo;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private $motPasse;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $lastname;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $firstname;
+    private $prenom;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
@@ -83,12 +81,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
      */
-    private $sortiesOrganise;
+    private $sortiesOrganisees;
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
-        $this->sortiesOrganise = new ArrayCollection();
+        $this->sortiesOrganisees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,14 +97,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
-    public function getUsername(): string
+    public function getPseudo(): string
     {
-        return (string) $this->username;
+        return (string) $this->pseudo;
     }
 
-    public function setUsername(string $username): self
+    public function setPseudo(string $pseudo): self
     {
-        $this->username = $username;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
@@ -118,7 +116,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return (string) $this->pseudo;
     }
 
     /**
@@ -126,18 +124,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
-    }
+        return $this->administrateur?["ROLE_ADMIN"]:["ROLE_USER"];
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -145,12 +134,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->motPasse;
     }
 
-    public function setPassword(string $password): self
+    public function getMotPasse(): string
     {
-        $this->password = $password;
+        return $this->motPasse;
+    }
+
+    public function setMotPasse(string $motPasse): self
+    {
+        $this->motPasse = $motPasse;
 
         return $this;
     }
@@ -175,26 +169,26 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getLastname(): ?string
+    public function getNom(): ?string
     {
-        return $this->lastname;
+        return $this->nom;
     }
 
-    public function setLastname(string $lastname): self
+    public function setNom(string $nom): self
     {
-        $this->lastname = $lastname;
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->firstname;
+        return $this->prenom;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setPrenom(string $prenom): self
     {
-        $this->firstname = $firstname;
+        $this->prenom = $prenom;
 
         return $this;
     }
@@ -286,15 +280,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Sortie>
      */
-    public function getSortiesOrganise(): Collection
+    public function getSortiesOrganisees(): Collection
     {
-        return $this->sortiesOrganise;
+        return $this->sortiesOrganisees;
     }
 
     public function addSortiesOrganise(Sortie $sortiesOrganise): self
     {
-        if (!$this->sortiesOrganise->contains($sortiesOrganise)) {
-            $this->sortiesOrganise[] = $sortiesOrganise;
+        if (!$this->sortiesOrganisees->contains($sortiesOrganise)) {
+            $this->sortiesOrganisees[] = $sortiesOrganise;
             $sortiesOrganise->setOrganisateur($this);
         }
 
@@ -303,12 +297,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeSortiesOrganise(Sortie $sortiesOrganise): self
     {
-        if ($this->sortiesOrganise->removeElement($sortiesOrganise)) {
-            // set the owning side to null (unless already changed)
-            if ($sortiesOrganise->getOrganisateur() === $this) {
-                $sortiesOrganise->setOrganisateur(null);
-            }
-        }
+        $this->sortiesOrganisees->removeElement($sortiesOrganise);
 
         return $this;
     }

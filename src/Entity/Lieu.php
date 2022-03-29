@@ -30,17 +30,17 @@ class Lieu
     private $rue;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
      */
     private $sorties;
 
@@ -128,12 +128,7 @@ class Lieu
 
     public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getLieu() === $this) {
-                $sorty->setLieu(null);
-            }
-        }
+        $this->sorties->removeElement($sorty);
 
         return $this;
     }

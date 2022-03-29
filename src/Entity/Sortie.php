@@ -45,7 +45,7 @@ class Sortie
     private $nbInscriptionsMax;
 
     /**
-     * @ORM\Column(type="string", length=1000)
+     * @ORM\Column(type="text")
      */
     private $infosSortie;
 
@@ -61,7 +61,7 @@ class Sortie
     private $campus;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganise")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;

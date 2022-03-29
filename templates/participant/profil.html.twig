@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        {{ form_start(formParticipant) }}
+
+        {{ form_widget(formParticipant) }}
+        <button>Modify !</button>
+        {{ form_end(formParticipant) }}
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -25,12 +25,12 @@ class Ville
     private $nom;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=5)
      */
     private $codePostal;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville")
      */
     private $lieux;
 
@@ -88,12 +88,7 @@ class Ville
 
     public function removeLieux(Lieu $lieux): self
     {
-        if ($this->lieux->removeElement($lieux)) {
-            // set the owning side to null (unless already changed)
-            if ($lieux->getVille() === $this) {
-                $lieux->setVille(null);
-            }
-        }
+        $this->lieux->removeElement($lieux);
 
         return $this;
     }
