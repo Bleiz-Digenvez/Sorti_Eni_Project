@@ -6,7 +6,9 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,42 +22,51 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('pseudo', null, [
                 'required' => true,
-                'label' => 'Pseudo* :'
+                'label' => 'Pseudo*'
             ])
             ->add('nom', null, [
                 'required' => true,
-                'label' => 'Nom* :'
+                'label' => 'Nom*'
             ])
             ->add('prenom', null, [
                 'required' => true,
-                'label' => 'Prénom* :'
+                'label' => 'Prénom*'
             ])
             ->add('telephone', null, [
-                'label' => 'Téléphone :'
+                'label' => 'Téléphone'
             ])
             ->add('mail', null, [
                 'required' => true,
-                'label' => 'Adresse Email* :'
+                'label' => 'Adresse Email*'
             ])
-            ->add('administrateur',null,[
-                'label' => 'Compte Admin :'
+            ->add('administrateur',ChoiceType::class,[
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ],
+                'label' => 'Administrateur',
+                'expanded' => true,
+                'data' =>false
             ])
-            ->add('actif',null,[
-                'label' => 'Compte Actif :'
+            ->add('actif',ChoiceType::class,[
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ],
+                'label' => 'Actif',
+                'expanded' => true,
+                'data' => false
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'label' => 'Campus* :'
+                'label' => 'Campus*'
             ])
-            ->add('plainPassword', RepeatedType::class,[
+            ->add('plainPassword', PasswordType::class,[
                 'mapped' => false,
-                'type' => PasswordType::class,
-                'options'=>[
-                    'attr' =>[
+                'attr' =>[
                         'class' => 'password-field',
-                        'autocomplete' => 'new-password'
-                    ]],
+                        'autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -67,8 +78,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'first_options' => ['label' => 'Mot de Passe* :'],
-                'second_options' => ['label' => 'Confirmation Mot de Passe* :']
+                'label' => 'Mot de Passe*'
             ])
         ;
     }
