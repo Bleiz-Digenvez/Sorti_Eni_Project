@@ -1,12 +1,79 @@
+{% form_theme formParticipant 'bootstrap_5_layout.html.twig' %}
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div>
-        {{ form_start(formParticipant) }}
 
-        {{ form_widget(formParticipant) }}
-        <button>Modify !</button>
-        {{ form_end(formParticipant) }}
+{% block body %}
+    <div class="mt-4 container-fluid">
+        <div class="row justify-content-start">
+            <div class="col-md-4">
+                <img src="{{ app.user.pseudo }}.png">
+            </div>
+            <div class="col-md-5 ">
+                {{ form_start(formParticipant) }}
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.pseudo, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.pseudo) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.nom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.nom) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.prenom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.prenom) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.telephone, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.telephone) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.mail, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.mail) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.newPassword.first, '' ,{'label_attr':  {'class': 'col-xl-5 form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.newPassword.first) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-xl-5">
+                        <div class="row">
+                            <label for="">Confirmation nouveau</label>
+                        </div>
+                        <div class="row">
+                            <label for="">Mot de Passe</label>
+                        </div>
+                    </div>
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.newPassword.second) }}
+                    </div>
+                </div>
+
+                {{ form_widget(formParticipant) }}
+                <div class="row">
+                    <div class="col-sm-6 mb-4">
+                        <button class="btn btn-primary w-100">Enregistrer</button>
+                    </div>
+                    <div class="col-sm-6 mb-4">
+                        <button class="btn btn-danger w-100">Annuler</button>
+                    </div>
+                </div>
+                {{ form_end(formParticipant) }}
+            </div>
+        </div>
+
+
     </div>
 {% endblock %}
 

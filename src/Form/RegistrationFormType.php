@@ -31,11 +31,11 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Prénom* :'
             ])
             ->add('telephone', null, [
-                'label' => 'Téléphone :',
+                'label' => 'Téléphone :'
             ])
             ->add('mail', null, [
                 'required' => true,
-                'label' => 'Adresse Email* :',
+                'label' => 'Adresse Email* :'
             ])
             ->add('administrateur',null,[
                 'label' => 'Compte Admin :'
@@ -68,7 +68,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'first_options' => ['label' => 'Mot de Passe* :'],
-                'second_options' => ['label' => 'Confirmation Mot de Passe* :'],
+                'second_options' => ['label' => 'Confirmation Mot de Passe* :']
             ])
         ;
     }
