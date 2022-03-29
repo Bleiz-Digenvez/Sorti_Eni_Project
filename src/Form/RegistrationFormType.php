@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -17,36 +18,44 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', null, [
+            ->add('pseudo', null, [
                 'required' => true,
-                'label' => 'Pseudo',
+                'label' => 'Pseudo* :'
             ])
-            ->add('lastname', null, [
+            ->add('nom', null, [
                 'required' => true,
-                'label' => 'Nom',
+                'label' => 'Nom* :'
             ])
-            ->add('firstname', null, [
+            ->add('prenom', null, [
                 'required' => true,
-                'label' => 'Prénom',
+                'label' => 'Prénom* :'
             ])
             ->add('telephone', null, [
-                'label' => 'Téléphone',
+                'label' => 'Téléphone :',
             ])
             ->add('mail', null, [
                 'required' => true,
-                'label' => 'Adresse Email',
+                'label' => 'Adresse Email* :',
             ])
-            ->add('administrateur', null, [
+            ->add('administrateur',null,[
+                'label' => 'Compte Admin :'
+            ])
+            ->add('actif',null,[
+                'label' => 'Compte Actif :'
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+                'label' => 'Campus* :'
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+            ->add('plainPassword', RepeatedType::class,[
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'type' => PasswordType::class,
+                'options'=>[
+                    'attr' =>[
+                        'class' => 'password-field',
+                        'autocomplete' => 'new-password'
+                    ]],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -58,7 +67,8 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Mot de Passe',
+                'first_options' => ['label' => 'Mot de Passe* :'],
+                'second_options' => ['label' => 'Confirmation Mot de Passe* :'],
             ])
         ;
     }

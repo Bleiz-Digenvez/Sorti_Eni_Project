@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -16,27 +17,26 @@ class ParticipantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', null, [
+            ->add('pseudo', null, [
                 'required' => true,
-                'label' => 'Pseudo',
+                'label' => 'Pseudo* :'
             ])
-            ->add('lastname', null, [
+            ->add('nom', null, [
                 'required' => true,
-                'label' => 'Nom',
+                'label' => 'Nom* :'
             ])
-            ->add('firstname', null, [
+            ->add('prenom', null, [
                 'required' => true,
-                'label' => 'Prénom',
+                'label' => 'Prénom* :'
             ])
             ->add('telephone', null, [
-                'required' => true,
-                'label' => 'Téléphone',
+                'label' => 'Téléphone :',
             ])
             ->add('mail', null, [
                 'required' => true,
-                'label' => 'Adresse Email',
+                'label' => 'Adresse Email* :',
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('oldPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -52,7 +52,27 @@ class ParticipantType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Mot de passe actuel',
+                'label' => 'Mot de passe actuel* :'
+            ])
+            ->add('newPassword', RepeatedType::class,[
+                'mapped' => false,
+                'type' => PasswordType::class,
+                'options'=>[
+                    'attr' =>[
+                        'class' => 'password-field',
+                        'autocomplete' => 'new-password'
+                    ]],
+                'constraints' => [
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+                'first_options' => ['label' => 'Nouveau Mot de Passe :'],
+                'second_options' => ['label' => 'Confirmation Nouveau Mot de Passe :'],
+                'required' => false
             ])
         ;
     }

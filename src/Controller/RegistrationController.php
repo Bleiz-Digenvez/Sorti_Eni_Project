@@ -30,12 +30,6 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            if ($user->getAdministrateur()) {
-                $user->setRoles(['ROLE_ADMIN']);
-            } else {
-                $user->setRoles(['ROLE_USER']);
-            }
-            $user->setActif(true);
 
             // TODO: Formatage champs text !
 

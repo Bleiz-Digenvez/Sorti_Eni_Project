@@ -93,7 +93,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         ;
     }
     */
-    public function loadUserByUsername(string $usernameOrEmail): ?Participant
+    public function loadUserByUsername(string $pseudoOrMail): ?Participant
     {
         $entityManager = $this->getEntityManager();
 
@@ -103,7 +103,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
                 WHERE u.pseudo = :query
                 OR u.mail = :query'
         )
-            ->setParameter('query', $usernameOrEmail)
+            ->setParameter('query', $pseudoOrMail)
             ->getOneOrNullResult();
     }
 }
