@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +43,14 @@ class SortiController extends AbstractController
     /**
      * @Route("/lieu/recherche", name="app_rechercheLieu")
      */
-    public function rechercheLieu(): Response
+    public function rechercheLieu(Request $request, LieuRepository $lieuRepository): Response
     {
-        return 'nvfinpz';
+        $option = $request->query->get('option');
+        $resultat = $lieuRepository->lieuxParVille($option);
+        dump($resultat);
+
+        return $this->render("sortie/ajax_lieu.html.twig", [
+            "lieux" => $resultat
+        ]);
     }
 }

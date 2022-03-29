@@ -32,24 +32,22 @@ Nouvelle sorti | {{ parent() }}
         {{ form_end(sortieForm) }}
     </div>
 
-
+    <script>const RECHERCHE_LIEU = "{{ path('app_rechercheLieu') }}"</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        var $ville = $('#sorti_ville')
-        $ville.change(function (){
-            var $form = $(this).closest('form');
-            var data = {};
-            data[$ville.attr('name')] = $ville.val();
-            $.ajax({
-                url : $form.attr('action'),
-                type: $form.attr('method'),
-                data : data,
-                complete: function (html) {
-                    $('#sortie_lieu').replaceWith(
-                        $(html.responseText).find('#sortie_ville')
-                    )
-                }
+        let ville_choix = document.getElementById('sortie_ville')
+        console.log(ville_choix)
+        ville_choix.addEventListener("change", () => {
+            let option = ville_choix.value;
+            console.log(option);
+            axios.get(RECHERCHE_LIEU, {
+                params: {"option": option}
             })
+                .then((res) => {
+                    console.log(res.data)
+                    let selectLieux = document.getElementById("sortie_lieu")
+                    selectLieux.innerHTML = res.data;
+                })
         })
-
     </script>
 {%  endblock %}

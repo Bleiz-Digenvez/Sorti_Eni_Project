@@ -6,6 +6,7 @@ use App\Entity\Lieu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,32 +46,11 @@ class LieuRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Lieu[] Returns an array of Lieu objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function lieuxParVille(int $idVille)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->andWhere('l.ville = :idVille')
+            ->setParameter('idVille', $idVille);
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Lieu
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

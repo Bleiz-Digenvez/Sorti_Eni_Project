@@ -61,7 +61,13 @@ class SortieType extends AbstractType
                 'class' => Etat::class,
                 'choice_label' => 'libelle'
             ])
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'placeholder' => '',
+                'choice_label' => 'nom'
+            ]);
         ;
+        /*
         $formModifier = function (FormInterface $form, Ville $ville = null){
             $lieu = null === $ville ? [] : $ville->getLieux();
             $form->add('lieu', EntityType::class, [
@@ -84,7 +90,7 @@ class SortieType extends AbstractType
                 $ville = $event->getForm()->getData();
                 $formModifier($event->getForm()->getParent(), $ville);
             }
-        );
+        );*/
     }
 
     public function configureOptions(OptionsResolver $resolver): void
