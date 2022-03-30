@@ -19,7 +19,7 @@ class RechercheSortieType extends AbstractType
     {
         $builder
  //           ->add('site',EntityType::class,[
- //               'class'=>Site::class,
+ //               'class'=>Campus::class,
  //               'choice_label' => 'nom',
  //               'required'=>false
  //           ])

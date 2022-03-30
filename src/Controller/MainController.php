@@ -29,7 +29,7 @@ class MainController extends AbstractController
         if ($rechercheSortieForm->isSubmitted()) {
 
             $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
-            dd($resultats);
+            //dd($resultats);
         }
 
         return $this->render('main/home.html.twig', [

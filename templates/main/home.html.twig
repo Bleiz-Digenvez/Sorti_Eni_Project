@@ -3,10 +3,10 @@
 {% block body %}
 <div class="container">
     <!-- Formulaire de recherche -->
+    {{ form_start(rechercheSortieForm) }}
     <div class="card card-body mt-3">
         <h5 class="card-title">Filtrer les sorties</h5>
-        <div class="row"
-            {{ form_start(rechercheSortieForm) }}
+        <div class="row">
             <div class="col-sm-6 ms-2">
                 <div class="row mb-2">
                     <div class="col-sm-5 form-label">{{ form_label(rechercheSortieForm.site) }}</div>
@@ -54,9 +54,10 @@
                     <button class="btn btn-lg btn-primary">Rechercher</button>
                 </div>
             </div>
-            {{ form_end(rechercheSortieForm) }}
+
         </div>
     </div>
+    {{ form_end(rechercheSortieForm) }}
     <!-- Tableau des sorties -->
     <div class="border rounded mt-4">
         <table class="table caption-top">
@@ -66,7 +67,7 @@
                     <th scope="col">Nom de la sortie</th>
                     <th scope="col">Date de la sortie</th>
                     <th scope="col">Cloture</th>
-                    <th scope="col">Inscrits/places</th>>
+                    <th scope="col">Inscrits/places</th>
                     <th scope="col">Etat</th>
                     <th scope="col">Inscrit</th>
                     <th scope="col">Organisateur</th>
