@@ -22,6 +22,8 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(min=4, max=50)
+     * @Assert\Regex(pattern="/^[a-zA-Z0-9_\-\s,.!?]+$/i")
      */
     private $nom;
 
@@ -33,6 +35,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min="10", max="800")
      */
     private $duree;
 
@@ -44,11 +47,14 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min="1", max="100")
      */
     private $nbInscriptionsMax;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10, max=5000)
+     * @Assert\Regex(pattern="/^[a-zA-Z0-9_\-\s,.!?]+$/i")
      */
     private $infosSortie;
 

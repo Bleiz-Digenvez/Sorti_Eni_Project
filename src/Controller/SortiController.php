@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortiController extends AbstractController
 {
     /**
-     * @Route("/home/sorti/create", name="create_sorti")
+     * @Route("/home/sorti/create", name="sortie_creation")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
@@ -54,11 +54,14 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/recherche", name="app_rechercheLieu")
+     * @Route("/lieu/recherche", name="sortie_rechercheLieu")
      */
     public function rechercheLieu(Request $request, LieuRepository $lieuRepository): Response
     {
         $option = $request->query->get('option');
+        if ($option == null){
+            return $this->redirectToRoute('main_home');
+        }
         $resultat = $lieuRepository->lieuxParVille($option);
 
         return $this->render("sortie/ajax_lieu.html.twig", [
@@ -67,11 +70,14 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/recherche/info", name="app_infoRecherche")
+     * @Route("/lieu/recherche/info", name="sortie_infoRecherche")
      */
     public function affichageInfoLieu(Request $request, LieuRepository $lieuRepository)
     {
         $option = $request->query->get('option');
+        if ($option == null){
+            return $this->redirectToRoute('main_home');
+        }
         $resultat = $lieuRepository->find($option);
 
         return $this->render("sortie/ajax_info.html.twig", [
