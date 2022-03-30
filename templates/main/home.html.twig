@@ -1,6 +1,106 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="container">
+    <!-- Formulaire de recherche -->
+    <div class="card card-body mt-3">
+        <h5 class="card-title">Filtrer les sorties</h5>
+        <div class="row"
+            {{ form_start(rechercheSortieForm) }}
+            <div class="col-sm-6 ms-2">
+                <div class="row mb-2">
+                    <div class="col-sm-5 form-label">{{ form_label(rechercheSortieForm.site) }}</div>
+                    <div class="col-sm-7">{{ form_widget(rechercheSortieForm.site, {'attr' : {'class': 'form-select'}}) }}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-5 form-label">{{ form_label(rechercheSortieForm.nomSortie) }}</div>
+                    <div class="col-sm-7">{{ form_widget(rechercheSortieForm.nomSortie, {'attr' : {'class': 'form-control'}}) }}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-3 form-label">{{ form_label(rechercheSortieForm.dateMin) }}</div>
+                            <div class="col-sm-9">{{ form_widget(rechercheSortieForm.dateMin, {'attr' : {'class': 'form-control'}}) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-2 form-label">{{ form_label(rechercheSortieForm.dateMax) }}</div>
+                            <div class="col-sm-10">{{ form_widget(rechercheSortieForm.dateMax, {'attr' : {'class': 'form-control'}}) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 align-self-center ms-2">
+                <div class="form-check mb-2">
+                    {{ form_widget(rechercheSortieForm.organisateur, {'attr' : {'class': 'form-check-input',}}) }}
+                    <div class="form-check-label">{{ form_label(rechercheSortieForm.organisateur) }}</div>
+                </div>
+                <div class="form-check mb-2">
+                    {{ form_widget(rechercheSortieForm.inscrit, {'attr' : {'class': 'form-check-input'}}) }}
+                    <div class="form-check-label">{{ form_label(rechercheSortieForm.inscrit) }}</div>
+                </div>
+                <div class="form-check mb-2">
+                    {{ form_widget(rechercheSortieForm.pasInscrit, {'attr' : {'class': 'form-check-input'}}) }}
+                    <div class="form-check-label">{{ form_label(rechercheSortieForm.pasInscrit) }}</div>
+                </div>
+                <div class="form-check mb-2">
+                    {{ form_widget(rechercheSortieForm.passees, {'attr' : {'class': 'form-check-input'}}) }}
+                    <div class="form-check-label">{{ form_label(rechercheSortieForm.passees) }}</div>
+                </div>
+            </div>
+            <div class="col-sm-1 align-self-center">
+                <div class="ms-2">
+                    <button class="btn btn-lg btn-primary">Rechercher</button>
+                </div>
+            </div>
+            {{ form_end(rechercheSortieForm) }}
+        </div>
+    </div>
+    <!-- Tableau des sorties -->
+    <div class="border rounded mt-4">
+        <table class="table caption-top">
+            <caption class="ps-3">Nombre de sorties trouvées :  {{ resultats.nbSorties }}</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Cloture</th>
+                    <th scope="col">Inscrits/places</th>>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sortie in resultats.sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut|date("d/m/Y  à H:i") }}</td>
+                    <td>{{ sortie.dateLimiteInscription|date("d/m/Y") }}</td>
+                    <td class="text-center">{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{% if (app.user in sortie.participants) %}
+                            <div class="text-center">X</div>
+                        {% else %}
+                            {{ null }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{# {{ path('user_profilUtilisateur', {'id' : sortie.organisateur.id}) }} #}">{{ sortie.organisateur.pseudo }}</a>
+                    </td>
+                    <td>
+                        <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}">Détail</a>
+
+                    </td>
+
+                </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}
 

@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\RechercheSortieType;
+use App\Model\RechercheSortie;
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,10 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("", name="home")
+     * @Route("/", name="home")
      */
-    public function home(): Response
+    public function home( Request $request, SortieRepository $sortieRepository): Response
     {
-        return $this->render('main/home.html.twig');
+        $recherche= new RechercheSortie();
+        $recherche->setParticipant($this->getUser());
+        $rechercheSortieForm=$this->createForm(RechercheSortieType::class,$recherche);
+        $rechercheSortieForm->handleRequest($request);
+        $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
+
+        if ($rechercheSortieForm->isSubmitted()) {
+
+            $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
+            dd($resultats);
+        }
+
+        return $this->render('main/home.html.twig', [
+            'rechercheSortieForm' => $rechercheSortieForm->createView(),
+            'resultats'=>$resultats,
+        ]);
     }
 }
