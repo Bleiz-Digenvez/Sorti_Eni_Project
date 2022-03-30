@@ -2,9 +2,18 @@
 
 {% block body %}
 <div class="container">
+    <!-- Infos: date et participant co -->
+    <div class="row justify-content-end pt-2">
+        <div class="col-auto">
+            <p style="font-size: 0.9em;">Date du jour: {{ 'now'|date('d/m/Y') }}</p>
+        </div>
+        <div class="col-auto">
+            <p style="font-size: 0.9em;">Participant: {{ app.user.prenom }} {{ app.user.nom|first|upper }}.</p>
+        </div>
+    </div>
     <!-- Formulaire de recherche -->
     {{ form_start(rechercheSortieForm) }}
-    <div class="card card-body mt-3">
+    <div class="card card-body">
         <h5 class="card-title">Filtrer les sorties</h5>
         <div class="row">
             <div class="col-sm-6 ms-2">
@@ -33,14 +42,14 @@
             </div>
             <div class="col-sm-4 align-self-center ms-2">
                 <div class="form-check mb-2">
-                    {{ form_widget(rechercheSortieForm.organisateur, {'attr' : {'class': 'form-check-input',}}) }}
+                    {{ form_widget(rechercheSortieForm.organisateur, {'attr' : {'class': 'form-check-input'}}) }}
                     <div class="form-check-label">{{ form_label(rechercheSortieForm.organisateur) }}</div>
                 </div>
-                <div class="form-check mb-2">
+                <div class="form-check mb-2" onclick="checkboxesInscrit()">
                     {{ form_widget(rechercheSortieForm.inscrit, {'attr' : {'class': 'form-check-input'}}) }}
                     <div class="form-check-label">{{ form_label(rechercheSortieForm.inscrit) }}</div>
                 </div>
-                <div class="form-check mb-2">
+                <div class="form-check mb-2" onclick="checkboxesInscrit()">
                     {{ form_widget(rechercheSortieForm.pasInscrit, {'attr' : {'class': 'form-check-input'}}) }}
                     <div class="form-check-label">{{ form_label(rechercheSortieForm.pasInscrit) }}</div>
                 </div>
@@ -49,9 +58,16 @@
                     <div class="form-check-label">{{ form_label(rechercheSortieForm.passees) }}</div>
                 </div>
             </div>
-            <div class="col-sm-1 align-self-center">
-                <div class="ms-2">
-                    <button class="btn btn-lg btn-primary">Rechercher</button>
+            <div class="col">
+                <div class="row">
+                    <div class="col align-self-center d-grid gap-2">
+                        {{ form_widget(rechercheSortieForm.Recherche) }}
+                    </div>
+                </div>
+                <div class="row" style="height: 60%;">
+                    <div onclick="reset()" class="col align-self-end d-grid gap-2" >
+                        <button class="btn btn-sm btn-outline-secondary">Reset</button>
+                    </div>
                 </div>
             </div>
 
@@ -60,7 +76,7 @@
     {{ form_end(rechercheSortieForm) }}
     <!-- Tableau des sorties -->
     <div class="border rounded mt-4">
-        <table class="table caption-top">
+        <table class="table table-striped caption-top">
             <caption class="ps-3">Nombre de sorties trouvées :  {{ resultats.nbSorties }}</caption>
             <thead class="thead-dark">
                 <tr>
@@ -102,6 +118,31 @@
         </table>
     </div>
 </div>
+
+<script>
+    //changement dynamique on clic
+    function checkboxesInscrit() {
+        let checkInscrit = document.getElementById("recherche_sortie_inscrit");
+        let checkPasInscrit = document.getElementById("recherche_sortie_pasInscrit");
+        checkInscrit.checked ? checkPasInscrit.disabled = true : checkPasInscrit.disabled = false;
+        checkPasInscrit.checked ? checkInscrit.disabled = true : checkInscrit.disabled = false;
+    }
+    //restitue l'état des checkboxes au rechargement de la page
+    window.addEventListener("load", () => {
+        checkboxesInscrit();
+    })
+    //remette le formulaire de recherche à zéro
+    function reset() {
+        document.getElementById("recherche_sortie_site").value = "";
+        document.getElementById("recherche_sortie_nomSortie").value = "";
+        document.getElementById("recherche_sortie_dateMin").value = "";
+        document.getElementById("recherche_sortie_dateMax").value = "";
+        document.getElementById("recherche_sortie_organisateur").checked = false;
+        document.getElementById("recherche_sortie_inscrit").checked = false;
+        document.getElementById("recherche_sortie_pasInscrit").checked = false;
+        document.getElementById("recherche_sortie_passees").checked = false;
+    }
+</script>
 
 {% endblock %}
 

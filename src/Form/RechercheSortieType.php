@@ -3,6 +3,7 @@
 namespace App\Form;
 
 //use App\Entity\Site;
+use App\Entity\Campus;
 use App\Model\RechercheSortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,15 +19,11 @@ class RechercheSortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
- //           ->add('site',EntityType::class,[
- //               'class'=>Campus::class,
- //               'choice_label' => 'nom',
- //               'required'=>false
- //           ])
-            ->add('site',TextType::class,[
-               'label' => 'Campus',
-               'required'=>false
-           ])
+            ->add('site',EntityType::class,[
+                'class'=>Campus::class,
+                'choice_label' => 'nom',
+                'required'=>false
+            ])
             ->add('nomSortie',TextType::class,[
                 'label' => "Le nom de la sortie contient",
                 'required'=>false
@@ -58,6 +55,9 @@ class RechercheSortieType extends AbstractType
             ->add('passees',CheckboxType::class,[
                 'label' => "Sorties passées",
                 'required'=>false
+            ])
+            ->add('Recherche', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-lg btn-primary']
             ])
         ;
     }

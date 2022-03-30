@@ -16,20 +16,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
+     * Affichage toutes les sorties (sauf celles à l'état 'Passée')
+     * Prise en compte du formulaire de recherche
      * @Route("/", name="home")
      */
-    public function home( Request $request, SortieRepository $sortieRepository): Response
+    public function home(Request $request, SortieRepository $sortieRepository): Response
     {
         $recherche= new RechercheSortie();
         $recherche->setParticipant($this->getUser());
         $rechercheSortieForm=$this->createForm(RechercheSortieType::class,$recherche);
         $rechercheSortieForm->handleRequest($request);
+
         $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
 
         if ($rechercheSortieForm->isSubmitted()) {
-
             $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
-            //dd($resultats);
+            //dd($recherche);
         }
         return $this->render('main/home.html.twig', [
             'rechercheSortieForm' => $rechercheSortieForm->createView(),

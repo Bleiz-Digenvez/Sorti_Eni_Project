@@ -61,6 +61,12 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('e.libelle = :etat3')
                 ->setParameter('etat3', 'Passée');
         }
+        //si un campus est selectionné
+        if($rechercheSortie->getSite()) {
+            $queryBuilder->join('s.campus', 'c')
+                ->andWhere('c.nom = :site')
+                ->setParameter('site', $rechercheSortie->getSite()->getNom());
+        }
 
         //date Max de la sorties
         if ($rechercheSortie->getDateMax()) {
@@ -82,12 +88,7 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('s.organisateur = :organisateur');
             $queryBuilder->setParameter('organisateur', $rechercheSortie->getParticipant()->getId());
         }
-        //n'afficher que les sorite liées au site
-        if ($rechercheSortie->getSite()) {
-            $queryBuilder->Join('s.site', 'site');
-            $queryBuilder->andWhere('site.nom = :site');
-            $queryBuilder->setParameter('site', $rechercheSortie->getSite()->getNom());
-        }
+
         //si l'utilisateur clique sur inscrit et n'est pas inscrit, on affiche tout.
         if ($rechercheSortie->getInscrit() && $rechercheSortie->getPasInscrit()) {
             //sinon n'afficher que les sorties ou le USER est inscrit
