@@ -35,7 +35,7 @@ class SortiController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
 
-        return $this->render('sorti/create.html.twig', [
+        return $this->render('sortie/create.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
     }
