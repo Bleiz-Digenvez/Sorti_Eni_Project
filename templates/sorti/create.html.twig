@@ -11,8 +11,8 @@ Nouvelle sorti | {{ parent() }}
         <h1 class="mx-auto my-3">Créer une sortie</h1>
         <div class="my-3">
             {{ form_start(sortieForm) }}
-            <div class="d-flex justify-content-center mx-auto">
-                <div class="col-12 col-md-5 text-left">
+            <div class="d-flex flex-column flex-md-row justify-content-center mx-auto">
+                <div class="col-12 col-md-5 ms-2 text-left">
                     {{ form_errors(sortieForm) }}
                     <div class="row">
                         {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
@@ -52,7 +52,7 @@ Nouvelle sorti | {{ parent() }}
                     </div>
                 </div>
 
-                <div class="col-11 col-md-5">
+                <div class="col-12 col-md-5 ms-2">
                     <div class="row">
                             <label class="col-5 my-2 col-form-label">Campus : </label>
                         <div class="col-5">
