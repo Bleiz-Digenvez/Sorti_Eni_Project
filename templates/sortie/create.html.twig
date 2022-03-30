@@ -20,14 +20,17 @@ Nouvelle sorti | {{ parent() }}
                             {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.nom) }}
+                    </div>
                     <div class="row">
                         {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
-                    <div class="row errors">
-                        {{ form_errors(sortieForm.dateLimiteInscription) }}
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.dateHeureDebut) }}
                     </div>
                     <div class="row">
                         {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
@@ -35,11 +38,17 @@ Nouvelle sorti | {{ parent() }}
                             {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.dateLimiteInscription) }}
+                    </div>
                     <div class="row">
                         {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.nbInscriptionsMax) }}
                     </div>
                     <div class="row">
                         {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
@@ -47,19 +56,25 @@ Nouvelle sorti | {{ parent() }}
                             {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.duree) }}
+                    </div>
                     <div class="row">
                         {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.infosSortie) }}
+                    </div>
                 </div>
 
                 <div class="col-12 col-md-5 ms-2">
                     <div class="row">
-                            <label class="col-5 col-form-label">Campus : </label>
+                            <label class="col-5 col-form-label">Campus</label>
                         <div class="col-5">
-                            <p class="form-control">{{ app.user.campus.nom }}</p>
+                            <p class="form-control text-muted">{{ app.user.campus.nom }}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -68,26 +83,27 @@ Nouvelle sorti | {{ parent() }}
                             {{ form_widget(sortieForm.ville, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.ville) }}
+                    </div>
                     <div class="row">
                         {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.lieu) }}
+                    </div>
 
                     <div id="container-info">
-                    </div>
-                    <div class="row">
-                        {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
-                        <div class="col-5">
-                            {{ form_widget(sortieForm.etat, {'attr': {'class': 'form-select'}}) }}<br>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary col-3">Ajouter</button>
+                {{ form_widget(sortieForm.Enregistrer) }}
+                {{ form_widget(sortieForm.Publier) }}
                 <a href="{{ path('main_home') }}" class="btn btn-danger mx-3 col-3">Annuler</a>
             </div>
             {{ form_end(sortieForm) }}

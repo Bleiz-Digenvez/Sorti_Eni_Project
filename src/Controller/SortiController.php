@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +20,12 @@ class SortiController extends AbstractController
     /**
      * @Route("/home/sorti/create", name="create_sorti")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
+        //Création de l'état par defaut
+        $etatCreee = $etatRepository->find(1);
+        $etatOuvert = $etatRepository->find(2);
+        //Récuperation de l'utilisateur
         $user = $this->getUser();
         $sortie = new Sortie();
         $sortie->setOrganisateur($user);
@@ -28,6 +34,11 @@ class SortiController extends AbstractController
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
+        if ($sortieForm->get('Enregistrer')->isClicked()){
+            $sortie->setEtat($etatCreee);
+        } else if ($sortieForm->get('Publier')->isClicked()){
+            $sortie->setEtat($etatOuvert);
+        }
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $entityManager->persist($sortie);

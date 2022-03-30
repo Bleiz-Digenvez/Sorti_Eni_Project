@@ -14,3 +14,10 @@ main{
 }
 
 .flash-success {background-color: lawngreen}
+
+.errorForm > ul >li {
+    list-style-type: none;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #B0413E;
+}
