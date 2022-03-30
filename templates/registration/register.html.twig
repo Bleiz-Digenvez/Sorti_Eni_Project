@@ -1,13 +1,100 @@
+{% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    {% for message in app.flashes('success') %}
+        <div class="flash flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="mt-4 container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-5 ">
+                {{ form_start(registrationForm) }}
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.pseudo, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.pseudo) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.nom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.nom) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.prenom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.prenom) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.telephone, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.telephone) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.mail, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.mail) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.administrateur, '' ,{'label_attr':  {'class': 'col-xl-5 form-label'}}) }}
+                    <div class="col-xl-7">
+                        <div class="row">
+                            {% for radio in registrationForm.administrateur %}
+                                <div class="col-6">
+                                    {{ form_label(radio) }} {{ form_widget(radio) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 row justify-content-end">
+                    {{ form_label(registrationForm.actif, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label '}}) }}
+                    <div class="col-xl-7">
+                        <div class="row">
+                            {% for radio in registrationForm.actif %}
+                                <div class="col-6">
+                                    {{ form_label(radio) }} {{ form_widget(radio) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.campus, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.campus) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(registrationForm.plainPassword, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+                {{ form_widget(registrationForm) }}
+                <div class="row">
+                    <div class="col-sm-6 mb-4">
+                        <button class="btn btn-primary w-100">Enregistrer</button>
+                    </div>
+                    <div class="col-sm-6 mb-4">
+                        <button class="btn btn-danger w-100">Annuler</button>
+                    </div>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
 
-    {{ form_start(registrationForm) }}
 
-    {{ form_widget(registrationForm) }}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}
+
+{% block title %}
+
 {% endblock %}

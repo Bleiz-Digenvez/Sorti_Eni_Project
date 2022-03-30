@@ -27,44 +27,47 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de la sortie : '
+                'label' => 'Nom de la sortie*'
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie : '
+                'label' => 'Date et heure de la sortie*'
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'html5' => true,
                 'widget'=> 'single_text',
-                'label' => 'Date limite d\'inscription : '
+                'label' => 'Date limite d\'inscription*'
             ])
             ->add('nbInscriptionsMax', NumberType::class, [
                 'html5' => true,
-                'label' => 'Nombre de place : ',
+                'label' => 'Nombre de place*',
                 'attr' => ['min' => 1, 'max' => 100, 'step' => 1]
             ])
             ->add('duree', NumberType::class, [
                 'html5' => true,
                 'attr' => ['min' => 0, 'max' => 800, 'step' => 10],
-                'label' => 'Durée : '
+                'label' => 'Durée*'
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description et infos : '
+                'label' => 'Description et infos*'
             ])
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'mapped' => false
+                'mapped' => false,
+                'label' => 'Ville*'
             ])
             ->add('etat', EntityType::class, [
                 'class' => Etat::class,
-                'choice_label' => 'libelle'
+                'choice_label' => 'libelle',
+                'label' => "Etat*"
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'placeholder' => '',
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+                'label' => 'Lieu*'
             ]);
         ;
         /*
