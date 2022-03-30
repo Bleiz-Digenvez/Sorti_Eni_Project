@@ -10,6 +10,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,20 +91,30 @@ class SortiController extends AbstractController
      */
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
     {
-        $sortie = $sortieRepository->find($id);
+        $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
         if(!$sortie){
-            throw $this->createNotFoundException('Sortie n\'existe pas');
-        }
-        if($sortie->getDateLimiteInscription() > new \DateTime()
-            && !$sortie->getParticipants()->contains($this->getUser())
-            && $sortie->getEtat()->getId() == 2
-        ){
+            $this->addFlash('error','Inscription refuser');
+        }else{
             $sortie->addParticipant($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Inscription validée');
-        }else{
+        }
+        return $this->redirectToRoute('main_home');
+    }
+    /**
+     * @Route("/home/sorti/modifier/{id}", name="sortie_modifier")
+     */
+    public function modifier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    {
+        $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
+        if(!$sortie){
             $this->addFlash('error','Inscription refuser');
+        }else{
+            $sortie->addParticipant($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','Inscription validée');
         }
         return $this->redirectToRoute('main_home');
     }

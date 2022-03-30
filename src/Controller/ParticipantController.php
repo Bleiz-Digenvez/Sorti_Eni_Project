@@ -31,9 +31,7 @@ class ParticipantController extends AbstractController
         $chemin = 'img/participant/'. $participant->getUserIdentifier() . "-" . $participant->getNom() . '.jpg';
         dump($chemin);
         if (!file_exists($chemin)){
-            $chemin = '../../public/img/PlaceHolderPicture.jpg';
-        } else if (file_exists($chemin)){
-            $chemin = '../../public/img/participant/'. $participant->getUserIdentifier() . "-" . $participant->getNom() . '.jpg';
+            $chemin = 'img/PlaceHolderPicture.jpg';
         }
 
         $formParticipant = $this->createForm(ParticipantType::class,$participant);
@@ -74,7 +72,7 @@ class ParticipantController extends AbstractController
     public function detail(int $id, ParticipantRepository $participantRepository)
     {
         $participant = $participantRepository->find($id);
-        //Redirige si le profil demandé est l'utilisateur courant
+        //Redirige si le participant demandé est l'utilisateur courant
         if ($participant == $this->getUser()){
             return $this->redirectToRoute('participant_profil');
         }

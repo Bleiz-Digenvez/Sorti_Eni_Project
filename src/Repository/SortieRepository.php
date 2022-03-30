@@ -2,12 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Model\Recherche;
 use App\Model\RechercheSortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -113,6 +115,42 @@ class SortieRepository extends ServiceEntityRepository
             'sorties' => $sorties,
             'nbSorties' => $nbSorties
         ];
+    }
+
+    public function inscriptionFind(int $id, Participant $participant): ?Sortie
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+
+        $queryBuilder
+            ->join('s.etat', 'e')
+            ->leftJoin('s.participants', 'p')
+            ->andWhere('s.nbInscriptionsMax > SIZE(s.participants)')
+            ->andWhere(':id = s.id')
+            ->andWhere('s.dateLimiteInscription > CURRENT_DATE()')
+            ->andWhere(':participant NOT MEMBER OF s.participants')
+            ->andWhere('e.libelle = \'Ouverte\'')
+            ->setParameter('participant', $participant)
+            ->setParameter('id', $id);
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+        return $result == null ? null : $result[0];
+    }
+
+    public function modifierFind(int $id, Participant $participant): ?Sortie
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+
+        $queryBuilder
+            ->join('s.etat', 'e')
+            ->join('s.organisateur', 'p')
+            ->andWhere(':id = s.id')
+            ->andWhere(':participant = s.organisateur')
+            ->andWhere('e.libelle = \'Créée\'')
+            ->setParameter('participant', $participant)
+            ->setParameter('id', $id);
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+        return $result == null ? null : $result[0];
     }
 
     // /**
