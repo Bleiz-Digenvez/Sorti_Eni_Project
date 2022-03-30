@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Nouvelle sorti | {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column justify-content-center">
+        <h1 class="mx-auto my-3">Créer une sortie</h1>
+        <div class="my-3">
+            {{ form_start(sortieForm) }}
+            <div class="d-flex flex-column flex-md-row justify-content-center mx-auto">
+                <div class="col-12 col-md-5 ms-2 text-left">
+                    {{ form_errors(sortieForm) }}
+                    <div class="row">
+                        {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.nom) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.dateHeureDebut) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.dateLimiteInscription) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.nbInscriptionsMax) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.duree) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.infosSortie) }}
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5 ms-2">
+                    <div class="row">
+                            <label class="col-5 col-form-label">Campus</label>
+                        <div class="col-5">
+                            <p class="form-control text-muted">{{ app.user.campus.nom }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.ville, {'attr': {'class': 'form-select'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.ville) }}
+                    </div>
+                    <div class="row">
+                        {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
+                        <div class="col-5">
+                            {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-select'}}) }}<br>
+                        </div>
+                    </div>
+                    <div class="row errorForm">
+                        {{ form_errors(sortieForm.lieu) }}
+                    </div>
+
+                    <div id="container-info">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                {{ form_widget(sortieForm.Enregistrer) }}
+                {{ form_widget(sortieForm.Publier) }}
+                <a href="{{ path('main_home') }}" class="btn btn-danger mx-3 col-3">Annuler</a>
+            </div>
+            {{ form_end(sortieForm) }}
+        </div>
+    </div>
+
+
+    <script>
+        const RECHERCHE_LIEU = "{{ path('sortie_rechercheLieu') }}"
+        const RECHERCHE_INFO = "{{ path('sortie_infoRecherche') }}"
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        let ville_choix = document.getElementById('sortie_ville')
+        console.log(ville_choix)
+        ville_choix.addEventListener("change", () => {
+            let option = ville_choix.value;
+            console.log(option);
+            axios.get(RECHERCHE_LIEU, {
+                params: {"option": option}
+            })
+                .then((res) => {
+                    console.log(res.data)
+                    let selectLieux = document.getElementById("sortie_lieu")
+                    selectLieux.innerHTML = res.data;
+                })
+        })
+    </script>
+
+    <script>
+        let selectLieux = document.getElementById("sortie_lieu")
+        selectLieux.addEventListener("change", () => {
+            let option = selectLieux.value
+            axios.get(RECHERCHE_INFO, {
+                params: {"option": option}
+            })
+                .then((res) => {
+                console.log(res.data)
+                let containerInfo = document.getElementById("container-info")
+                containerInfo.innerHTML = res.data
+            })
+        })
+    </script>
+{%  endblock %}

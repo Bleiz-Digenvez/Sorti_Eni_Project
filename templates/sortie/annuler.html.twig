@@ -1,0 +1,65 @@
+{% form_theme annulerForm 'bootstrap_5_layout.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container-fluid">
+    {{ form_start(annulerForm) }}
+    <div class="row justify-content-center">
+        <div class="col-md-5 ">
+            <div class="mb-3 row">
+                <label for="staticNom" class="col-sm-4 col-form-label">Nom de la sortie:</label>
+                <div class="col-sm-8">
+                    <input type="text" aria-label="Disabled input example" disabled class="form-control" id="staticNom" value="{{ sortie.nom }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticDate" class="col-sm-4 col-form-label">Date de la sortie:</label>
+                <div class="col-sm-8">
+                    <input type="text" aria-label="Disabled input example" disabled class="form-control" id="staticDate" value="{{ sortie.dateHeureDebut|date("d/m/Y") }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticNom" class="col-sm-4 col-form-label">Campus:</label>
+                <div class="col-sm-8">
+                    <input type="text" aria-label="Disabled input example" disabled class="form-control" id="staticNom" value="{{ sortie.campus.nom }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticNom" class="col-sm-4 col-form-label">Lieu:</label>
+                <div class="col-sm-8">
+                    <input type="text" aria-label="Disabled input example" disabled class="form-control" id="staticNom" value="{{ sortie.lieu.nom }}, {{ sortie.lieu.rue }}, {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                {{ form_label(annulerForm.motif, '' ,{'label_attr':  {'class': 'col-sm-4 col-form-label'}}) }}
+                <div class="col-sm-8">
+                    {{ form_widget(annulerForm.motif) }}
+                </div>
+            </div>
+            <div class="row errorForm">
+                {{ form_errors(annulerForm.motif) }}
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-6">
+                    {{ form_widget(annulerForm.Enregistrer,{'attr' :{'class': 'w-100 btn btn-primary'}}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_widget(annulerForm.Annuler,{'attr' :{'class': 'w-100 btn btn-danger'}}) }}
+                </div>
+            </div>
+
+
+            {{ form_end(annulerForm) }}
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+
+{% block title %}
+
+{% endblock %}
+

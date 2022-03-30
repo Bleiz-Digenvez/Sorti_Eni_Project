@@ -4,20 +4,26 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\AnnulationType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortiController extends AbstractController
 {
+
+
     /**
      * @Route("/home/sorti/create", name="sortie_creation")
      */
@@ -89,35 +95,119 @@ class SortiController extends AbstractController
     /**
      * @Route("/home/sorti/inscription/{id}", name="sortie_inscription")
      */
-    public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
-        $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
-        if(!$sortie){
+        $sortie = new Sortie();
+        try {
+            $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
+        } catch (NoResultException | NonUniqueResultException $e) {
             $this->addFlash('error','Inscription refuser');
-        }else{
-            $sortie->addParticipant($this->getUser());
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','Inscription validée');
         }
+        $sortie->addParticipant($this->getUser());
+        if(sizeof($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
+            $etatCloture = $etatRepository->find(3);
+            $sortie->setEtat($etatCloture);
+        }
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success','Inscription validée');
+
         return $this->redirectToRoute('main_home');
     }
     /**
-     * @Route("/home/sorti/modifier/{id}", name="sortie_modifier")
+     * @Route("/home/sorti/desister/{id}", name="sortie_desister")
      */
-    public function modifier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    public function desister(
+        int $id,
+        SortieRepository $sortieRepository,
+        EntityManagerInterface $entityManager,
+            EtatRepository $etatRepository)
     {
-        $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
-        if(!$sortie){
-            $this->addFlash('error','Inscription refuser');
-        }else{
-            $sortie->addParticipant($this->getUser());
+        $etatCloture = $etatRepository->find(3);
+        $sortie = new Sortie();
+        try {
+            $sortie = $sortieRepository->desisterFind($id, $this->getUser());
+        } catch (NoResultException | NonUniqueResultException $e) {
+            $this->addFlash('error','Désistation refuser');
+        }
+        $sortie->removeParticipant($this->getUser());
+        if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
+            $etatOuvert = $etatRepository->find(2);
+            $sortie->setEtat($etatOuvert);
+        }
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success', 'Désistation valider');
+
+        return $this->redirectToRoute('main_home');
+
+    }
+    /**
+     * @Route("/home/sorti/annuler/{id}", name="sortie_desister")
+     */
+    public function annuler(
+        int $id,
+        SortieRepository $sortieRepository,
+        EntityManagerInterface $entityManager,
+        EtatRepository $etatRepository,
+        Request $request
+    )
+    {
+        $sortie = new Sortie();
+        try {
+            $sortie = $sortieRepository->annulerFind($id, $this->getUser());
+        } catch (NoResultException | NonUniqueResultException $e) {
+            $this->addFlash('error','Désistation refuser');
+        }
+
+        $annulerForm = $this->createForm(AnnulationType::class);
+
+        $annulerForm->handleRequest($request);
+
+        if ($annulerForm->get('Annuler')->isClicked()){
+            return $this->redirectToRoute('main_home');
+        }
+
+        if($annulerForm->isSubmitted() && $annulerForm->isValid()){
+            $sortie->setInfosSortie($annulerForm->get('motif')->getData());
+
+            $etat = $etatRepository->find(6);
+            $sortie->setEtat($etat);
+
             $entityManager->persist($sortie);
             $entityManager->flush();
-            $this->addFlash('success','Inscription validée');
+
+            $this->addFlash('success','Sortie '.$sortie->getNom().' annuler.');
+
+            return $this->redirectToRoute('main_home');
+
         }
-        return $this->redirectToRoute('main_home');
+        return $this->render('sortie/annuler.html.twig', [
+            'annulerForm' => $annulerForm->createView(),
+            'sortie' => $sortie
+        ]);
+
     }
+
+
+//    /**
+//     * @Route("/home/sorti/modifier/{id}", name="sortie_modifier")
+//     */
+//    public function modifier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+//    {
+//        $sortie = $sortieRepository->modifierFind($id, $this->getUser());
+//        if(!$sortie){
+//            throw new NotFoundHttpException();
+//        }
+//        $sortie = $sortie[0];
+//
+//        $sortieForm = $this->createForm(SortieType::class,$sortie);
+//
+//
+//        return $this->render("sortie/modifier.html.twig",[
+//            'sortieForm' => $sortieForm->createView(),
+//        ]);
+//    }
 
 
 
