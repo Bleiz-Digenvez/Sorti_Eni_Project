@@ -28,7 +28,7 @@ class ParticipantController extends AbstractController
 
         $participant = $this->getUser();
 
-        $chemin = 'img/participant/'. $participant->getUserIdentifier() . "-" . $participant->getNom() . '.jpg';
+        $chemin = 'img/participant/utilisateur' . "-" . $participant->getId() . '.jpg';
         dump($chemin);
         if (!file_exists($chemin)){
             $chemin = 'img/PlaceHolderPicture.jpg';
@@ -50,10 +50,12 @@ class ParticipantController extends AbstractController
             }
             // Début de l'update image
             $image = $formParticipant['image']->getData();
-            $extention = 'jpg';
-            $nomImage = $participant->getUserIdentifier() . "-" . $participant->getNom() . '.' . $extention;
-            $repertoire = 'img/participant';
-            $image->move($repertoire, $nomImage);
+            if (!$image == null){
+                $extention = 'jpg';
+                $nomImage = 'utilisateur' . "-" . $participant->getId() . '.' . $extention;
+                $repertoire = 'img/participant';
+                $image->move($repertoire, $nomImage);
+            }
             //fin de l'update image
             $manager->persist($participant);
             $manager->flush();
@@ -81,11 +83,9 @@ class ParticipantController extends AbstractController
             throw $this->createNotFoundException('Oh .. il sembre que cette utilisateur n\'existe pas');
         }
 
-        $chemin = 'img/participant/'. $participant->getUserIdentifier() . "-" . $participant->getNom() . '.jpg';
+        $chemin = 'img/participant/utilisateur'. "-" . $participant->getId() . '.jpg';
         if (!file_exists($chemin)){
-            $chemin = '../../../../public/img/PlaceHolderPicture.jpg';
-        } else if (file_exists($chemin)){
-            $chemin = '../../../../public/img/participant/'. $participant->getUserIdentifier() . "-" . $participant->getNom() . '.jpg';
+            $chemin = 'img/PlaceHolderPicture.jpg';
         }
         return $this->render('participant/detail.html.twig', [
             'participant' => $participant,

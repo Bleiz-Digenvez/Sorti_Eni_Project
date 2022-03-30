@@ -105,7 +105,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{# {{ path('user_profilUtilisateur', {'id' : sortie.organisateur.id}) }} #}">{{ sortie.organisateur.pseudo }}</a>
+                        <a href="{{ path('participant_detail', {'id' : sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
                     </td>
                     <td>
                         <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}">Détail</a>
