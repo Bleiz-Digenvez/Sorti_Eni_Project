@@ -36,11 +36,7 @@ class SortieType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie*',
-                'constraints' => [
-                    new GreaterThan([
-                        'propertyPath' => 'parent.all[dateLimiteInscription].data'
-                    ])
-                ]
+
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'html5' => true,
