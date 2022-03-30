@@ -20,6 +20,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class SortieType extends AbstractType
 {
@@ -32,12 +34,22 @@ class SortieType extends AbstractType
             ->add('dateHeureDebut', DateTimeType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie*'
+                'label' => 'Date et heure de la sortie*',
+                'constraints' => [
+                    new GreaterThan([
+                        'propertyPath' => 'parent.all[dateLimiteInscription].data'
+                    ])
+                ]
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'html5' => true,
                 'widget'=> 'single_text',
-                'label' => 'Date limite d\'inscription*'
+                'label' => 'Date limite d\'inscription*',
+                'constraints' => [
+                    new GreaterThan([
+                        "today"
+                    ])
+                ]
             ])
             ->add('nbInscriptionsMax', NumberType::class, [
                 'html5' => true,

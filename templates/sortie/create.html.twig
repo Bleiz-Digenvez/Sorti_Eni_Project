@@ -26,6 +26,9 @@ Nouvelle sorti | {{ parent() }}
                             {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
+                    <div class="row errors">
+                        {{ form_errors(sortieForm.dateLimiteInscription) }}
+                    </div>
                     <div class="row">
                         {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">

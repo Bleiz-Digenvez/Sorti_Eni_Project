@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,4 +67,24 @@ class SortiController extends AbstractController
             "lieu" => $resultat
         ]);
     }
+
+    /**
+     * @Route("/home/sorti/inscription/{id}", name="sortie_inscription")
+     */
+    public function inscription(int $id, SortieRepository $sortieRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+        if(!$sortie){
+            throw $this->createNotFoundException('Sortie n\'existe pas');
+        }
+        if($sortie->getDateLimiteInscription() < new \DateTime()){
+            dd('ici');
+        }
+
+
+        return $this->redirectToRoute('main_home');
+    }
+
+
+
 }
