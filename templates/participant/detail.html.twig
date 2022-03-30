@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ participant.prenom }} {{ participant.nom }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="text-center my-4">{{ participant.userIdentifier }}</h2>
+        <div class="col-10 mx-auto d-flex">
+            <div class="col-4">
+                <img src="{{ cheminImg }}" class="img-thumbnail">
+                {# todo:affichage de la photo de profil #}
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <label class="col-3">Prénom : </label><p class="col-6">{{ participant.prenom }}</p>
+                </div>
+                <div class="row">
+                    <label class="col-3">Nom : </label><p class="col-6">{{ participant.nom }}</p>
+                </div>
+                <div class="row">
+                    <label class="col-3">Téléphone : </label><p class="col-6">{{ participant.telephone }}</p>
+                </div>
+                <div class="row">
+                    <label class="col-3">Email : </label><p class="col-6">{{ participant.mail }}</p>
+                </div>
+                <div class="row">
+                    <label class="col-3">Campus : </label><p class="col-6">{{ participant.campus.nom }}</p>
+                </div>
+                <div class="row">
+                    <a href="{{ path('main_home') }}" class="btn btn-outline-primary col-4 mx-auto my-4">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

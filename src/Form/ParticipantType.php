@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -54,6 +55,11 @@ class ParticipantType extends AbstractType
                 ],
                 'first_options' => ['label' => 'Nouveau Mot de Passe'],
                 'second_options' => ['label' => 'Confirmation Nouveau Mot de Passe'],
+                'required' => false
+            ])
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'label' => 'Ma photo ',
                 'required' => false
             ])
         ;

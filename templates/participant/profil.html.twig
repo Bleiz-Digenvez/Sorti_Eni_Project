@@ -6,7 +6,8 @@
     <div class="mt-4 container-fluid">
         <div class="row justify-content-start">
             <div class="col-md-4 text-center">
-                    <img src="{{ asset('img/PlaceHolderPicture.jpg') }}" class="img-thumbnail">
+                    {# <img src="{{ asset('img/PlaceHolderPicture.jpg') }}" class="img-thumbnail"> #}
+                <img src="{{ cheminImg }}" class="img-thumbnail">
             </div>
             <div class="col-md-5 ">
                 {{ form_start(formParticipant) }}
@@ -79,6 +80,15 @@
                 </div>
                 <div class="row errorForm">
                     {{ form_errors(formParticipant.newPassword.second) }}
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(formParticipant.image, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
+                    <div class="col-xl-7">
+                        {{ form_widget(formParticipant.image) }}
+                    </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.image) }}
                 </div>
 
                 {{ form_widget(formParticipant) }}
