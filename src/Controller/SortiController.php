@@ -88,17 +88,20 @@ class SortiController extends AbstractController
     /**
      * @Route("/home/sorti/inscription/{id}", name="sortie_inscription")
      */
-    public function inscription(int $id, SortieRepository $sortieRepository)
+    public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
     {
         $sortie = $sortieRepository->find($id);
         if(!$sortie){
             throw $this->createNotFoundException('Sortie n\'existe pas');
         }
-        if($sortie->getDateLimiteInscription() < new \DateTime()){
-            dd('ici');
+        if($sortie->getDateLimiteInscription() > new \DateTime() && !$sortie->getParticipants()->contains($this->getUser())){
+            $sortie->addParticipant($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','Inscription validée');
+        }else{
+            $this->addFlash('error','Inscription refuser');
         }
-
-
         return $this->redirectToRoute('main_home');
     }
 

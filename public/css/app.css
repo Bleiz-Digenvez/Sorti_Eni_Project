@@ -14,6 +14,7 @@ main{
 }
 
 .flash-success {background-color: lawngreen}
+.flash-error {background-color: darkred}
 
 .errorForm > ul >li {
     list-style-type: none;

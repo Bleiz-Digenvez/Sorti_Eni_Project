@@ -3,11 +3,6 @@
 
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="flash flash-success">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="mt-4 container-fluid">
         <div class="row justify-content-start">
             <div class="col-md-4 text-center">
@@ -21,11 +16,17 @@
                         {{ form_widget(formParticipant.pseudo) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.pseudo) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(formParticipant.nom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(formParticipant.nom) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.nom) }}
                 </div>
                 <div class="mb-3 row">
                     {{ form_label(formParticipant.prenom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
@@ -33,11 +34,17 @@
                         {{ form_widget(formParticipant.prenom) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.prenom) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(formParticipant.telephone, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(formParticipant.telephone) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.telephone) }}
                 </div>
                 <div class="mb-3 row">
                     {{ form_label(formParticipant.mail, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
@@ -45,11 +52,17 @@
                         {{ form_widget(formParticipant.mail) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.mail) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(formParticipant.newPassword.first, '' ,{'label_attr':  {'class': 'col-xl-5 form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(formParticipant.newPassword.first) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.newPassword.first) }}
                 </div>
                 <div class="mb-3 row">
                     <div class="col-xl-5">
@@ -63,6 +76,9 @@
                     <div class="col-xl-7">
                         {{ form_widget(formParticipant.newPassword.second) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(formParticipant.newPassword.second) }}
                 </div>
 
                 {{ form_widget(formParticipant) }}

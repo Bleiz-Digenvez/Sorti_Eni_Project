@@ -31,7 +31,6 @@ class MainController extends AbstractController
             $resultats=$sortieRepository->listSortiesAvecRecherche($recherche);
             //dd($resultats);
         }
-
         return $this->render('main/home.html.twig', [
             'rechercheSortieForm' => $rechercheSortieForm->createView(),
             'resultats'=>$resultats,

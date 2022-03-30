@@ -3,11 +3,6 @@
 
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="flash flash-success">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="mt-4 container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-5 ">
@@ -18,11 +13,17 @@
                         {{ form_widget(registrationForm.pseudo) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.pseudo) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.nom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(registrationForm.nom) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.nom) }}
                 </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.prenom, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
@@ -30,17 +31,26 @@
                         {{ form_widget(registrationForm.prenom) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.prenom) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.telephone, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(registrationForm.telephone) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.telephone) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.mail, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(registrationForm.mail) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.mail) }}
                 </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.administrateur, '' ,{'label_attr':  {'class': 'col-xl-5 form-label'}}) }}
@@ -54,6 +64,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.administrateur) }}
+                </div>
                 <div class="mb-3 row justify-content-end">
                     {{ form_label(registrationForm.actif, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label '}}) }}
                     <div class="col-xl-7">
@@ -66,17 +79,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.actif) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.campus, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(registrationForm.campus) }}
                     </div>
                 </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.campus) }}
+                </div>
                 <div class="mb-3 row">
                     {{ form_label(registrationForm.plainPassword, '' ,{'label_attr':  {'class': 'col-xl-5 col-form-label'}}) }}
                     <div class="col-xl-7">
                         {{ form_widget(registrationForm.plainPassword) }}
                     </div>
+                </div>
+                <div class="row errorForm">
+                    {{ form_errors(registrationForm.plainPassword) }}
                 </div>
                 {{ form_widget(registrationForm) }}
                 <div class="row">
