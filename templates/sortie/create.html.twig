@@ -15,37 +15,37 @@ Nouvelle sorti | {{ parent() }}
                 <div class="col-12 col-md-5 ms-2 text-left">
                     {{ form_errors(sortieForm) }}
                     <div class="row">
-                        {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.dateHeureDebut, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.dateLimiteInscription, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.nbInscriptionsMax, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.duree, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.infosSortie, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}<br>
                         </div>
@@ -54,19 +54,19 @@ Nouvelle sorti | {{ parent() }}
 
                 <div class="col-12 col-md-5 ms-2">
                     <div class="row">
-                            <label class="col-5 my-2 col-form-label">Campus : </label>
+                            <label class="col-5 col-form-label">Campus : </label>
                         <div class="col-5">
                             <p class="form-control">{{ app.user.campus.nom }}</p>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.ville, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.ville, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.lieu, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>
@@ -75,7 +75,7 @@ Nouvelle sorti | {{ parent() }}
                     <div id="container-info">
                     </div>
                     <div class="row">
-                        {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
+                        {{ form_label(sortieForm.etat, '', {'label_attr': {'class': 'col-5 col-form-label'}}) }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.etat, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>

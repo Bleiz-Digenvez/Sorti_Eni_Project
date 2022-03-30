@@ -53,6 +53,7 @@ class SortieType extends AbstractType
                 'label' => 'Description et infos*'
             ])
             ->add('ville', EntityType::class, [
+                "required" => false,
                 'class' => Ville::class,
                 'placeholder' => "Veuillez choisir une ville",
                 'choice_label' => 'nom',
