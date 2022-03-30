@@ -54,7 +54,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/recherchre/info", name="app_infoRecherche")
+     * @Route("/lieu/recherche/info", name="app_infoRecherche")
      */
     public function affichageInfoLieu(Request $request, LieuRepository $lieuRepository)
     {
