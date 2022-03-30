@@ -54,6 +54,7 @@ class SortieType extends AbstractType
             ])
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
+                'placeholder' => "Veuillez choisir une ville",
                 'choice_label' => 'nom',
                 'mapped' => false,
                 'label' => 'Ville*'
@@ -65,7 +66,7 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'placeholder' => '',
+                'placeholder' => 'Veuillez choisir un lieu',
                 'choice_label' => 'nom',
                 'label' => 'Lieu*'
             ]);

@@ -13,7 +13,7 @@ Nouvelle sorti | {{ parent() }}
             {{ form_start(sortieForm) }}
             <div class="d-flex justify-content-center mx-auto">
                 <div class="col-12 col-md-5 text-left">
-
+                    {{ form_errors(sortieForm) }}
                     <div class="row">
                         {{ form_label(sortieForm.nom, '', {'label_attr': {'class': 'col-5 my-2 col-form-label'}}) }}
                         <div class="col-5">
