@@ -94,7 +94,10 @@ class SortiController extends AbstractController
         if(!$sortie){
             throw $this->createNotFoundException('Sortie n\'existe pas');
         }
-        if($sortie->getDateLimiteInscription() > new \DateTime() && !$sortie->getParticipants()->contains($this->getUser())){
+        if($sortie->getDateLimiteInscription() > new \DateTime()
+            && !$sortie->getParticipants()->contains($this->getUser())
+            && $sortie->getEtat()->getId() == 2
+        ){
             $sortie->addParticipant($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
