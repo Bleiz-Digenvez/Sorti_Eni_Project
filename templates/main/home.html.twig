@@ -77,7 +77,17 @@
     <!-- Tableau des sorties -->
     <div class="border rounded mt-4">
         <table class="table table-striped caption-top">
-            <caption class="ps-3">Nombre de sorties trouvées :  {{ resultats.nbSorties }}</caption>
+            <caption class="ps-3">
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        Nombre de sorties trouvées :  {{ resultats.nbSorties }}
+                    </div>
+                    <div class="col-auto mt-1 me-3">
+                        <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}" class="btn btn-outline-primary btn-sm">Créer une sortie</a>
+                    </div>
+
+                </div>
+            </caption>
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Nom de la sortie</th>
