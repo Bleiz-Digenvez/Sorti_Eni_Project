@@ -11,15 +11,15 @@
 
             {% if app.user %}
                 <div class="mb-3">
-                    You are logged in as {{ app.user.pseudo }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    Vous êtes connecter en {{ app.user.pseudo }}, <a href="{{ path('app_logout') }}">déconnexion</a>
                 </div>
             {% endif %}
             <div class="row justify-content-center">
                 <div class="col-4">
-                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                    <label for="inputUsername" class="form-label">Username</label>
+                    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                    <label for="inputUsername" class="form-label">Pseudo ou Email</label>
                     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-                    <label for="inputPassword">Password</label>
+                    <label for="inputPassword">Mot de Passe</label>
                     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
                     <input type="hidden" name="_csrf_token"
@@ -29,7 +29,7 @@
                     <div class="form-check mt-4 mb-4">
                         <input class="form-check-input" type="checkbox" id="rememberMe" name="_remember_me">
                         <label class="form-check-label" for="rememberMe">
-                            Remember me
+                            Se souvenir de moi
                         </label>
                     </div>
 
