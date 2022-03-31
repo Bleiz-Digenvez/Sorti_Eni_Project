@@ -32,12 +32,28 @@ class VilleController extends AbstractController
         $ville = new Ville();
         $villeForm = $this->createForm(VilleType::class, $ville);
         $villeForm->handleRequest($request);
-        //Traitement du formulaire
-        if ($villeForm->isSubmitted() && $villeForm->isValid()){
-            $entityManager->persist($ville);
+
+        //Traitement si c'est un ajout d'une nouvelles ville
+        if ($villeForm->get('Ajouter')->isClicked()){
+            if ($villeForm->isSubmitted() && $villeForm->isValid()){
+                $entityManager->persist($ville);
+                $entityManager->flush();
+                //Ajout du message flash
+                $this->addFlash('success', "La ville ".$ville->getNom()." à bien été ajoutée");
+                return $this->redirectToRoute('ville_liste');
+            }
+        }else if ($villeForm->get('Modifier')->isClicked()){
+            //Traitement si c'est une mise a jour d'une ville
+            //Récuperation de l'objet
+            $idForm = $villeForm->get('id')->getData();
+            $villeAUpdate = $villeRepository->find($idForm);
+            //Mise a jour des valeur
+            $villeAUpdate->setNom($villeForm->get('nom')->getData());
+            $villeAUpdate->setCodePostal($villeForm->get('codePostal')->getData());
+            //Traitement
+            $entityManager->persist($villeAUpdate);
             $entityManager->flush();
-            //Ajout du message flash
-            $this->addFlash('success', "La ville à bien été ajoutée");
+            $this->addFlash('success', 'La ville '.$villeAUpdate->getNom().' est mise à jour');
             return $this->redirectToRoute('ville_liste');
         }
         //Fin du traitement formulaire d'ajout de ville
@@ -67,11 +83,11 @@ class VilleController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'La ville est bien supprimée');
         } catch (\Exception $ex){
-            $this->addFlash("error", "Impossible de supprimer cette ville pour le moments");
-            //throw new Exception("Impossible de supprimer cette ville pour le moments");
+            $this->addFlash("error", "Impossible de supprimer cette ville car elle est associée à des sorti à venir");
         }
 
 
         return $this->redirectToRoute('ville_liste');
     }
+
 }

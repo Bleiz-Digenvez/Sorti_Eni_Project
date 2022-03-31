@@ -14,7 +14,8 @@ class RechercheVilleType extends AbstractType
     {
         $builder
             ->add('nom', SearchType::class, [
-                'label' => 'Le nom contient : '
+                'label' => 'Le nom contient : ',
+                'required' => false
             ])
         ;
     }

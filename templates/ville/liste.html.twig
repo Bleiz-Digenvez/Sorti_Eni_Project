@@ -34,21 +34,41 @@
                     <td>{{ ville.nom }}</td>
                     <td>{{ ville.codePostal }}</td>
                     <td>
-                        <a href="#" class="btn btn-link btn-sm">Modifier</a>
+                        <button class="btn btn-link btn-sm" onclick="lienModifier('{{ ville.nom }}', '{{ ville.codePostal }}', '{{ ville.id }}')">Modifier</button>
                         <a href="{{ path('ville_supprimer', {'id': ville.id}) }}" class="btn btn-link btn-sm">Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}
             <tr>
-                {{ form_start(formVille) }}
+                {{ form_start(formVille, {'attr' : {'id': 'FormVille'}}) }}
                 <td>{{ form_widget(formVille.nom, {'attr' : {'placeholder': 'ville', 'class':'form-control'}}) }}</td>
                 <td>{{ form_widget(formVille.codePostal, {'attr' : {'placeholder': 'code postal', 'class':'form-control'}}) }}</td>
-                <td><button class="btn btn-link">Ajouter</button></td>
+                <td class="" id="btn-add">{{ form_widget(formVille.Ajouter) }}</td>
+                <td class="d-none" id="btn-modif">{{ form_widget(formVille.Modifier) }}</td>
+                {{ form_row(formVille.id) }}
                 {{ form_end(formVille) }}
             </tr>
         </tbody>
     </table>
 </div>
+    <script>
+        //Variable
+        let inputVille = document.getElementById('ville_nom');
+        let inputCodePostal = document.getElementById('ville_codePostal');
+        let inputId = document.getElementById('ville_id');
+        let btnAdd = document.getElementById('btn-add')
+        let btnModif = document.getElementById('btn-modif')
+        let formVille = document.getElementById('ville_Ajouter')
+        //Fonction pour "passer en mode modifiée
+        function lienModifier(ville, codePostal, id){
+            inputVille.setAttribute('value', ville)
+            inputCodePostal.setAttribute('value', codePostal)
+            inputId.setAttribute('value', id)
+            btnAdd.className = "d-none"
+            btnModif.className = ""
+            formVille.setAttribute('disabled', "true")
+        }
+    </script>
 {% endblock %}
 
 {% block title %}
