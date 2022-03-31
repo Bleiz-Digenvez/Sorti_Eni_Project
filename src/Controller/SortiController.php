@@ -101,7 +101,9 @@ class SortiController extends AbstractController
         }
         if($sortie){
             $sortie->addParticipant($this->getUser());
+            //TODO count sur participants
             if(sizeof($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
+                //TODO find sur le libelle
                 $etatCloture = $etatRepository->find(3);
                 $sortie->setEtat($etatCloture);
             }
@@ -130,6 +132,7 @@ class SortiController extends AbstractController
         if($sortie) {
             $sortie->removeParticipant($this->getUser());
             if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
+                //TODO find sur le libelle
                 $etatOuvert = $etatRepository->find(2);
                 $sortie->setEtat($etatOuvert);
             }

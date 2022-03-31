@@ -114,24 +114,18 @@
                             {{ null }}
                         {% endif %}
                     </td>
-                    <td>
-                        <a href="{{ path('participant_detail', {'id' : sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
-                    </td>
+                    <td><a href="{{ path('participant_detail', {'id' : sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a></td>
                     <td>
                         <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}" class="btn btn-link btn-sm">Afficher</a>
-                        {% set inscrit = false %}
-                        {% for participant in sortie.participants %}
-                            {% if participant.id == app.user.id %}
-                                {% set inscrit = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if inscrit %}
-                            <a href="{{ path('sortie_desister',{'id': sortie.id}) }}" class="btn btn-link btn-sm">Se désister</a>
-                        {% else %}
-                            <a href="{{ path('sortie_inscription',{'id': sortie.id}) }}" class="btn btn-link btn-sm">S'inscrire</a>
+                        <!-- Utilisation du voter: ParticipantInscritVoter -->
+                        {% if (is_granted("sortie_inscription_voter", sortie)) %}
+                                <a href="{{ path('sortie_inscription',{'id': sortie.id}) }}" class="btn btn-link btn-sm">S'inscrire</a>
+                        {% endif %}
+                        <!-- Utilisation du voter: ParticipantInscritVoter -->
+                        {% if is_granted("sortie_desister_voter", sortie) %}
+                                <a href="{{ path('sortie_desister',{'id': sortie.id}) }}" class="btn btn-link btn-sm">Se désister</a>
                         {% endif %}
                     </td>
-
                 </tr>
              {% endfor %}
             </tbody>
@@ -151,7 +145,7 @@
     window.addEventListener("load", () => {
         checkboxesInscrit();
     })
-    //remette le formulaire de recherche à zéro
+    //remette le formulaire de recherche à zéro avec le btn 'reset'
     function reset() {
         document.getElementById("recherche_sortie_site").value = "";
         document.getElementById("recherche_sortie_nomSortie").value = "";

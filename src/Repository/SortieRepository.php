@@ -56,7 +56,9 @@ class SortieRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->join('s.etat', 'e')
-            ->leftJoin('s.participants', 'p');
+            ->addSelect('e')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p');
 
         //si la case "Sorties passées" est cochée on affiche QUE les sorties passées sinon on n'affiche pas les sorties passées
         if (!$rechercheSortie->getPassees()) {
