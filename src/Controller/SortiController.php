@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\AnnulationType;
 use App\Form\SortieType;
@@ -12,12 +11,9 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortiController extends AbstractController
@@ -97,21 +93,22 @@ class SortiController extends AbstractController
      */
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
-        $sortie = new Sortie();
+        $sortie = null;
         try {
             $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {
             $this->addFlash('error','Inscription refuser');
         }
-        $sortie->addParticipant($this->getUser());
-        if(sizeof($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
-            $etatCloture = $etatRepository->find(3);
-            $sortie->setEtat($etatCloture);
+        if($sortie){
+            $sortie->addParticipant($this->getUser());
+            if(sizeof($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
+                $etatCloture = $etatRepository->find(3);
+                $sortie->setEtat($etatCloture);
+            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','Inscription validée');
         }
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success','Inscription validée');
-
         return $this->redirectToRoute('main_home');
     }
     /**
@@ -124,26 +121,27 @@ class SortiController extends AbstractController
             EtatRepository $etatRepository)
     {
         $etatCloture = $etatRepository->find(3);
-        $sortie = new Sortie();
+        $sortie = null;
         try {
             $sortie = $sortieRepository->desisterFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {
             $this->addFlash('error','Désistation refuser');
         }
-        $sortie->removeParticipant($this->getUser());
-        if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
-            $etatOuvert = $etatRepository->find(2);
-            $sortie->setEtat($etatOuvert);
+        if($sortie) {
+            $sortie->removeParticipant($this->getUser());
+            if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
+                $etatOuvert = $etatRepository->find(2);
+                $sortie->setEtat($etatOuvert);
+            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', 'Désistation valider');
         }
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success', 'Désistation valider');
-
         return $this->redirectToRoute('main_home');
 
     }
     /**
-     * @Route("/home/sorti/annuler/{id}", name="sortie_desister")
+     * @Route("/home/sorti/annuler/{id}", name="sortie_annuler")
      */
     public function annuler(
         int $id,
@@ -153,7 +151,7 @@ class SortiController extends AbstractController
         Request $request
     )
     {
-        $sortie = new Sortie();
+        $sortie = null;
         try {
             $sortie = $sortieRepository->annulerFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {

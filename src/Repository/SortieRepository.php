@@ -122,7 +122,7 @@ class SortieRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
-     * @param Participant $participant
+     * @param UserInterface $user
      * @return Sortie|null
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -166,7 +166,7 @@ class SortieRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
-     * @param Participant $participant
+     * @param UserInterface $user
      * @return Sortie|null
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -174,10 +174,24 @@ class SortieRepository extends ServiceEntityRepository
 
     public function desisterFind(int $id, UserInterface $user): ?Sortie
     {
+        $queryBuilder = $this->createQueryBuilder('s');
 
+        $queryBuilder
+            ->join('s.etat', 'e')
+            ->join('s.participants', 'p')
+            ->andWhere(':id = s.id')
+            ->andWhere(':participant MEMBER OF s.participants')
+            ->andWhere('s.dateHeureDebut > CURRENT_DATE()')
+            ->setParameter('participant', $user)
+            ->setParameter('id', $id);
+        $query = $queryBuilder->getQuery();
+        return $query->getSingleResult();
     }
 
     /**
+     * @param int $id
+     * @param UserInterface $user
+     * @return Sortie|null
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
