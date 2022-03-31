@@ -315,12 +315,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
         if(!$user instanceof Participant){
             return false;
         }
-
-        if(!$user->getActif()){
+        if(!$user->getActif()) {
             return false;
         }
-
         return true;
-
     }
 }
