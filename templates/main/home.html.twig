@@ -108,8 +108,18 @@
                         <a href="{{ path('participant_detail', {'id' : sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
                     </td>
                     <td>
-                        <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}">Détail</a>
-
+                        <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}" class="btn btn-link btn-sm">Afficher</a>
+                        {% set inscrit = false %}
+                        {% for participant in sortie.participants %}
+                            {% if participant.id == app.user.id %}
+                                {% set inscrit = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if inscrit %}
+                            <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}" class="btn btn-link btn-sm">Se désister</a>
+                        {% else %}
+                            <a href="{# {{ path('sortie_detail',{'id': sortie.id}) }} #}" class="btn btn-link btn-sm">S'inscrire</a>
+                        {% endif %}
                     </td>
 
                 </tr>
