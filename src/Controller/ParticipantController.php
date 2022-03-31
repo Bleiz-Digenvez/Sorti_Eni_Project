@@ -27,15 +27,13 @@ class ParticipantController extends AbstractController
     {
 
         $participant = $this->getUser();
-
+        //Récuperation de l'image de profil de l'utilisateur, ou de l'image par defaut
         $chemin = 'img/participant/utilisateur' . "-" . $participant->getId() . '.jpg';
-        dump($chemin);
         if (!file_exists($chemin)){
             $chemin = 'img/PlaceHolderPicture.jpg';
         }
-
+        //Création du formulaire de modification
         $formParticipant = $this->createForm(ParticipantType::class,$participant);
-
         $formParticipant->handleRequest($request);
 
         if($formParticipant->isSubmitted() && $formParticipant->isValid()){
@@ -60,6 +58,8 @@ class ParticipantController extends AbstractController
             $manager->persist($participant);
             $manager->flush();
             $this->addFlash('success','Compte Modifier !');
+            // Redirection pour prendre en compte le changement d'image à l'écran
+            return $this->redirect($request->getUri());
         }
 
         return $this->render('participant/profil.html.twig', [
@@ -82,7 +82,7 @@ class ParticipantController extends AbstractController
         if (!$participant){
             throw $this->createNotFoundException('Oh .. il sembre que cette utilisateur n\'existe pas');
         }
-
+        // Récupère la photo de profil ou la photo par defaut utilisateur
         $chemin = 'img/participant/utilisateur'. "-" . $participant->getId() . '.jpg';
         if (!file_exists($chemin)){
             $chemin = 'img/PlaceHolderPicture.jpg';
