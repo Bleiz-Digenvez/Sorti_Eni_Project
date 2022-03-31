@@ -6,19 +6,30 @@ main{
 }
 
 .flash {
-    padding: 20px;
+    padding: 10px 20px;
     font-weight: bold;
     font-size: 1.4rem;
-    margin: 1rem 0;
+    margin: 1rem auto;
     border-radius: 5px;
+    width: 450px;
+    color: #FFFFFF;
 }
 
-.flash-success {background-color: lawngreen}
-.flash-error {background-color: darkred}
+.flash-success {
+    background-color: darkgreen
+}
+.flash-error {
+    background-color: #B0413E;
+}
 
 .errorForm > ul >li {
     list-style-type: none;
     font-weight: bold;
     font-size: 0.8em;
     color: #B0413E;
+}
+.img-profil{
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
 }
