@@ -23,7 +23,7 @@ class Ville
      * @ORM\Column(type="string", length=50)
      */
     private $nom;
-
+    //TODO: Edward passe le nom en unique pour éviter les doublon de ville en BD -> faire un schema update ensuite
     /**
      * @ORM\Column(type="string", length=5)
      */

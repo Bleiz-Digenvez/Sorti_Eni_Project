@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class=" col-8 mx-auto">
+    <h2 class="text-center my-4">Gérer les villes</h2>
+
+
+    <table class="table table-striped table-bordered caption-top border">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Ville</th>
+                <th scope="col">Code postal</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ville in villes %}
+                <tr>
+                    <td>{{ ville.nom }}</td>
+                    <td>{{ ville.codePostal }}</td>
+                    <td>
+                        <a href="#" class="btn btn-link btn-sm">Modifier</a>
+                        <a href="{{ path('ville_supprimer', {'id': ville.id}) }}" class="btn btn-link btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                {{ form_start(formVille) }}
+                <td>{{ form_widget(formVille.nom, {'attr' : {'placeholder': 'ville', 'class':'form-control'}}) }}</td>
+                <td>{{ form_widget(formVille.codePostal, {'attr' : {'placeholder': 'code postal', 'class':'form-control'}}) }}</td>
+                <td><button class="btn btn-link">Ajouter</button></td>
+                {{ form_end(formVille) }}
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
