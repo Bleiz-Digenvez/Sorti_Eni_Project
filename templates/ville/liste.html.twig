@@ -4,6 +4,21 @@
 <div class=" col-8 mx-auto">
     <h2 class="text-center my-4">Gérer les villes</h2>
 
+    <div>
+        <h3>Filtrer les villes</h3>
+        {{ form_start(formRecherche) }}
+        <div class="row my-3">
+            {{ form_label(formRecherche.nom, '', {'label_attr': {'class': 'col-2 col-form-label'}}) }}
+            <div class="col-3">
+                {{ form_widget(formRecherche.nom, {'attr' : {'class':'form-control'}}) }}
+            </div>
+
+            <button class="btn btn-outline-primary col-2">Rechercher</button>
+            <a href="{{ path('ville_liste') }}" class="btn btn-outline-danger col-1 mx-2">X</a>
+        </div>
+
+        {{ form_end(formRecherche) }}
+    </div>
 
     <table class="table table-striped table-bordered caption-top border">
         <thead class="thead-dark">

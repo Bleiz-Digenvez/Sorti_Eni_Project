@@ -45,32 +45,11 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Ville[] Returns an array of Ville objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function rechercheVille($valeur): array
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $queryBuilder = $this->createQueryBuilder('v')
+            ->andWhere('v.nom LIKE :valeur')
+            ->setParameter('valeur', '%'.$valeur.'%');
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Ville
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
