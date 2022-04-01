@@ -83,7 +83,7 @@ class VilleController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'La ville '.$ville->getNom().' à bien été supprimée');
         } catch (\Exception $ex){
-            $this->addFlash("error", "Impossible de supprimer la ville ".$ville->getNom()." car elle est associée à des sorties à venir");
+            $this->addFlash("danger", "Impossible de supprimer la ville ".$ville->getNom()." car elle est associée à des sorties à venir");
         }
 
 
