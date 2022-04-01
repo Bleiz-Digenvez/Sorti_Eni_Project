@@ -57,7 +57,7 @@ class ParticipantController extends AbstractController
             //fin de l'update image
             $manager->persist($participant);
             $manager->flush();
-            $this->addFlash('success','Compte Modifier !');
+            $this->addFlash('success','Votre compte a été modifié !');
             // Redirection pour prendre en compte le changement d'image à l'écran
             return $this->redirect($request->getUri());
         }

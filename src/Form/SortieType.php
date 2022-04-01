@@ -76,10 +76,10 @@ class SortieType extends AbstractType
                 'label' => 'Lieu*'
             ])
             ->add('Enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary col-3 mx-3']
+                'attr' => ['class' => 'btn btn-outline-primary col-11 col-md-2 mx-3 my-3']
             ])
             ->add('Publier', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary col-3 mx-3']
+                'attr' => ['class' => 'btn btn-outline-success col-11 col-md-2 mx-3 my-3']
             ]);
         ;
     }

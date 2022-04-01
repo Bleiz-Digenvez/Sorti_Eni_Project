@@ -47,7 +47,7 @@ class SortiController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success', "La sortie à bien été ajoutée");
+            $this->addFlash('success', "La sortie ".$sortie->getNom()." à bien été ajoutée");
             return $this->redirectToRoute('main_home');
         }
 
@@ -97,7 +97,7 @@ class SortiController extends AbstractController
         try {
             $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error','Inscription refuser');
+            $this->addFlash('error','Inscription refusée');
         }
         if($sortie){
             $sortie->addParticipant($this->getUser());
@@ -109,7 +109,7 @@ class SortiController extends AbstractController
             }
             $entityManager->persist($sortie);
             $entityManager->flush();
-            $this->addFlash('success','Inscription validée');
+            $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
         }
         return $this->redirectToRoute('main_home');
     }
@@ -127,7 +127,7 @@ class SortiController extends AbstractController
         try {
             $sortie = $sortieRepository->desisterFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error','Désistation refuser');
+            $this->addFlash('error','Désinscription refusée');
         }
         if($sortie) {
             $sortie->removeParticipant($this->getUser());
@@ -138,7 +138,7 @@ class SortiController extends AbstractController
             }
             $entityManager->persist($sortie);
             $entityManager->flush();
-            $this->addFlash('success', 'Désistation valider');
+            $this->addFlash('success', 'Désinscription validée pour la sortie '. $sortie->getNom());
         }
         return $this->redirectToRoute('main_home');
 
@@ -158,7 +158,7 @@ class SortiController extends AbstractController
         try {
             $sortie = $sortieRepository->annulerFind($id, $this->getUser());
         } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error','Désistation refuser');
+            $this->addFlash('error',"Impossible d'annuler cette sortie pour le moment");
         }
 
         $annulerForm = $this->createForm(AnnulationType::class);
@@ -178,7 +178,7 @@ class SortiController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success','Sortie '.$sortie->getNom().' annuler.');
+            $this->addFlash('success','La sortie '.$sortie->getNom().' est bien annulée.');
 
             return $this->redirectToRoute('main_home');
 

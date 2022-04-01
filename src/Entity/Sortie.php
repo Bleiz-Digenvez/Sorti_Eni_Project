@@ -54,7 +54,6 @@ class Sortie
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=10, max=5000)
-     * @Assert\Regex(pattern="/^[a-zA-Z0-9_\-\s,.!?]+$/i")
      */
     private $infosSortie;
 
