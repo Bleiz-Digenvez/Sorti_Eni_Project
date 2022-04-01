@@ -114,6 +114,31 @@ class SortiController extends AbstractController
 
         return $this->redirectToRoute('main_home');
     }
+
+    /**
+     * @Route("/home/sorti/publier/{id}", name="sortie_publier")
+     */
+    public function publier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+        try{
+            $this->denyAccessUnlessGranted('sortie_publier_voter', $sortie);
+        }catch (AccessDeniedException $e){
+            $this->addFlash('danger','Vous ne pouvez pas vous publier cette activité');
+            return $this->redirectToRoute('main_home');
+        }
+
+        $etatOuverte = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+        $sortie->setEtat($etatOuverte);
+
+
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success','Publication de '.$sortie->getNom().' validée');
+
+        return $this->redirectToRoute('main_home');
+    }
+
     /**
      * @Route("/home/sorti/desister/{id}", name="sortie_desister")
      */
