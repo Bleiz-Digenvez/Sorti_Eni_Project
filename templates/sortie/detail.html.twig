@@ -139,13 +139,18 @@ Nouvelle sorti | {{ parent() }}
                         <td> <a href="{{ path('participant_detail', {'id' : participant.id } ) }}">{{ participant.pseudo }}</td>
                         <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td></td>
+                        <td>Personne est inscrit pour le moment. </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
         <!-- Boutons d'actions -->
         <div class="col-auto align-self-center ms-5">
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <div>
 
                 {% if (is_granted("sortie_inscription_voter", sortie)) %}
                     <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}" class="btn btn-outline-primary" >S'inscrire</a>
