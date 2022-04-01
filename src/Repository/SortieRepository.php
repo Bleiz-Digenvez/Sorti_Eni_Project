@@ -60,17 +60,21 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('s.participants', 'p')
             ->addSelect('p');
 
-        //si la case "Sorties passées" est cochée on affiche QUE les sorties passées sinon on n'affiche pas les sorties passées
-        if (!$rechercheSortie->getPassees()) {
-            $queryBuilder->andWhere('e.libelle != :etat2')
-                ->setParameter('etat2', 'Passée');
-        } else {
+        //afficher les sortie passées depuis 1 mois max
+        $queryBuilder
+            ->andWhere('s.dateHeureDebut > :date')
+            ->setParameter('date', ((new \DateTime())->modify('-1 month')) );
+
+        //si la case "Sorties passées" est cochée on affiche QUE les sorties passées
+        if ($rechercheSortie->getPassees()) {
             $queryBuilder->andWhere('e.libelle = :etat3')
                 ->setParameter('etat3', 'Passée');
         }
+
         //si un campus est selectionné
         if($rechercheSortie->getSite()) {
             $queryBuilder->join('s.campus', 'c')
+                ->addSelect('c')
                 ->andWhere('c.nom = :site')
                 ->setParameter('site', $rechercheSortie->getSite()->getNom());
         }

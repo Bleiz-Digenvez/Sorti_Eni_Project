@@ -7,7 +7,7 @@ use App\Entity\Sortie;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class ParticipantInscritVoter extends Voter
 {
@@ -31,17 +31,17 @@ class ParticipantInscritVoter extends Voter
     {
         $user = $token->getUser();
         // On verifie si le user est connecté
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof Participant) {
             return false;
         }
 
         //retourne le boolean selon l'attribut passé
         switch ($attribute) {
             case self::SORTIE_INSCRIPTION:
-                if (!$this->estIsncrit($sortie, $token)) return true;
+                if (!$this->estInscrit($sortie, $token) && (($sortie->getDateLimiteInscription()) > (new \DateTime('now')) ))  return true;
                 break;
             case self::SORTIE_DESISTEMENT:
-                if ($this->estIsncrit($sortie, $token)) return true;
+                if ($this->estInscrit($sortie, $token)) return true;
                 break;
         }
         return false;
@@ -53,7 +53,7 @@ class ParticipantInscritVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    private function estIsncrit(Sortie $sortie, TokenInterface $token) {
+    private function estInscrit(Sortie $sortie, TokenInterface $token) {
         $estInscrit = false;
         foreach ($sortie->getParticipants() as $participant){
             if ($participant->getPassword() == $token->getUser()->getPassword()){
