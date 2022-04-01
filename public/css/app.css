@@ -43,3 +43,24 @@ main{
     height: 24px;
     box-sizing: content-box;
 }
+.cadre-table-scroll {
+    display: inline-block;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+.table-scroll{
+    height: 100%;
+}
+.table-scroll thead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.table-scroll tbody {
+    z-index: 1;
+}
+.table-scroll tfoot {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+}
