@@ -114,7 +114,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         // select pour récupérer les résultats
-        $queryBuilder->addOrderBy('s.dateHeureDebut', 'ASC');
+        $queryBuilder->addOrderBy('s.dateHeureDebut', 'DESC');
         $query = $queryBuilder->getQuery();
         $sorties = $query->getResult();
         // compte le nombre de sorties trouvées
