@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SortiController extends AbstractController
 {
@@ -93,24 +94,24 @@ class SortiController extends AbstractController
      */
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
-        $sortie = null;
-        try {
-            $sortie = $sortieRepository->inscriptionFind($id, $this->getUser());
-        } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error','Inscription refusée');
+        $sortie = $sortieRepository->find($id);
+
+        try{
+            $this->denyAccessUnlessGranted('sortie_inscription_voter', $sortie);
+        }catch (AccessDeniedException $e){
+            $this->addFlash('danger','Vous ne pouvez pas vous inscrire a cette activité');
+            return $this->redirectToRoute('main_home');
         }
-        if($sortie){
-            $sortie->addParticipant($this->getUser());
-            //TODO count sur participants
-            if(sizeof($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
-                //TODO find sur le libelle
-                $etatCloture = $etatRepository->find(3);
-                $sortie->setEtat($etatCloture);
-            }
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+
+        $sortie->addParticipant($this->getUser());
+        if(count($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
+            $etatCloture = $etatRepository->findOneBy(['libelle' =>'Clôturée']);
+            $sortie->setEtat($etatCloture);
         }
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+
         return $this->redirectToRoute('main_home');
     }
     /**
@@ -122,24 +123,25 @@ class SortiController extends AbstractController
         EntityManagerInterface $entityManager,
             EtatRepository $etatRepository)
     {
-        $etatCloture = $etatRepository->find(3);
-        $sortie = null;
-        try {
-            $sortie = $sortieRepository->desisterFind($id, $this->getUser());
-        } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error','Désinscription refusée');
+        $etatCloture = $etatRepository->findOneBy(['libelle' =>'Clôturée']);
+        $sortie = $sortieRepository->find($id);
+        try{
+            $this->denyAccessUnlessGranted('sortie_desister_voter', $sortie);
+        }catch (AccessDeniedException $e){
+            $this->addFlash('danger','Vous ne pouvez pas vous désinscrire');
+            return $this->redirectToRoute('main_home');
         }
-        if($sortie) {
-            $sortie->removeParticipant($this->getUser());
-            if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
-                //TODO find sur le libelle
-                $etatOuvert = $etatRepository->find(2);
-                $sortie->setEtat($etatOuvert);
-            }
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success', 'Désinscription validée pour la sortie '. $sortie->getNom());
+
+        $sortie->removeParticipant($this->getUser());
+        if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
+            $etatOuvert = $etatRepository->findOneBy(['libelle'=>'Ouverte']);
+            $sortie->setEtat($etatOuvert);
         }
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+
         return $this->redirectToRoute('main_home');
 
     }
@@ -154,11 +156,13 @@ class SortiController extends AbstractController
         Request $request
     )
     {
-        $sortie = null;
-        try {
-            $sortie = $sortieRepository->annulerFind($id, $this->getUser());
-        } catch (NoResultException | NonUniqueResultException $e) {
-            $this->addFlash('error',"Impossible d'annuler cette sortie pour le moment");
+
+        $sortie = $sortieRepository->find($id);
+        try{
+            $this->denyAccessUnlessGranted('sortie_annuler_voter', $sortie);
+        }catch (AccessDeniedException $e){
+            $this->addFlash('danger','Impossible d\'annuler cette sortie pour le moment');
+            return $this->redirectToRoute('main_home');
         }
 
         $annulerForm = $this->createForm(AnnulationType::class);
