@@ -91,6 +91,7 @@ Nouvelle sorti | {{ parent() }}
                         <div class="col-5">
                             {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-select'}}) }}<br>
                         </div>
+                        <a href="{{ path('lieu_nouveau') }}" class="btn btn-outline-primary col-1 btnAddLieu">+</a>
                     </div>
                     <div class="row errorForm">
                         {{ form_errors(sortieForm.lieu) }}
@@ -101,10 +102,10 @@ Nouvelle sorti | {{ parent() }}
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column flex-md-row justify-content-center">
                 {{ form_widget(sortieForm.Enregistrer) }}
                 {{ form_widget(sortieForm.Publier) }}
-                <a href="{{ path('main_home') }}" class="btn btn-danger mx-3 col-3">Annuler</a>
+                <a href="{{ path('main_home') }}" class="btn btn-outline-danger mx-3 col-11 my-3 col-md-2">Annuler</a>
             </div>
             {{ form_end(sortieForm) }}
         </div>

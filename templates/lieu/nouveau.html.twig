@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-12 col-md-10 col-lg-8 px-2 mx-auto">
+    <h2 class="text-center my-4">Ajouter un nouveau lieux</h2>
+
+    <div class="col-12 col-md-10 col-lg-8 my-3">
+        {{ form_start(formLieu) }}
+        <div class="row">
+            {{ form_label(formLieu.nom, '', {'label_attr': {'class': 'col-3 col-md-5 col-form-label'}}) }}
+            <div class="col-8 col-md-5">
+                {{ form_widget(formLieu.nom, {'attr': {'class': 'form-control'}}) }}<br>
+            </div>
+        </div>
+        <div class="row errorForm">
+            {{ form_errors(formLieu.nom) }}
+        </div>
+        <div class="row">
+            {{ form_label(formLieu.rue, '', {'label_attr': {'class': 'col-3 col-md-5 col-form-label'}}) }}
+            <div class="col-8 col-md-5">
+                {{ form_widget(formLieu.rue, {'attr': {'class': 'form-control'}}) }}<br>
+            </div>
+        </div>
+        <div class="row errorForm">
+            {{ form_errors(formLieu.rue) }}
+        </div>
+        <div class="row">
+            {{ form_label(formLieu.latitude, '', {'label_attr': {'class': 'col-3 col-md-5 col-form-label'}}) }}
+            <div class="col-8 col-md-5">
+                {{ form_widget(formLieu.latitude, {'attr': {'class': 'form-control'}}) }}<br>
+            </div>
+        </div>
+        <div class="row errorForm">
+            {{ form_errors(formLieu.latitude) }}
+        </div>
+        <div class="row">
+            {{ form_label(formLieu.longitude, '', {'label_attr': {'class': 'col-3 col-md-5 col-form-label'}}) }}
+            <div class="col-8 col-md-5">
+                {{ form_widget(formLieu.longitude, {'attr': {'class': 'form-control'}}) }}<br>
+            </div>
+        </div>
+        <div class="row errorForm">
+            {{ form_errors(formLieu.longitude) }}
+        </div>
+        <div class="row">
+            {{ form_label(formLieu.ville, '', {'label_attr': {'class': 'col-3 col-md-5 col-form-label'}}) }}
+            <div class="col-8 col-md-5">
+                {{ form_widget(formLieu.ville, {'attr': {'class': 'form-select'}}) }}<br>
+            </div>
+        </div>
+        <div class="row errorForm">
+            {{ form_errors(formLieu.ville) }}
+        </div>
+        <button class="btn btn-outline-success col-12 col-md-5 my-3">Ajouter</button>
+        <a class="btn btn-outline-danger col-12 col-md-5 my-3" href="{{ path('sortie_creation') }}">Retour</a>
+        {{ form_end(formLieu) }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

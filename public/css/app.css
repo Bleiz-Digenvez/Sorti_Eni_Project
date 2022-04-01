@@ -33,3 +33,7 @@ main{
     height: 280px;
     object-fit: cover;
 }
+.btnAddLieu{
+    height: 24px;
+    box-sizing: content-box;
+}
