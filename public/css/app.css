@@ -33,6 +33,12 @@ main{
     height: 280px;
     object-fit: cover;
 }
+
+#sortie-detail-liste-participants {
+    position: relative;
+    max-height: 250px;
+    overflow: auto;
+}
 .btnAddLieu{
     height: 24px;
     box-sizing: content-box;

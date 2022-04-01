@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Nouvelle sorti | {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- Titre -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-4">
+            <h3 class="text-center">{{ sortie.nom }}{% if sortie.etat.libelle == 'Annulée' %} (Annulée) {% endif %}</h3>
+        </div>
+    </div>
+    <!-- Infos colonne gauche -->
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6 col-sm-10">
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Nom de la sortie :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.nom }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Date et heure de la sortie :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.dateHeureDebut|date("d/m/Y  à H:i") }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Date limite d'inscription :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.dateLimiteInscription|date("d/m/Y") }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Nombre de places :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.nbInscriptionsMax }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Durée :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.duree }} minutes
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Description et infos:
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.infosSortie }}
+                </div>
+            </div>
+        </div>
+        <!-- Infos colonne droite -->
+        <div class="col-lg-5 col-md-6 col-sm-10">
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Campus :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.campus.nom }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Lieu :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.lieu.nom }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Rue :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.lieu.rue }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                   Ville et Code postal :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.lieu.ville.nom }} - {{ sortie.lieu.ville.codePostal }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Latitude :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.lieu.latitude }}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-lg-5">
+                    Longitude :
+                </div>
+                <div class="col-lg-6">
+                    {{ sortie.lieu.longitude }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-start mt-4">
+        <!-- Tableau des participants -->
+        <div class="border rounded col-lg-6 col-md-8 col-sm-10 col-12">
+            <!-- Scroll et hauteur en surcharge: app.css -->
+            <table class="table table-sm table-striped caption-top" >
+                <caption class="ps-3">
+                    Liste des particpants inscrits :
+                </caption>
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for participant in sortie.participants %}
+                    <tr>
+                        <td> <a href="{{ path('participant_detail', {'id' : participant.id } ) }}">{{ participant.pseudo }}</td>
+                        <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Boutons d'actions -->
+        <div class="col-auto align-self-center ms-5">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+
+                {% if (is_granted("sortie_inscription_voter", sortie)) %}
+                    <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}" class="btn btn-outline-primary" >S'inscrire</a>
+
+                {% endif %}
+                {% if (is_granted("sortie_desister_voter", sortie)) %}
+                    <a href="{{ path('sortie_desister', {'id' : sortie.id}) }}" class="btn btn-outline-primary" >Se desister</a>
+
+                {% endif %}
+                {% if (is_granted("sortie_publier_voter", sortie)) %}
+                    <a href="{# {{ path('sortie_publier', {'id' : sortie.id}) }}  #}" class="btn btn-outline-primary">Publier la sortie</a>
+                {% endif %}
+               {% if (is_granted("sortie_annuler_voter", sortie)) %}
+                    <a class="btn btn-outline-danger" href="{{ path('sortie_annuler', {'id' : sortie.id}) }}">Annuler la sortie</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{%  endblock %}

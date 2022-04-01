@@ -190,6 +190,22 @@ class SortiController extends AbstractController
 
     }
 
+    /**
+     * @Route("/home/sorti/detail{id}", name="sortie_detail")
+     */
+    public function detail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
+        return $this->render('sortie/detail.html.twig', [
+            "sortie" => $sortie
+        ]);
+    }
+
 
 //    /**
 //     * @Route("/home/sorti/modifier/{id}", name="sortie_modifier")
