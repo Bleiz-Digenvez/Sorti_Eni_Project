@@ -1,10 +1,46 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
 
 {% block title %}
 
 {% endblock %}
 
 {% block body %}
+
+    <div class="mt-4 container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-5 ">
+                <div class="row">
+                    <h1 class="mx-auto my-3 mb-4">Ajouter des utilisateur via CSV</h1>
+                </div>
+                {{ form_start(form) }}
+                <div class="mb-3 row">
+                    {{ form_label(form.csv, '' ,{'label_attr':  {'class': 'col-xl-4 col-form-label'}}) }}
+                    <div class="col-xl-8">
+                        {{ form_widget(form.csv,{'attr' : {'class' :'form-control form-control-sm'}}) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mb-4 text-center">
+                        <a href="{{ path('registration_registerCSVLogSample') }}">Appuyer ici pour obtenir un schéma du CSV</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mb-4">
+                        <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mb-4">
+                        <a href="{{ path('registration_registerCSVLog') }}">Téléchargement fichier des utilisateur refuser</a>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+    </div>
 
 {% endblock %}
 

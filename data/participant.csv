@@ -1,6 +1,0 @@
-pseudo,nom,prenom,telephone,mail,administrateur,actif,campus
-bleiz,Jacques,Jean,0625344377,Jacques.jean@campus.fr,false,true,Chartres de Bretagne
-JeanVois,Vois,Jean,null,Jacques.vois@campus.fr,false,true,La Roche Sur Yon
-bleiz,Quille,Jean,0777774377,Jacques.quille@campus.fr,false,true,Saint Herblain
-JeanSuis,Suis,Jean,0625344377,Jacques.jean@campus.fr,false,true,Chartres de Bretagne
-JeanEstMarre,EstMarre,Jean,null,Jacques.EstMarre@campus.fr,false,true,Chartres de Bretagne

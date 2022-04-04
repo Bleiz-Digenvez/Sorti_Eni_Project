@@ -1,0 +1,6 @@
+pseudo,nom,prenom,telephone,mail,administrateur,actif,campus
+bleizze,Jacques,Jean,062553544377,baptiste.tielles@outlook.fr,false,true,Chartres de Bretagne
+JeanVois,Vois,Jean,null,Jacques.vois@campus.fr,false,true,La Roche Sur Yon
+bleizzzez,Quille,Jean,0d77774377,Jacques.quille@campus.fr,false,true,Saint Herblain
+JeanSuis,Suis,Jean,06 25344377,Jacques.jean@campus.fr,false,true,Chartres de Bretagne
+JeanEstMarre,EstMarre,Jean,null,Jacques.EstMarre@campus.fr,false,true,Chartres de Bretagne

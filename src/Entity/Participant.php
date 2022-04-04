@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -51,11 +52,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/0[1-9]{9}/",
+     *     match=true)
+     * @Assert\Length(max=10)
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Email
      */
     private $mail;
 
@@ -72,6 +78,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Campus ne peut pas êtres null ou n'as pas été trouver au nom : ")
      */
     private $campus;
 

@@ -1,0 +1,4 @@
+pseudo,nom,prenom,telephone,mail,administrateur,actif,campus
+bleizze,Jacques,Jean,062553544377,baptiste.tielles@outlook.fr,,1,Chartres de Bretagne,Cause ! MAIL: Cette valeur est déjà utilisée.TELEPHONE: Cette chaîne est trop longue. Elle doit avoir au maximum 10 caractères.
+bleizzzez,Quille,Jean,0d77774377,Jacques.quille@campus.fr,,1,Saint Herblain,Cause ! TELEPHONE: Cette valeur n'est pas valide.
+JeanSuis,Suis,Jean,06 25344377,Jacques.jean@campus.fr,,1,Chartres de Bretagne,Cause ! TELEPHONE: Cette valeur n'est pas valide.TELEPHONE: Cette chaîne est trop longue. Elle doit avoir au maximum 10 caractères.
