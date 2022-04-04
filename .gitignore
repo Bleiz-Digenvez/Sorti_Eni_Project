@@ -1,5 +1,6 @@
 /.idea
 /public/img/participant/*
+/data/*
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
