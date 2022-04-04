@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email | Reset Password{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-sm-10 col-md-10 col-lg-7">
+                <div class="card bg-light">
+                    <h3 class="card-header">Email de modification de mot de passe</h3>
+                    <div class="card-body">
+                        <p class="card-text">Bonjour,</p>
+                        <p class="card-text">
+                            Aller sur le lien ci-dessous pour changer votre mot de passe.
+                            Le lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+                        </p>
+                        <p class="card-text">Si vous ne recevez pas le mail, merci de vérifier le dossier spam ou <a href="{{ path('app_forgot_password_request') }}">renvoyer le mail</a>.</p>
+
+                        <p class="card-text">Lien du mail: <a href="{{ url('app_reset_password', {'token': token}) }}">{{ url('app_reset_password', {'token': token}) }}</a></p>
+
+                        <p class="card-text">L'équipe de Sortir.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
