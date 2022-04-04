@@ -98,19 +98,20 @@ class SortiController extends AbstractController
 
         try{
             $this->denyAccessUnlessGranted('sortie_inscription_voter', $sortie);
+            $sortie->addParticipant($this->getUser());
+            if(count($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
+                $etatCloture = $etatRepository->findOneBy(['libelle' =>'Clôturée']);
+                $sortie->setEtat($etatCloture);
+            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+
         }catch (AccessDeniedException $e){
             $this->addFlash('danger','Vous ne pouvez pas vous inscrire a cette activité');
-            return $this->redirectToRoute('main_home');
         }
 
-        $sortie->addParticipant($this->getUser());
-        if(count($sortie->getParticipants()->getValues()) == $sortie->getNbInscriptionsMax()){
-            $etatCloture = $etatRepository->findOneBy(['libelle' =>'Clôturée']);
-            $sortie->setEtat($etatCloture);
-        }
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
 
         return $this->redirectToRoute('main_home');
     }
@@ -123,18 +124,14 @@ class SortiController extends AbstractController
         $sortie = $sortieRepository->find($id);
         try{
             $this->denyAccessUnlessGranted('sortie_publier_voter', $sortie);
+            $etatOuverte = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+            $sortie->setEtat($etatOuverte);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success','Publication de '.$sortie->getNom().' validée');
         }catch (AccessDeniedException $e){
             $this->addFlash('danger','Vous ne pouvez pas vous publier cette activité');
-            return $this->redirectToRoute('main_home');
         }
-
-        $etatOuverte = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-        $sortie->setEtat($etatOuverte);
-
-
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success','Publication de '.$sortie->getNom().' validée');
 
         return $this->redirectToRoute('main_home');
     }
@@ -152,21 +149,21 @@ class SortiController extends AbstractController
         $sortie = $sortieRepository->find($id);
         try{
             $this->denyAccessUnlessGranted('sortie_desister_voter', $sortie);
+
+            $sortie->removeParticipant($this->getUser());
+
+            if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
+                $etatOuvert = $etatRepository->findOneBy(['libelle'=>'Ouverte']);
+                $sortie->setEtat($etatOuvert);
+            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+
         }catch (AccessDeniedException $e){
             $this->addFlash('danger','Vous ne pouvez pas vous désinscrire');
-            return $this->redirectToRoute('main_home');
         }
-
-        $sortie->removeParticipant($this->getUser());
-        if ($sortie->getDateLimiteInscription() > new \DateTime() && $sortie->getEtat() === $etatCloture) {
-            $etatOuvert = $etatRepository->findOneBy(['libelle'=>'Ouverte']);
-            $sortie->setEtat($etatOuvert);
-        }
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-
-        $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
-
         return $this->redirectToRoute('main_home');
 
     }
