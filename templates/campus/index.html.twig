@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campus | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class=" col-8 mx-auto">
+        <h2 class="text-center my-4">Gérer les Campus</h2>
+        <div>
+            <h3>Filtrer les campus</h3>
+            {{ form_start(formRecherche) }}
+            <div class="row my-3">
+                {{ form_label(formRecherche.nom, '', {'label_attr': {'class': 'col-2 col-form-label'}}) }}
+                <div class="col-3">
+                    {{ form_widget(formRecherche.nom, {'attr' : {'class':'form-control'}}) }}
+                </div>
+
+                <button class="btn btn-outline-primary col-2">Rechercher</button>
+                <a href="{{ path('campus_liste') }}" class="btn btn-outline-danger col-1 mx-2">X</a>
+            </div>
+
+            {{ form_end(formRecherche) }}
+        </div>
+        <div class="cadre-table-scroll col-12">
+            <table class="table table-striped table-bordered caption-top border table-scroll">
+                <thead class="bg-dark text-white">
+                <tr>
+                    <th scope="col">Nom du campus</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for campus in campusListe %}
+                    <tr>
+                        <td>{{ campus.nom }}</td>
+                        <td>
+                            <button class="btn btn-link btn-sm" onclick="lienModifier('{{ campus.nom }}','{{ campus.id }}')">Modifier</button>
+                            <a href="{{ path('campus_supprimer', {'id': campus.id}) }}" class="btn btn-link btn-sm">Supprimer</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot class="bg-muted text-white bg-white text-white border">
+                <tr>
+                    {{ form_start(campusForm, {'attr' : {'id': 'FormCampus'}}) }}
+                    <td>{{ form_widget(campusForm.nom, {'attr' : {'placeholder': 'Nouveau Campus', 'class':'form-control'}}) }}</td>
+                    <td class="" id="btn-add">{{ form_widget(campusForm.Ajouter) }}</td>
+                    <td class="d-none" id="btn-modif">{{ form_widget(campusForm.Modifier) }}</td>
+                    {{ form_row(campusForm.id) }}
+                    {{ form_end(campusForm) }}
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        //Variable
+        let inputVille = document.getElementById('campus_nom');
+        let inputId = document.getElementById('campus_id');
+        let btnAdd = document.getElementById('btn-add')
+        let btnModif = document.getElementById('btn-modif')
+        let formVille = document.getElementById('campus_Ajouter')
+        //Fonction pour "passer en mode modifiée
+        function lienModifier(campus, id){
+            inputVille.setAttribute('value', campus)
+            inputId.setAttribute('value', id)
+            btnAdd.className = "d-none"
+            btnModif.className = ""
+            formVille.setAttribute('disabled', "true")
+        }
+    </script>
+{% endblock %}

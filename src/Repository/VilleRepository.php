@@ -48,7 +48,7 @@ class VilleRepository extends ServiceEntityRepository
     public function rechercheVille($valeur): array
     {
         $queryBuilder = $this->createQueryBuilder('v')
-            ->andWhere('v.nom LIKE :valeur')
+            ->andWhere('v.nom LIKE :valeur OR v.codePostal LIKE :valeur')
             ->setParameter('valeur', '%'.$valeur.'%');
         return $queryBuilder->getQuery()->getResult();
     }

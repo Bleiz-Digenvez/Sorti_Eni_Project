@@ -45,6 +45,14 @@ class CampusRepository extends ServiceEntityRepository
         }
     }
 
+    public function rechercheCampus($valeur): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->andWhere('c.nom LIKE :valeur')
+            ->setParameter('valeur', '%'.$valeur.'%');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Campus[] Returns an array of Campus objects
     //  */
