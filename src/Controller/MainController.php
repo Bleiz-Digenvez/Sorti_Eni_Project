@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="mobile_home", host="{subdomain}.localhost", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
+     * @Route("/", name="mobile_home", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
      */
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
@@ -42,7 +42,7 @@ class MainController extends AbstractController
     public function home(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
         $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
-
+        dump($request->getHost());
         $recherche= new RechercheSortie();
         $recherche->setParticipant($this->getUser());
         $rechercheSortieForm=$this->createForm(RechercheSortieType::class,$recherche);

@@ -9,8 +9,6 @@ use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,6 +94,10 @@ class SortiController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
 
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
         try{
             $this->denyAccessUnlessGranted('sortie_inscription_voter', $sortie);
             $sortie->addParticipant($this->getUser());
@@ -122,6 +124,11 @@ class SortiController extends AbstractController
     public function publier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
         $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
         try{
             $this->denyAccessUnlessGranted('sortie_publier_voter', $sortie);
             $etatOuverte = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
@@ -147,6 +154,11 @@ class SortiController extends AbstractController
     {
         $etatCloture = $etatRepository->findOneBy(['libelle' =>'Clôturée']);
         $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
         try{
             $this->denyAccessUnlessGranted('sortie_desister_voter', $sortie);
 
@@ -180,6 +192,11 @@ class SortiController extends AbstractController
     {
 
         $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
         try{
             $this->denyAccessUnlessGranted('sortie_annuler_voter', $sortie);
         }catch (AccessDeniedException $e){
