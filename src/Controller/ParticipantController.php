@@ -8,6 +8,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
@@ -27,9 +28,15 @@ class ParticipantController extends AbstractController
     {
 
         $participant = $this->getUser();
+
+        $oldPseudo = $participant->getPseudo();
+
+        $filesystem = new Filesystem();
+
+
         //Récuperation de l'image de profil de l'utilisateur, ou de l'image par defaut
         $chemin = 'img/participant/utilisateur' . "-" . $participant->getId() . '.jpg';
-        if (!file_exists($chemin)){
+        if (!$filesystem->exists($chemin)){
             $chemin = 'img/PlaceHolderPicture.jpg';
         }
         //Création du formulaire de modification
@@ -54,6 +61,14 @@ class ParticipantController extends AbstractController
                 $repertoire = 'img/participant';
                 $image->move($repertoire, $nomImage);
             }
+            //Modification du fichier admin au cas ou il y a changement de pseudo de l'utilisateur admin
+            if($participant->getPseudo() != $oldPseudo){
+                $path = '../data/';
+                if($filesystem->exists($path.$oldPseudo)){
+                    $filesystem->rename($path.$oldPseudo,$path.$participant->getPseudo());
+                }
+            }
+
             //fin de l'update image
             $manager->persist($participant);
             $manager->flush();

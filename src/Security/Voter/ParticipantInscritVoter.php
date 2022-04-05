@@ -92,7 +92,7 @@ class ParticipantInscritVoter extends Voter
             }
         }
         if ($sortie->getDateHeureDebut() > (new \DateTime('now'))
-            && $sortie->getEtat()->getLibelle() !== "Activité en cours"
+            && (in_array($sortie->getEtat()->getLibelle(),['Ouverte','Clôturée']))
             && $estInscrit
         ){
             return true;
@@ -127,7 +127,8 @@ class ParticipantInscritVoter extends Voter
      * @return bool
      */
     private function annuler(Sortie $sortie, TokenInterface $token) {
-        if ( ($sortie->getOrganisateur()->getPassword() == $token->getUser()->getPassword())
+        if ( ($sortie->getOrganisateur()->getPassword() == $token->getUser()->getPassword()
+                || $this->security->isGranted("ROLE_ADMIN"))
             && (in_array($sortie->getEtat()->getLibelle(), ["Créée", "Ouverte", "Clôturée"]))
         ){
             return true;

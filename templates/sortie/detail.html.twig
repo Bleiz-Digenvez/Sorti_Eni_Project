@@ -161,7 +161,7 @@ Nouvelle sorti | {{ parent() }}
 
                 {% endif %}
                 {% if (is_granted("sortie_publier_voter", sortie)) %}
-                    <a href="{# {{ path('sortie_publier', {'id' : sortie.id}) }}  #}" class="btn btn-outline-primary">Publier la sortie</a>
+                    <a href="{{ path('sortie_publier', {'id' : sortie.id}) }}" class="btn btn-outline-primary">Publier la sortie</a>
                 {% endif %}
                {% if (is_granted("sortie_annuler_voter", sortie)) %}
                     <a class="btn btn-outline-danger" href="{{ path('sortie_annuler', {'id' : sortie.id}) }}">Annuler la sortie</a>
