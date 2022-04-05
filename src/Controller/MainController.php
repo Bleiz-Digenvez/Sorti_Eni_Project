@@ -19,6 +19,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
+     * @Route("/", name="mobile_home", host="{subdomain}.localhost", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
+     */
+    public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    {
+        $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
+        //todo faire un base twig spécifique pour le telephone sans header et footer, juste le logo dans le footer
+        //todo faire une redirection sur toute les route inaccessible en version mobile
+        //todo : requete pour récup toute mes sorti -> nom sorti date de la sorti et lieu, aucun bouton de dispo
+
+        return $this->render('mobile/main/home.html.twig', [
+
+        ]);
+    }
+
+
+    /**
      * Affichage toutes les sorties (sauf celles à l'état 'Passée')
      * Prise en compte du formulaire de recherche
      * @Route("/", name="home")
