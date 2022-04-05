@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="mobile_home", host="{subdomain}.localhost", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
+     * @Route("/", name="mobile_home", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
      */
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {

@@ -107,4 +107,63 @@ class ParticipantController extends AbstractController
             'cheminImg' => $chemin
         ]);
     }
+
+    /**
+     * Affiche la iste des tous les participants
+     * @Route("/liste/", name="liste")
+     */
+    public function liste(ParticipantRepository $participantRepository)
+    {
+        //récupere la liste des utilisateurs
+        $participants = $participantRepository->findAll();
+        //Retourne une erreur si la liste est vide
+        if (!$participants){
+            throw $this->createNotFoundException('Oh .. il y a un probléme !');
+        }
+        return $this->render('participant/liste.html.twig', [
+            'participants' => $participants,
+        ]);
+    }
+
+    /**
+     * Désactive les participants
+     * Selon la liste d'ids passés en paramétre
+     * @Route("/desactiver/", name="desactiver")
+     */
+    public function desactiver(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
+    {
+        //récupere la liste des ids
+        $listeId = $request->query->get('utilisateursSelectionnes');
+        $etat = ($request->query->get('etat')) == "true";
+        //récupere la liste des utilisateurs
+        $listeUtilisateurs = $participantRepository->findBy(array('id' => $listeId));
+        //Pour chaque utilisateur, changement de l'état 'actif' en BDD
+       foreach ($listeUtilisateurs as $utilisateur) {
+            $utilisateur-> setActif($etat);
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('participant_liste');
+    }
+
+    /**
+     * Active les participants
+     * Selon la liste d'id passé en paramétre
+     * @Route("/activer/", name="activer")
+     */
+    public function activer(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
+    {
+        //récupere la liste des ids
+        $listeId = $request->query->get('utilisateursSelectionnes');
+        //récupere la liste des utilisateurs
+        $listeUtilisateurs = $participantRepository->findBy((array)$listeId);
+        //Pour chaque utilisateur, changement de l'état 'actif' en BDD
+        foreach ($listeUtilisateurs as $utilisateur) {
+            $utilisateur-> setActif(true);
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('participant_liste');
+    }
 }
