@@ -126,6 +126,36 @@ class SortieRepository extends ServiceEntityRepository
         ];
     }
 
+
+
+    public function listSortiesAMettreEnPasse(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder
+            ->join('s.etat','e')
+            ->andWhere("e.libelle NOT IN ('Passée','Annulée','Créée')")
+            ->andWhere("DATE_ADD(s.dateHeureDebut,s.duree,'minute') < CURRENT_TIMESTAMP()");
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function listSortiesAMettreEnActiviteeEnCours(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder
+            ->join('s.etat','e')
+            ->andWhere("e.libelle NOT IN ('Passée','Annulée','Créée','Activité en cours')")
+            ->andWhere("s.dateHeureDebut < CURRENT_TIMESTAMP()")
+            ->andWhere("DATE_ADD(s.dateHeureDebut,s.duree,'minute') > CURRENT_TIMESTAMP()");
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function listSortiesAMettreEnCloturee(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder
+            ->join('s.etat','e')
+            ->andWhere("e.libelle NOT IN ('Passée','Annulée','Créée','Activité en cours','Clôturée')")
+            ->andWhere("s.dateLimiteInscription < CURRENT_DATE()");
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

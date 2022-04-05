@@ -106,7 +106,7 @@ class RegistrationController extends AbstractController
             return $this->file($file);
         }else{
             $this->addFlash('danger','Aucun fichier de log trouver');
-            return $this->$this->redirectToRoute('registration_registerCSV');
+            return $this->redirectToRoute('registration_registerCSV');
         }
     }
     //Lien permetant le téléchargement du template du CSV

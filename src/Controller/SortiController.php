@@ -217,7 +217,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/home/sorti/detail{id}", name="sortie_detail")
+     * @Route("/home/sorti/detail/{id}", name="sortie_detail")
      */
     public function detail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
