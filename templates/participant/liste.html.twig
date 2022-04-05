@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <h3 class="text-center mb-3">Liste des utilisateurs</h3>
+
+            <div class="p-3 mb-3">
+                <div class="col form-floating">
+                    <input class="form-control me-2" id="inputSaisi" type="search" aria-label="Search">
+                    <label for="inputSaisi">Recherche</label>
+                </div>
+            </div>
+
+            <div class="row justify-content-evenly">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-success" onclick="estActif(true)">Activer le(s) utilisateur(s)</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger" onclick="estActif(false)">Désactiver le(s) utilisateur(s)</button>
+                </div>
+            </div>
+
+            <div class="border rounded mt-4">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Actif</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listeUtilisateurs">
+                    {% for participant in participants %}
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{ participant.id }}" name="checkParticipant">
+                                </div>
+                            </td>
+                            <td><a href="{{ path('participant_detail', {'id' : participant.id}) }}">{{ participant.pseudo }}
+                            </td>
+                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                            <td>
+                                {% if participant.actif %}
+                                    <p style="color: green;">oui</p>
+                                {% else %}
+                                    <p style="color: darkred;">non</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td scope="row">Pas de utilisateur !</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    //Récupére la sélection des participants faite par l'utilisateur
+    function selectionUtilisateur() {
+        let listeUtilisateurs = document.getElementsByName("checkParticipant");
+        let listeUlisateursSelectionnes = [];
+        listeUtilisateurs.forEach((utilisateur) => {
+            if (utilisateur.checked) {
+                listeUlisateursSelectionnes.push(utilisateur.value)
+            }
+        })
+        return listeUlisateursSelectionnes;
+    }
+
+    //Désactive ou active les particpants en BDD
+    //le parametre 'etat' doit être un boolean:
+    //true -> activer | false -> désactiver
+    function estActif(etat) {
+        let utilisateursSelectionnes = this.selectionUtilisateur();
+        axios.get("{{ path('participant_desactiver') }}", {
+            params: {"utilisateursSelectionnes": utilisateursSelectionnes, "etat": etat}
+        })
+            .then(function () {
+                location.reload();
+        });
+    }
+</script>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
