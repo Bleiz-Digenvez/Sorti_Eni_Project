@@ -171,7 +171,7 @@ class SortiController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success','Inscription validée à la sortie '.$sortie->getNom());
+            $this->addFlash('success','Désinscription validée à la sortie '.$sortie->getNom());
 
         }catch (AccessDeniedException $e){
             $this->addFlash('danger','Vous ne pouvez pas vous désinscrire');
@@ -230,7 +230,6 @@ class SortiController extends AbstractController
             'annulerForm' => $annulerForm->createView(),
             'sortie' => $sortie
         ]);
-
     }
 
     /**

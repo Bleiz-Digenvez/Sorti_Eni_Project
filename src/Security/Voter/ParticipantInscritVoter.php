@@ -54,7 +54,6 @@ class ParticipantInscritVoter extends Voter
         }
         return false;
     }
-
     /**
      * Teste si le participant connecté peut  s'inscrit à la sortie
      * @param Sortie $sortie
@@ -64,7 +63,7 @@ class ParticipantInscritVoter extends Voter
     private function peutSincrire(Sortie $sortie, TokenInterface $token) {
         $estInscrit = false;
         foreach ($sortie->getParticipants() as $participant){
-            if ($participant->getPassword() == $token->getUser()->getPassword()){
+            if ($participant == $token->getUser()){
                 $estInscrit = true;
             }
         }
@@ -87,7 +86,7 @@ class ParticipantInscritVoter extends Voter
     private function peutSeDesister(Sortie $sortie, TokenInterface $token) {
         $estInscrit = false;
         foreach ($sortie->getParticipants() as $participant){
-            if ($participant->getPassword() == $token->getUser()->getPassword()){
+            if ($participant == $token->getUser()){
                 $estInscrit = true;
             }
         }
@@ -109,7 +108,8 @@ class ParticipantInscritVoter extends Voter
      * @return bool
      */
     private function publier(Sortie $sortie, TokenInterface $token) {
-        if ( ( ($sortie->getOrganisateur()->getPassword() == $token->getUser()->getPassword())
+
+        if ( ( ($sortie->getOrganisateur() == $token->getUser())
             || ($this->security->isGranted("ROLE_ADMIN")) )
             && $sortie->getEtat()->getLibelle() == "Créée"
         ){
@@ -127,7 +127,7 @@ class ParticipantInscritVoter extends Voter
      * @return bool
      */
     private function annuler(Sortie $sortie, TokenInterface $token) {
-        if ( ($sortie->getOrganisateur()->getPassword() == $token->getUser()->getPassword()
+        if ( ($sortie->getOrganisateur() == $token->getUser()
                 || $this->security->isGranted("ROLE_ADMIN"))
             && (in_array($sortie->getEtat()->getLibelle(), ["Créée", "Ouverte", "Clôturée"]))
         ){
