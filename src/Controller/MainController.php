@@ -21,9 +21,7 @@ class MainController extends AbstractController
     /**
      * @Route("/",
      *     name="mobile_home",
-     *     host="{subdomain}.sortir.com",
-     *     defaults={"subdomain"="m"},
-     *     requirements={"subdomain"="m|mobile"})
+     *     host="m.sortir.com")
      */
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {

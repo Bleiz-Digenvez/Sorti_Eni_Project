@@ -20,7 +20,7 @@ class SortiController extends AbstractController
 
 
     /**
-     * @Route("/sorti/create", name="sortie_creation")
+     * @Route("/sorti/create", name="sortie_creation", host="sortir.com")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
