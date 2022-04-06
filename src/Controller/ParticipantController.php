@@ -7,6 +7,7 @@ use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -143,6 +144,34 @@ class ParticipantController extends AbstractController
             $entityManager->persist($utilisateur);
             $entityManager->flush();
         }
+        return $this->redirectToRoute('participant_liste');
+    }
+
+    /**
+     * Supprimer les participants
+     * Selon la liste d'ids passés en paramétres
+     * @Route("/admin/supprimer/", name="supprimer")
+     */
+    public function supprimer(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
+    {
+        try {
+            //récupere la liste des ids
+            $listeId = $request->query->get('utilisateursASupprimer');
+            //récupere la liste des utilisateurs
+            $listeUtilisateurs = $participantRepository->findBy(array('id' => $listeId));
+            //Pour chaque utilisateur, changement de l'état 'actif' en BDD
+            foreach ($listeUtilisateurs as $utilisateur) {
+                if($utilisateur->getSorties()->count()>0 || $utilisateur->getSortiesOrganisees()->count()>0) {
+                    throw $this->createNotFoundException('');
+                }
+                $entityManager->remove($utilisateur);
+                $entityManager->flush();
+            }
+            $this->addFlash('success', 'Validation: '.count($listeUtilisateurs).' utilisateur(s) supprimé(s)');
+        } catch(\Exception $exception) {
+            $this->addFlash('danger', "Impossible de supprimer le(s) utilisateur(s), le(s) compte(s) sont actif(s) sur des sorties !");
+        }
+
         return $this->redirectToRoute('participant_liste');
     }
 

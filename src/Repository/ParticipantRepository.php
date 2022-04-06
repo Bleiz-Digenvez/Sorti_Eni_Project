@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Participant|null findOneBy(array $criteria, array $orderBy = null)
  * @method Participant[]    findAll()
  * @method Participant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null loadUserByIdentifier(string $identifier)
  */
 class ParticipantRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
@@ -105,5 +106,10 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         )
             ->setParameter('query', $pseudoOrMail)
             ->getOneOrNullResult();
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method null loadUserByIdentifier(string $identifier)
     }
 }

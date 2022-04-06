@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container">
     <div class="row justify-content-center mt-3">
-        <div class="col-lg-6">
+        <div class="col-lg-8 col-md-10">
             <h3 class="text-center mb-3">Liste des utilisateurs</h3>
 
             <div class="p-3 mb-3">
@@ -13,12 +13,37 @@
                 </div>
             </div>
 
-            <div class="row justify-content-evenly">
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-success" onclick="estActif(true)">Activer le(s) utilisateur(s)</button>
+            <div class="row justify-content-center">
+                <div class="col-10 col-md-4 mt-1 d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-sm btn-outline-success" onclick="estActif(true)">Activer le(s) utilisateur(s)</button>
                 </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-danger" onclick="estActif(false)">Désactiver le(s) utilisateur(s)</button>
+                <div class="col-10 col-md-4 mt-1 d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="estActif(false)">Désactiver le(s) utilisateur(s)</button>
+                </div>
+                <div class="col-10 col-md-4 mt-1 d-grid gap-2 col-6 mx-auto">
+                    <!-- Btn avec modal-->
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Supprimer le(s) utilisateur(s)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Attention</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Voulez vous vraiment supprimer le(s) utilisateur(s) sélectionné(s) ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-primary" onclick="supprimer()">Valider</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -88,6 +113,19 @@
             .then(function () {
                 location.reload();
         });
+    }
+
+    //Supprimer les participants en BDD
+    function supprimer() {
+        let utilisateursASupprimer = this.selectionUtilisateur();
+        console.log(utilisateursASupprimer)
+        axios.get("{{ path('participant_supprimer') }}", {
+            params: {"utilisateursASupprimer": utilisateursASupprimer}
+        })
+            .then(function () {
+                location.reload();
+        });
+
     }
 </script>
 {% endblock %}
