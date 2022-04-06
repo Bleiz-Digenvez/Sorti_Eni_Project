@@ -23,7 +23,6 @@ class Sortie
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Length(min=4, max=50)
-     * @Assert\Regex(pattern="/^[a-zA-Z0-9_\-\s,.!?]+$/i")
      */
     private $nom;
 

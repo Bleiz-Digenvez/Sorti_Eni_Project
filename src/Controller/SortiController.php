@@ -59,7 +59,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/recherche", name="sortie_rechercheLieu")
+     * @Route("/lieu/recherche", name="sortie_rechercheLieu", host="sortir.com")
      */
     public function rechercheLieu(Request $request, LieuRepository $lieuRepository): Response
     {
@@ -75,7 +75,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/recherche/info", name="sortie_infoRecherche")
+     * @Route("/lieu/recherche/info", name="sortie_infoRecherche", host="sortir.com")
      */
     public function affichageInfoLieu(Request $request, LieuRepository $lieuRepository)
     {
@@ -91,7 +91,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/sorti/inscription/{id}", name="sortie_inscription")
+     * @Route("/sorti/inscription/{id}", name="sortie_inscription", host="sortir.com")
      */
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
@@ -122,7 +122,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/sorti/publier/{id}", name="sortie_publier")
+     * @Route("/sorti/publier/{id}", name="sortie_publier", host="sortir.com")
      */
     public function publier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
@@ -147,7 +147,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/sorti/desister/{id}", name="sortie_desister")
+     * @Route("/sorti/desister/{id}", name="sortie_desister", host="sortir.com")
      */
     public function desister(
         int $id,
@@ -183,7 +183,7 @@ class SortiController extends AbstractController
 
     }
     /**
-     * @Route("/sorti/annuler/{id}", name="sortie_annuler")
+     * @Route("/sorti/annuler/{id}", name="sortie_annuler", host="sortir.com")
      */
     public function annuler(
         int $id,

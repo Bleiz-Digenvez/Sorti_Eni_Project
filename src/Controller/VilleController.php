@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VilleController extends AbstractController
 {
     /**
-     * @Route("/liste", name="liste")
+     * @Route("/liste", name="liste", host="sortir.com")
      */
     public function liste(VilleRepository $villeRepository, Request $request, EntityManagerInterface $entityManager, MobileDetector $mobileDetector): Response
     {
@@ -77,7 +77,7 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("/supprimer/{id}", name="supprimer")
+     * @Route("/supprimer/{id}", name="supprimer", host="sortir.com")
      */
     public function supprimer(Ville $ville ,EntityManagerInterface $entityManager)
     {

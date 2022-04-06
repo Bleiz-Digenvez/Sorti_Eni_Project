@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LieuController extends AbstractController
 {
     /**
-     * @Route("/liste", name="nouveau")
+     * @Route("/liste", name="nouveau", host="sortir.com")
      */
     public function nouveau(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $em): Response
     {

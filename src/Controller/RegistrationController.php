@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
 {
     //Lien pour l'ajout des utilisateur via Formulaire
     /**
-     * @Route("/admin/register/form", name="registration_registerForm")
+     * @Route("/admin/register/form", name="registration_registerForm", host="sortir.com")
      */
     public function registerForm(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -53,7 +53,7 @@ class RegistrationController extends AbstractController
     }
     //Lien pour l'ajout des utilisateur via CSV
     /**
-     * @Route("/admin/register/csv", name="registration_registerCSV")
+     * @Route("/admin/register/csv", name="registration_registerCSV", host="sortir.com")
      */
     public function registerCSV(
         UserPasswordHasherInterface $userPasswordHasher,
@@ -96,7 +96,7 @@ class RegistrationController extends AbstractController
     }
     //Lien de téléchargement du fichier de log des utilisateur non enregistrer
     /**
-     * @Route("/admin/register/csv/log", name="registration_registerCSVLog")
+     * @Route("/admin/register/csv/log", name="registration_registerCSVLog", host="sortir.com")
      */
     public function registerCSVLOG(){
         $path = '../data/'.$this->getUser()->getUserIdentifier().'/ParticipantNonAjouter.csv';
@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
     }
     //Lien permetant le téléchargement du template du CSV
     /**
-     * @Route("/admin/register/csv/sample", name="registration_registerCSVLogSample")
+     * @Route("/admin/register/csv/sample", name="registration_registerCSVLogSample", host="sortir.com")
      */
     public function registerCSVLOGSample(){
         $path = '../data/CSVSample.csv';

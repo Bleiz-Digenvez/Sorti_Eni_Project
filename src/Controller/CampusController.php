@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     /**
-     * @Route("/", name="liste")
+     * @Route("/", name="liste", host="sortir.com")
      */
     public function liste(CampusRepository $campusRepository, Request $request, EntityManagerInterface $em): Response
     {
@@ -61,7 +61,7 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("/supprimer/{id}", name="supprimer")
+     * @Route("/supprimer/{id}", name="supprimer", host="sortir.com")
      */
     public function supprimer(Campus $campus, EntityManagerInterface $entityManager)
     {
