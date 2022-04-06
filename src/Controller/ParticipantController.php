@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/home/profil", name="participant_")
+ * @Route("/profil", name="participant_")
  */
 class ParticipantController extends AbstractController
 {

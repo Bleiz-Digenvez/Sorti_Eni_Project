@@ -7,24 +7,27 @@ use App\Form\RechercheVilleType;
 use App\Form\VilleType;
 use App\Model\RechercheVille;
 use App\Repository\VilleRepository;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use MobileDetectBundle\DeviceDetector\MobileDetector;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/home/ville", name="ville_")
+ * @Route("/ville", name="ville_")
  */
 class VilleController extends AbstractController
 {
     /**
      * @Route("/liste", name="liste")
      */
-    public function liste(VilleRepository $villeRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function liste(VilleRepository $villeRepository, Request $request, EntityManagerInterface $entityManager, MobileDetector $mobileDetector): Response
     {
+        if($mobileDetector->isMobile()){
+            throw $this->createNotFoundException('Page non accessible en Nique ta Mere');
+        }
+
         //Récuperation de toutes les villes
         $listeVille = $villeRepository->findAll();
 

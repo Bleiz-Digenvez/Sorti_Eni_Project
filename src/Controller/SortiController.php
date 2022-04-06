@@ -20,7 +20,7 @@ class SortiController extends AbstractController
 
 
     /**
-     * @Route("/home/sorti/create", name="sortie_creation")
+     * @Route("/sorti/create", name="sortie_creation")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
@@ -91,7 +91,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/home/sorti/inscription/{id}", name="sortie_inscription")
+     * @Route("/sorti/inscription/{id}", name="sortie_inscription")
      */
     public function inscription(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
@@ -122,7 +122,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/home/sorti/publier/{id}", name="sortie_publier")
+     * @Route("/sorti/publier/{id}", name="sortie_publier")
      */
     public function publier(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
@@ -147,7 +147,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/home/sorti/desister/{id}", name="sortie_desister")
+     * @Route("/sorti/desister/{id}", name="sortie_desister")
      */
     public function desister(
         int $id,
@@ -183,7 +183,7 @@ class SortiController extends AbstractController
 
     }
     /**
-     * @Route("/home/sorti/annuler/{id}", name="sortie_annuler")
+     * @Route("/sorti/annuler/{id}", name="sortie_annuler")
      */
     public function annuler(
         int $id,
@@ -235,7 +235,7 @@ class SortiController extends AbstractController
         ]);
     }
     /**
-     * @Route("/home/sorti/detail/{id}", name="sortie_mobile_detail", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
+     * @Route("/sorti/detail/{id}", name="sortie_mobile_detail", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
      */
     public function mobileDetail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
@@ -251,7 +251,7 @@ class SortiController extends AbstractController
     }
 
     /**
-     * @Route("/home/sorti/detail/{id}", name="sortie_detail")
+     * @Route("/sorti/detail/{id}", name="sortie_detail")
      */
     public function detail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
