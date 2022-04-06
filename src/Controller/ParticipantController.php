@@ -126,11 +126,11 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * Désactive les participants
-     * Selon la liste d'ids passés en paramétre
-     * @Route("/desactiver/", name="desactiver")
+     * Désactive ou active les participants
+     * Selon la liste d'ids et l'état (boolean) passés en paramétres
+     * @Route("/admin/desactiver/", name="desactiver")
      */
-    public function desactiver(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
+    public function estActive(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
         //récupere la liste des ids
         $listeId = $request->query->get('utilisateursSelectionnes');
@@ -146,24 +146,4 @@ class ParticipantController extends AbstractController
         return $this->redirectToRoute('participant_liste');
     }
 
-    /**
-     * Active les participants
-     * Selon la liste d'id passé en paramétre
-     * @Route("/activer/", name="activer")
-     */
-    public function activer(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
-    {
-        //récupere la liste des ids
-        $listeId = $request->query->get('utilisateursSelectionnes');
-        //récupere la liste des utilisateurs
-        $listeUtilisateurs = $participantRepository->findBy((array)$listeId);
-        //Pour chaque utilisateur, changement de l'état 'actif' en BDD
-        foreach ($listeUtilisateurs as $utilisateur) {
-            $utilisateur-> setActif(true);
-            $entityManager->persist($utilisateur);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('participant_liste');
-    }
 }
