@@ -65,7 +65,7 @@ class SortiController extends AbstractController
     {
         $option = $request->query->get('option');
         if ($option == null){
-            return $this->redirectToRoute('main_home');
+            return $this->render('sortie/ajax_erreur.html.twig');
         }
         $resultat = $lieuRepository->lieuxParVille($option);
 
@@ -81,7 +81,7 @@ class SortiController extends AbstractController
     {
         $option = $request->query->get('option');
         if ($option == null){
-            return $this->redirectToRoute('main_home');
+            return $this->render('sortie/ajax_erreur.html.twig');
         }
         $resultat = $lieuRepository->find($option);
 
