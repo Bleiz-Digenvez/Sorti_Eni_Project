@@ -1,9 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'mobile/base.html.twig' %}
 
 {% block body %}
-    <h1>
-        home Mobile
-    </h1>
+    <div>
+        <h1>Mes sorties : </h1>
+        <div>
+            <table class="table table-striped table-bordered caption-top border table-scroll">
+                <thead class="bg-dark text-white">
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Lieu</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for sortie in app.user.sorties %}
+                        <tr>
+                            <td><a href="{{ path('sortie_detail',{'id': sortie.id}) }} " class="btn btn-link btn-sm p-0">{{ sortie.nom }}</a></td>
+                            <td>{{ sortie.dateHeureDebut |date("d/m/Y  à H:i") }}</td>
+                            <td>{{ sortie.lieu.nom }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block title %}

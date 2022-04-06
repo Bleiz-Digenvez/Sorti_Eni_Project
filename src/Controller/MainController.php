@@ -8,6 +8,7 @@ use App\Model\RechercheSortie;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use SunCat\MobileDetectBundle\MobileDetectBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,25 +25,22 @@ class MainController extends AbstractController
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
         $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
-        //todo faire un base twig spécifique pour le telephone sans header et footer, juste le logo dans le footer
         //todo faire une redirection sur toute les route inaccessible en version mobile
         //todo : requete pour récup toute mes sorti -> nom sorti date de la sorti et lieu, aucun bouton de dispo
 
-        return $this->render('mobile/main/home.html.twig', [
-
-        ]);
+        return $this->render('mobile/main/home.html.twig', []);
     }
 
 
     /**
      * Affichage toutes les sorties (sauf celles à l'état 'Passée')
      * Prise en compte du formulaire de recherche
-     * @Route("/", name="home")
+     * @Route("/", name="home", host="sortir.com")
      */
     public function home(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
         $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
-        dump($request->getHost());
+
         $recherche= new RechercheSortie();
         $recherche->setParticipant($this->getUser());
         $rechercheSortieForm=$this->createForm(RechercheSortieType::class,$recherche);

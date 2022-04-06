@@ -1,0 +1,147 @@
+{% extends 'mobile/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <!-- Titre -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-4">
+                <h3 class="text-center">{{ sortie.nom }}{% if sortie.etat.libelle == 'Annulée' %} (Annulée) {% endif %}</h3>
+            </div>
+        </div>
+        <!-- Infos colonne gauche -->
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6 col-sm-10">
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Nom :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.nom }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Date et heure :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.dateHeureDebut|date("d/m/Y  à H:i") }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Ville :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.ville.nom }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Lieu :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.nom }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Rue :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.rue }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Code Postal :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.ville.codePostal }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Latitude :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.latitude }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Longitude :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.lieu.longitude }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Clôture :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.dateLimiteInscription|date("d/m/Y") }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Nombre de places :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.nbInscriptionsMax }}
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Durée :
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.duree }} minutes
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-5 fw-bold">
+                        Description et infos:
+                    </div>
+                    <div class="col-6">
+                        {{ sortie.infosSortie }}
+                    </div>
+                </div>
+            </div>
+        <div class="row justify-content-start mt-4">
+            <!-- Tableau des participants -->
+            <div class="border rounded col-lg-6 col-md-8 col-sm-10 col-12">
+                <!-- Scroll et hauteur en surcharge: app.css -->
+                <table class="table table-sm table-striped caption-top" >
+                    <caption class="ps-3">
+                        Liste des particpants inscrits :
+                    </caption>
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Ville</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in sortie.participants %}
+                        <tr>
+                            <td>{{ participant.prenom }} {{ participant.nom|upper }}</td>
+                            <td>{{ participant.campus.nom }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td></td>
+                            <td>Personne est inscrit pour le moment. </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block title %}
+    Accueil | {{ parent() }}
+{% endblock %}

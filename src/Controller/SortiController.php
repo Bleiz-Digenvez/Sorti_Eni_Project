@@ -24,6 +24,9 @@ class SortiController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
+        if ($request->getHost() == 'm.sortir.com'){
+            return $this->redirectToRoute('main_mobile_home');
+        }
         //Création de l'état par defaut
         $etatCreee = $etatRepository->find(1);
         $etatOuvert = $etatRepository->find(2);
@@ -229,6 +232,21 @@ class SortiController extends AbstractController
         return $this->render('sortie/annuler.html.twig', [
             'annulerForm' => $annulerForm->createView(),
             'sortie' => $sortie
+        ]);
+    }
+    /**
+     * @Route("/home/sorti/detail/{id}", name="sortie_mobile_detail", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
+     */
+    public function mobileDetail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException(("Cette sortie n'existe pas ! "));
+        }
+
+        return $this->render('mobile/sortie/detail.html.twig', [
+            "sortie" => $sortie
         ]);
     }
 
