@@ -54,7 +54,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Assert\Regex(
-     *     pattern="/0[1-9]{9}/",
+     *     pattern="/0[0-9]{9}/",
      *     match=true)
      * @Assert\Length(max=10)
      */
@@ -112,7 +112,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
         return (string) $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setPseudo(?string $pseudo): self
     {
         $this->pseudo = $pseudo;
 
