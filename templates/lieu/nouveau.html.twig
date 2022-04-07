@@ -113,22 +113,6 @@
                 let rue = e.geocode.properties.address.road;
                 let rueText = (numRue==null?'':numRue.toString()) +' '+ rue;
 
-                let city = e.geocode.properties.address.city;
-
-                if(city === undefined){
-                    city = e.geocode.properties.address.village;
-                }
-
-                //TMP
-                let rueNom = document.getElementById('lieu_nom');
-                rueNom.setAttribute('value', city);
-
-
-                let selectOp = document.getElementById('lieu_ville');
-                console.log(selectOp);
-                selectOp.value = 5;
-
-
                 let latInput = document.getElementById('lieu_latitude');
                 let longInput = document.getElementById('lieu_longitude');
                 let rueInput = document.getElementById('lieu_rue');
@@ -138,6 +122,7 @@
                 }else{
                     rueInput.setAttribute('placeholder','Veuillez saisir la Rue demander')
                 }
+
                 latInput.setAttribute('value', lat);
                 longInput.setAttribute('value', long);
 
