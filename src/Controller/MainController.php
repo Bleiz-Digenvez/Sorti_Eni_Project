@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Form\RechercheSortieType;
 use App\Model\RechercheSortie;
 use App\Repository\EtatRepository;

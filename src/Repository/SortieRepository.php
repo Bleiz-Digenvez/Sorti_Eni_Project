@@ -2,18 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Participant;
 use App\Entity\Sortie;
-use App\Model\Recherche;
 use App\Model\RechercheSortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -99,7 +93,7 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('s.organisateur = :organisateur');
             $queryBuilder->setParameter('organisateur', $rechercheSortie->getParticipant()->getId());
         }
-
+        //TODO : Guillaume boucle if non utiliser
         //si l'utilisateur clique sur inscrit et n'est pas inscrit, on affiche tout.
         if ($rechercheSortie->getInscrit() && $rechercheSortie->getPasInscrit()) {
             //sinon n'afficher que les sorties ou le USER est inscrit
