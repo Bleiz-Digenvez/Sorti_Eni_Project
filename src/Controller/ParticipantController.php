@@ -2,17 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,15 +22,13 @@ class ParticipantController extends AbstractController
     /**
      * @Route("", name="profil")
      */
-    public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher, ValidatorInterface $validator): Response
+    public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-
         $participant = $this->getUser();
 
-        $oldPseudo = $participant->getPseudo();
+        $oldPseudo = $participant->getUserIdentifier();
 
         $filesystem = new Filesystem();
-
 
         //Récuperation de l'image de profil de l'utilisateur, ou de l'image par defaut
         $chemin = 'img/participant/utilisateur' . "-" . $participant->getId() . '.jpg';
@@ -42,9 +36,10 @@ class ParticipantController extends AbstractController
             $chemin = 'img/PlaceHolderPicture.jpg';
         }
         //Création du formulaire de modification
-        $formParticipant = $this->createForm(ParticipantType::class,$participant);
-        $formParticipant->handleRequest($request);
 
+        $formParticipant = $this->createForm(ParticipantType::class,$participant);
+        dump($request);
+        $formParticipant->handleRequest($request);
         if($formParticipant->isSubmitted() && $formParticipant->isValid()){
             if($formParticipant->get('newPassword')->getData()){
                 $participant->setMotPasse(
@@ -64,13 +59,12 @@ class ParticipantController extends AbstractController
                 $image->move($repertoire, $nomImage);
             }
             //Modification du fichier admin au cas ou il y a changement de pseudo de l'utilisateur admin
-            if($participant->getPseudo() != $oldPseudo){
+            if($participant->getUserIdentifier() != $oldPseudo){
                 $path = '../data/';
                 if($filesystem->exists($path.$oldPseudo)){
-                    $filesystem->rename($path.$oldPseudo,$path.$participant->getPseudo());
+                    $filesystem->rename($path.$oldPseudo,$path.$participant->getUserIdentifier());
                 }
             }
-
             //fin de l'update image
             $manager->persist($participant);
             $manager->flush();

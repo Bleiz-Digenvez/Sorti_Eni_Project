@@ -29,6 +29,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(min=2)
      * @Assert\NotBlank
      */
     private $pseudo;
@@ -37,17 +38,22 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank
+     * @Assert\Length (min=6, max=4096)
      */
+    //@Assert\Regex(pattern="/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/", match=true);
     private $motPasse;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\NotBlank (message="Test")
+     * @Assert\Length(min=2)
+     * @Assert\NotBlank
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(min=2)
+     * @Assert\NotBlank
      */
     private $prenom;
 
@@ -63,6 +69,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\Email
+     * @Assert\Length(min=10)
+     * @Assert\NotBlank
      */
     private $mail;
 
@@ -184,7 +192,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
 
@@ -196,7 +204,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -220,7 +228,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
         return $this->mail;
     }
 
-    public function setMail(string $mail): self
+    public function setMail(?string $mail): self
     {
         $this->mail = $mail;
 
