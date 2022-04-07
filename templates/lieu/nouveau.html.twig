@@ -30,12 +30,11 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row justify-content-evenly">
-            <div class="col-12 col-md-6 col-lg-4 px-2">
-                <div>
+            <div class="col-12 col-sm-10 col-md-4 col-lg-4 px-2">
                     <h2 class="text-center my-4">Ajouter un nouveau lieux</h2>
                     <div class="col-auto">
                         {{ form_start(formLieu) }}
-                        <div class="row mx-auto">
+                        <div class="row">
                             {{ form_label(formLieu.nom, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
                             <div class="col-8 col-md-9">
                                 {{ form_widget(formLieu.nom, {'attr': {'class': 'form-control'}}) }}<br>
@@ -44,7 +43,7 @@
                         <div class="row errorForm">
                             {{ form_errors(formLieu.nom) }}
                         </div>
-                        <div class="row mx-auto">
+                        <div class="row">
                             {{ form_label(formLieu.rue, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
                             <div class="col-8 col-md-9">
                                 {{ form_widget(formLieu.rue, {'attr': {'class': 'form-control'}}) }}<br>
@@ -53,7 +52,7 @@
                         <div class="row errorForm">
                             {{ form_errors(formLieu.rue) }}
                         </div>
-                        <div class="row mx-auto">
+                        <div class="row">
                             {{ form_label(formLieu.latitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
                             <div class="col-8 col-md-9">
                                 {{ form_widget(formLieu.latitude, {'attr': {'class': 'form-control'}}) }}<br>
@@ -62,7 +61,7 @@
                         <div class="row errorForm">
                             {{ form_errors(formLieu.latitude) }}
                         </div>
-                        <div class="row mx-auto">
+                        <div class="row">
                             {{ form_label(formLieu.longitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
                             <div class="col-8 col-md-9">
                                 {{ form_widget(formLieu.longitude, {'attr': {'class': 'form-control'}}) }}<br>
@@ -71,7 +70,7 @@
                         <div class="row errorForm">
                             {{ form_errors(formLieu.longitude) }}
                         </div>
-                        <div class="row mx-auto">
+                        <div class="row">
                             {{ form_label(formLieu.ville, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
                             <div class="col-8 col-md-9">
                                 {{ form_widget(formLieu.ville, {'attr': {'class': 'form-select'}}) }}<br>
@@ -80,16 +79,15 @@
                         <div class="row errorForm">
                             {{ form_errors(formLieu.ville) }}
                         </div>
-                        <div class="row mx-auto">
+                        <div class="row">
                             <button class="btn btn-outline-success col-12 col-md-5 my-3 mx-auto">Ajouter</button>
                             <a class="btn btn-outline-danger col-12 col-md-5 my-3 mx-auto" href="{{ path('sortie_creation') }}">Retour</a>
                         </div>
                         {{ form_end(formLieu) }}
                     </div>
-                </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 px-2 mt-4 align-self-center">
-                <div id="map" style="aspect-ratio: 16/9;width: 100%"></div>
+            <div class="col-12 col-sm-10 col-md-6 col-lg-6 px-2 mt-4 align-self-center">
+                <div id="map" style="aspect-ratio: 16/9;height: 100%;"></div>
             </div>
         </div>
 
