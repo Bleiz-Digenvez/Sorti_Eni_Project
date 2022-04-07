@@ -20,35 +20,39 @@ class SortiController extends AbstractController
 
 
     /**
+     * Fonction qui permet la création de nouvelles sorties, accessible à tous les utilisateurs connectés
      * @Route("/sorti/create", name="sortie_creation", host="sortir.com")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
-        if ($request->getHost() == 'm.sortir.com'){
-            return $this->redirectToRoute('main_mobile_home');
-        }
-        //Création de l'état par defaut
+        //Récuperation des état créee et ouvert
         $etatCreee = $etatRepository->find(1);
         $etatOuvert = $etatRepository->find(2);
-        //Récuperation de l'utilisateur
+
+        //Récuperation de l'utilisateur courant
         $user = $this->getUser();
         $sortie = new Sortie();
+
+        //Passage de l'organisateur et du campus à la sortie
         $sortie->setOrganisateur($user);
         $sortie->setCampus($user->getCampus());
-        //todo: Gérer les états
-        $sortieForm = $this->createForm(SortieType::class, $sortie);
 
+        //Création du formualire
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
+
+        //On attribue l'état de la sortie selon le bouton de soumission
         if ($sortieForm->get('Enregistrer')->isClicked()){
             $sortie->setEtat($etatCreee);
         } else if ($sortieForm->get('Publier')->isClicked()){
             $sortie->setEtat($etatOuvert);
         }
 
+        //Soumission du formualire, envoi de la sortie en base de donnée
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $entityManager->persist($sortie);
             $entityManager->flush();
-
+            //Création du message flash et redirection vers la page d'accueil
             $this->addFlash('success', "La sortie ".$sortie->getNom()." à bien été ajoutée");
             return $this->redirectToRoute('main_home');
         }
@@ -174,7 +178,7 @@ class SortiController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success','Désinscription validée à la sortie '.$sortie->getNom());
+            $this->addFlash('warning','Désinscription validée à la sortie '.$sortie->getNom());
 
         }catch (AccessDeniedException $e){
             $this->addFlash('danger','Vous ne pouvez pas vous désinscrire');
@@ -224,7 +228,7 @@ class SortiController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success','La sortie '.$sortie->getNom().' est bien annulée.');
+            $this->addFlash('warning','La sortie '.$sortie->getNom().' est bien annulée.');
 
             return $this->redirectToRoute('main_home');
 
