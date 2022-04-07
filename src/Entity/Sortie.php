@@ -23,6 +23,7 @@ class Sortie
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Length(min=4, max=50)
+     * @Assert\NotBlank
      */
     private $nom;
 

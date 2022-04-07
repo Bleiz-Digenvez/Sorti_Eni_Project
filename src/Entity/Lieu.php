@@ -20,7 +20,7 @@ class Lieu
      */
     private $id;
     /**
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50)
      * @Assert\Length(min=3, max=50)
      */
     private $nom;

@@ -93,7 +93,7 @@
 
     </div>
 
-<script>
+    <script>
         var map = L.map('map').setView([48.865383562628416, 2.355273115002889],13);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -104,13 +104,45 @@
             accessToken: 'pk.eyJ1IjoiYmxlaXotZGlnZW52ZXoiLCJhIjoiY2wxb3N6MWQ4MDdqNDNvbXU1MDJ4a3NrZCJ9.2ELwoD_A7OkdJKZGKVevgw'
         }).addTo(map);
         var geocoder = L.Control.geocoder({
-            defaultMarkGeocode: false
+            defaultMarkGeocode: false,
         })
             .on('markgeocode', function(e) {
-                var latlng = e.geocode.center;
-                console.log(latlng);
-                var markerSearch = L.marker(latlng).addTo(map);
-                markerSearch.bindPopup(latlng.toString()).openPopup();
+                let lat = e.geocode.properties.lat;
+                let long = e.geocode.properties.lon;
+                let numRue = e.geocode.properties.address.house_number;
+                let rue = e.geocode.properties.address.road;
+                let rueText = (numRue==null?'':numRue.toString()) +' '+ rue;
+
+                let city = e.geocode.properties.address.city;
+
+                if(city === undefined){
+                    city = e.geocode.properties.address.village;
+                }
+
+                //TMP
+                let rueNom = document.getElementById('lieu_nom');
+                rueNom.setAttribute('value', city);
+
+
+                let selectOp = document.getElementById('lieu_ville');
+                console.log(selectOp);
+                selectOp.value = 5;
+
+
+                let latInput = document.getElementById('lieu_latitude');
+                let longInput = document.getElementById('lieu_longitude');
+                let rueInput = document.getElementById('lieu_rue');
+
+                if(rue !== undefined){
+                    rueInput.setAttribute('value', rueText);
+                }else{
+                    rueInput.setAttribute('placeholder','Veuillez saisir la Rue demander')
+                }
+                latInput.setAttribute('value', lat);
+                longInput.setAttribute('value', long);
+
+                var markerSearch = L.marker([lat,long], {title: rueText.toString(),draggable: true}).addTo(map);
+                markerSearch.bindPopup(rueText.toString()).openPopup();
                 map.fitBounds(e.geocode.bbox);
             })
             .addTo(map);

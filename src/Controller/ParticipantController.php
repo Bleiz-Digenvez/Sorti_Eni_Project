@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 /**
@@ -25,7 +26,7 @@ class ParticipantController extends AbstractController
     /**
      * @Route("", name="profil")
      */
-    public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher, ValidatorInterface $validator): Response
     {
 
         $participant = $this->getUser();

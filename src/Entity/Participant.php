@@ -6,8 +6,6 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\This;
-use phpDocumentor\Reflection\Utils;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,17 +29,20 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
      */
     private $pseudo;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $motPasse;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank (message="Test")
      */
     private $nom;
 
