@@ -18,31 +18,34 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @Route("/admin/register/", name="registration_", host="sortir.com")
+ */
 class RegistrationController extends AbstractController
 {
-    //Lien pour l'ajout des utilisateur via Formulaire
+    //Lien pour l'ajout des utilisateur via Formulaire Accessible uniquement au admin
     /**
-     * @Route("/admin/register/form", name="registration_registerForm", host="sortir.com")
+     * @Route("form", name="registerForm")
      */
     public function registerForm(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Participant();
-
+        //Création du formulaire pour l'ajout d'utilisateur
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // Hash du Mot de passe avant l'ajout en BDD
             $user->setMotPasse(
             $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            //Enregistrement en base du user
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
+
             $this->addFlash('success', 'Le compte '.strtoupper($user->getNom()).' '.$user->getPrenom().' à bien été créer');
             return $this->redirectToRoute('registration_registerForm');
         }
@@ -53,7 +56,7 @@ class RegistrationController extends AbstractController
     }
     //Lien pour l'ajout des utilisateur via CSV
     /**
-     * @Route("/admin/register/csv", name="registration_registerCSV", host="sortir.com")
+     * @Route("csv", name="registerCSV")
      */
     public function registerCSV(
         UserPasswordHasherInterface $userPasswordHasher,
@@ -96,7 +99,7 @@ class RegistrationController extends AbstractController
     }
     //Lien de téléchargement du fichier de log des utilisateur non enregistrer
     /**
-     * @Route("/admin/register/csv/log", name="registration_registerCSVLog", host="sortir.com")
+     * @Route("csv/log", name="registerCSVLog")
      */
     public function registerCSVLOG(){
         $path = '../data/'.$this->getUser()->getUserIdentifier().'/ParticipantNonAjouter.csv';
@@ -111,7 +114,7 @@ class RegistrationController extends AbstractController
     }
     //Lien permetant le téléchargement du template du CSV
     /**
-     * @Route("/admin/register/csv/sample", name="registration_registerCSVLogSample", host="sortir.com")
+     * @Route("csv/sample", name="registerCSVLogSample")
      */
     public function registerCSVLOGSample(){
         $path = '../data/CSVSample.csv';

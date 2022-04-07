@@ -14,18 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-/**
- * @Route("/profil", name="participant_")
- */
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route("", name="profil")
+     * Page servant a la modification de son compte
+     * @Route("/profil", name="participant_profil")
      */
     public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        //Recupération du compte accuellement connecté
         $participant = $this->getUser();
 
+        //Set up de la variable servant a savoir si le pseudo a été modifier
         $oldPseudo = $participant->getUserIdentifier();
 
         $filesystem = new Filesystem();
@@ -35,12 +35,12 @@ class ParticipantController extends AbstractController
         if (!$filesystem->exists($chemin)){
             $chemin = 'img/PlaceHolderPicture.jpg';
         }
-        //Création du formulaire de modification
-
+        //Création du formulaire de modification avec les données utilisateurs dedans
         $formParticipant = $this->createForm(ParticipantType::class,$participant);
-        dump($request);
         $formParticipant->handleRequest($request);
+
         if($formParticipant->isSubmitted() && $formParticipant->isValid()){
+            //Controlle si les champs mdp on été remplis , si oui on modifie le mdp dans la bases
             if($formParticipant->get('newPassword')->getData()){
                 $participant->setMotPasse(
                     $userPasswordHasher->hashPassword(
@@ -80,7 +80,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/detail/{id}", name="detail")
+     * @Route("/profil/detail/{id}", name="participant_detail")
      */
     public function detail(int $id, ParticipantRepository $participantRepository)
     {
@@ -107,7 +107,7 @@ class ParticipantController extends AbstractController
 
     /**
      * Affiche la iste des tous les participants
-     * @Route("/liste/", name="liste")
+     * @Route("/admin/liste/", name="participant_liste")
      */
     public function liste(ParticipantRepository $participantRepository)
     {
@@ -125,7 +125,7 @@ class ParticipantController extends AbstractController
     /**
      * Désactive ou active les participants
      * Selon la liste d'ids et l'état (boolean) passés en paramétres
-     * @Route("/admin/desactiver/", name="desactiver")
+     * @Route("/admin/desactiver/", name="participant_desactiver")
      */
     public function estActive(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
@@ -146,7 +146,7 @@ class ParticipantController extends AbstractController
     /**
      * Supprimer les participants
      * Selon la liste d'ids passés en paramétres
-     * @Route("/admin/supprimer/", name="supprimer")
+     * @Route("/admin/supprimer/", name="participant_supprimer")
      */
     public function supprimer(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
@@ -173,7 +173,7 @@ class ParticipantController extends AbstractController
     /**
      * Fonction pour requete AJAX
      * Recherche utilisateur selon un champs de saisi sur les attributs pseudo et/ou nom et/ou prenom
-     * @Route("/admin/rechercheParNomPrenomPseudo", name="rechercheParNomPrenomPseudo")
+     * @Route("/admin/rechercheParNomPrenomPseudo", name="participant_rechercheParNomPrenomPseudo")
      */
     public function rechercheParNomPrenomPseudo(ParticipantRepository $participantRepository, Request $request):Response
     {
