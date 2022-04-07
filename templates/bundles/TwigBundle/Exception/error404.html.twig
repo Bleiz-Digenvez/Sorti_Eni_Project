@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page inexistante | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 text-center">
+        <h1 class="text-center">La page que vous avez demandé n'existe pas, veuillez retourner à l'accueil</h1>
+        <a class="btn btn-outline-primary col-md-4 mx-auto mt-3" href="{{ path('main_home') }}">Accueil</a>
+    </div>
+
+{% endblock %}

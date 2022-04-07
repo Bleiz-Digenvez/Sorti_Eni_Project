@@ -20,10 +20,9 @@ class Ville
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $nom;
-    //TODO: Edward passe le nom en unique pour éviter les doublon de ville en BD -> faire un schema update ensuite
     /**
      * @ORM\Column(type="string", length=5)
      */
@@ -56,12 +55,12 @@ class Ville
         return $this;
     }
 
-    public function getCodePostal(): ?int
+    public function getCodePostal(): ?string
     {
         return $this->codePostal;
     }
 
-    public function setCodePostal(int $codePostal): self
+    public function setCodePostal(string $codePostal): self
     {
         $this->codePostal = $codePostal;
 

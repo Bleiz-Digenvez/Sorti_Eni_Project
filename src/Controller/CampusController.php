@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/campus", name="campus_")
+ * @Route("/admin/campus", name="campus_")
  */
 class CampusController extends AbstractController
 {
@@ -30,19 +30,34 @@ class CampusController extends AbstractController
         $campusForm->handleRequest($request);
         if ($campusForm->get('Ajouter')->isClicked() && $campusForm->isValid()){
             if ($campusForm->isValid()){
-                $em->persist($campus);
-                $em->flush();
-                $this->addFlash('success', "Le campus ".$campus->getNom()." à bien été ajoutée");
-                return $this->redirectToRoute('campus_liste');
+                try {
+                    $em->persist($campus);
+                    $em->flush();
+                    $this->addFlash('success', "Le campus ".$campus->getNom()." à bien été ajoutée");
+                    return $this->redirectToRoute('campus_liste');
+                } catch (\Exception $ex){
+                    if ($ex->getCode() == 1062){
+                        $this->addFlash('danger', "Impossible d'ajouter le campus ".$campus->getNom()." car il existe deja");
+                        return $this->redirectToRoute('campus_liste');
+                    }
+                }
             }
         } else if ($campusForm->get('Modifier')->isClicked() && $campusForm->isValid()){
             $idForm = $campusForm->get('id')->getData();
             $campusUpdate = $campusRepository->find($idForm);
             $campusUpdate->setNom($campusForm->get('nom')->getData());
-            $em->persist($campusUpdate);
-            $em->flush();
-            $this->addFlash('success', 'Le Campus '.$campusUpdate->getNom().' est mise à jour');
-            return $this->redirectToRoute('campus_liste');
+            try {
+                $em->persist($campusUpdate);
+                $em->flush();
+                $this->addFlash('success', 'Le Campus '.$campusUpdate->getNom().' est mise à jour');
+                return $this->redirectToRoute('campus_liste');
+            } catch (\Exception $ex){
+                if ($ex->getCode() == 1062){
+                    $this->addFlash('danger', "Impossible de modifier le nom du campus ".$campus->getNom()." car il existe deja");
+                    return $this->redirectToRoute('campus_liste');
+                }
+            }
+
         }
 
         //Formulaire de recherche de campus

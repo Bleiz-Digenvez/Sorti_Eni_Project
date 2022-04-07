@@ -15,6 +15,7 @@
                     <a class="btn btn-outline-secondary me-lg-2 nav-link mb-1 mb-lg-0 mt-1 mt-lg-0" href="{{ path('main_home') }}"><i class="fa-solid fa-house"></i> Accueil</a>
                     <a class="btn btn-outline-secondary me-lg-2 nav-link mb-1 mb-lg-0" href="{{ path('sortie_creation') }}"><i class="fa-solid fa-plus"></i> Nouvelle Sortie</a>
                     <a class="btn btn-outline-secondary me-lg-2 nav-link mb-1 mb-lg-0" href="{{ path('participant_profil') }}"><i class="fa-solid fa-user"></i> Mon profil</a>
+                    <a class="btn btn-outline-secondary me-lg-2 nav-link mb-1 mb-lg-0" href="{{ path('ville_liste') }}"><i class="fa-solid fa-city"></i> Ville</a>
                     <a class="btn btn-outline-secondary me-lg-2 nav-link mb-1 mb-lg-0" href="{{ path('app_logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Se déconnecter</a>
                 {% endif %}
                 {% if is_granted("ROLE_ADMIN") %}
@@ -23,8 +24,7 @@
                             <i class="fa-solid fa-screwdriver-wrench"></i> Droits Administrateur
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="{{ path('ville_liste') }}">Villes</a></li>
-                            <li><a class="dropdown-item" href="{{ path('campus_liste') }}">Sites</a></li>
+                            <li><a class="dropdown-item" href="{{ path('campus_liste') }}">Campus</a></li>
                             <li><a class="dropdown-item" href="{{ path('participant_liste') }}">Utilisateurs</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <p class="ms-3 me-3"> Ajouter un utilisateur :</p>

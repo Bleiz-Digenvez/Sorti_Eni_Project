@@ -19,9 +19,8 @@ class Lieu
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\Length(min=3, max=50)
      */
     private $nom;
