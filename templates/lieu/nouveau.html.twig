@@ -1,68 +1,122 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<div class="col-12 col-md-10 col-lg-8 px-2 mx-auto">
-    <h2 class="text-center my-4">Ajouter un nouveau lieux</h2>
-
-    <div class="col-12 col-md-10 col-lg-8 mx-auto my-3">
-        {{ form_start(formLieu) }}
-        <div class="row col-md-8 mx-auto">
-            {{ form_label(formLieu.nom, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
-            <div class="col-8 col-md-9">
-                {{ form_widget(formLieu.nom, {'attr': {'class': 'form-control'}}) }}<br>
-            </div>
-        </div>
-        <div class="row errorForm">
-            {{ form_errors(formLieu.nom) }}
-        </div>
-        <div class="row col-md-8 mx-auto">
-            {{ form_label(formLieu.rue, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
-            <div class="col-8 col-md-9">
-                {{ form_widget(formLieu.rue, {'attr': {'class': 'form-control'}}) }}<br>
-            </div>
-        </div>
-        <div class="row errorForm">
-            {{ form_errors(formLieu.rue) }}
-        </div>
-        <div class="row col-md-8 mx-auto">
-            {{ form_label(formLieu.latitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
-            <div class="col-8 col-md-9">
-                {{ form_widget(formLieu.latitude, {'attr': {'class': 'form-control'}}) }}<br>
-            </div>
-        </div>
-        <div class="row errorForm">
-            {{ form_errors(formLieu.latitude) }}
-        </div>
-        <div class="row col-md-8 mx-auto">
-            {{ form_label(formLieu.longitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
-            <div class="col-8 col-md-9">
-                {{ form_widget(formLieu.longitude, {'attr': {'class': 'form-control'}}) }}<br>
-            </div>
-        </div>
-        <div class="row errorForm">
-            {{ form_errors(formLieu.longitude) }}
-        </div>
-        <div class="row col-md-8 mx-auto">
-            {{ form_label(formLieu.ville, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
-            <div class="col-8 col-md-9">
-                {{ form_widget(formLieu.ville, {'attr': {'class': 'form-select'}}) }}<br>
-            </div>
-        </div>
-        <div class="row errorForm">
-            {{ form_errors(formLieu.ville) }}
-        </div>
-        <div class="row col-md-8 mx-auto">
-            <button class="btn btn-outline-success col-12 col-md-5 my-3 mx-auto">Ajouter</button>
-            <a class="btn btn-outline-danger col-12 col-md-5 my-3 mx-auto" href="{{ path('sortie_creation') }}">Retour</a>
-        </div>
-
-        {{ form_end(formLieu) }}
-    </div>
-</div>
-
-{% endblock %}
 
 {% block title %}
+    Nouveau lieu | {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {#  LeaftLet Librairie for MAP  #}
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    {#  GEODECODE Librairie for MAP  #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
 {% endblock %}
+
+{% block javascripts %}
+    {#  LeaftLet Librairie for MAP  #}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    {#  GEODECODE Librairie for MAP  #}
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row justify-content-evenly">
+            <div class="col-12 col-md-6 col-lg-4 px-2">
+                <div>
+                    <h2 class="text-center my-4">Ajouter un nouveau lieux</h2>
+                    <div class="col-auto">
+                        {{ form_start(formLieu) }}
+                        <div class="row mx-auto">
+                            {{ form_label(formLieu.nom, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
+                            <div class="col-8 col-md-9">
+                                {{ form_widget(formLieu.nom, {'attr': {'class': 'form-control'}}) }}<br>
+                            </div>
+                        </div>
+                        <div class="row errorForm">
+                            {{ form_errors(formLieu.nom) }}
+                        </div>
+                        <div class="row mx-auto">
+                            {{ form_label(formLieu.rue, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
+                            <div class="col-8 col-md-9">
+                                {{ form_widget(formLieu.rue, {'attr': {'class': 'form-control'}}) }}<br>
+                            </div>
+                        </div>
+                        <div class="row errorForm">
+                            {{ form_errors(formLieu.rue) }}
+                        </div>
+                        <div class="row mx-auto">
+                            {{ form_label(formLieu.latitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
+                            <div class="col-8 col-md-9">
+                                {{ form_widget(formLieu.latitude, {'attr': {'class': 'form-control'}}) }}<br>
+                            </div>
+                        </div>
+                        <div class="row errorForm">
+                            {{ form_errors(formLieu.latitude) }}
+                        </div>
+                        <div class="row mx-auto">
+                            {{ form_label(formLieu.longitude, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
+                            <div class="col-8 col-md-9">
+                                {{ form_widget(formLieu.longitude, {'attr': {'class': 'form-control'}}) }}<br>
+                            </div>
+                        </div>
+                        <div class="row errorForm">
+                            {{ form_errors(formLieu.longitude) }}
+                        </div>
+                        <div class="row mx-auto">
+                            {{ form_label(formLieu.ville, '', {'label_attr': {'class': 'col-3 col-form-label'}}) }}
+                            <div class="col-8 col-md-9">
+                                {{ form_widget(formLieu.ville, {'attr': {'class': 'form-select'}}) }}<br>
+                            </div>
+                        </div>
+                        <div class="row errorForm">
+                            {{ form_errors(formLieu.ville) }}
+                        </div>
+                        <div class="row mx-auto">
+                            <button class="btn btn-outline-success col-12 col-md-5 my-3 mx-auto">Ajouter</button>
+                            <a class="btn btn-outline-danger col-12 col-md-5 my-3 mx-auto" href="{{ path('sortie_creation') }}">Retour</a>
+                        </div>
+                        {{ form_end(formLieu) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 px-2 mt-4 align-self-center">
+                <div id="map" style="aspect-ratio: 16/9;width: 100%"></div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+        var map = L.map('map').setView([48.865383562628416, 2.355273115002889],13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiYmxlaXotZGlnZW52ZXoiLCJhIjoiY2wxb3N6MWQ4MDdqNDNvbXU1MDJ4a3NrZCJ9.2ELwoD_A7OkdJKZGKVevgw'
+        }).addTo(map);
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+            .on('markgeocode', function(e) {
+                var latlng = e.geocode.center;
+                console.log(latlng);
+                var markerSearch = L.marker(latlng).addTo(map);
+                markerSearch.bindPopup(latlng.toString()).openPopup();
+                map.fitBounds(e.geocode.bbox);
+            })
+            .addTo(map);
+    </script>
+{% endblock %}
+
 
