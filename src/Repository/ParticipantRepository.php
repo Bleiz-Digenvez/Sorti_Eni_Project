@@ -65,6 +65,20 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->flush();
     }
 
+    /**
+     * Permet de recuperer les users selon le pseudo ou nom ou prenom
+     * @param string $saisi
+     * @return int|mixed|string
+     */
+    public function findByNomPrenomPseudo(string $saisi)
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->andWhere('p.pseudo LIKE :saisi OR p.nom LIKE :saisi OR p.prenom LIKE :saisi');
+        $queryBuilder->setParameter('saisi', '%'.$saisi.'%');
+        $queryBuilder->setMaxResults(30);
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
     // /**
     //  * @return Participant[] Returns an array of Participant objects

@@ -1,0 +1,26 @@
+{# Retour twig de la fonction de recherche des utilisateurs pour liste.html.twig #}
+{% for participant in participants %}
+    <tr>
+        <td>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{ participant.id }}" name="checkParticipant">
+            </div>
+        </td>
+        <td><a href="{{ path('participant_detail', {'id' : participant.id}) }}">{{ participant.pseudo }}
+        </td>
+        <td>{{ participant.prenom }} {{ participant.nom }}</td>
+        <td>
+            {% if participant.actif %}
+                <p style="color: green;">oui</p>
+            {% else %}
+                <p style="color: darkred;">non</p>
+            {% endif %}
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td scope="row">Pas de utilisateur !</td>
+    </tr>
+{% endfor %}
+
+

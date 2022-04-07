@@ -5,10 +5,10 @@
     <div class="row justify-content-center mt-3">
         <div class="col-lg-8 col-md-10">
             <h3 class="text-center mb-3">Liste des utilisateurs</h3>
-
+            <!-- Champs de recherche pour la requete AJAX -->
             <div class="p-3 mb-3">
                 <div class="col form-floating">
-                    <input class="form-control me-2" id="inputSaisi" type="search" aria-label="Search">
+                    <input class="form-control me-2" id="champsRecherche" type="search" aria-label="Search" onkeyup="recherche()">
                     <label for="inputSaisi">Recherche</label>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Tableau des utilisateurs -->
             <div class="border rounded mt-4">
                 <table class="table table-striped">
                     <thead class="thead-dark">
@@ -118,7 +118,6 @@
     //Supprimer les participants en BDD
     function supprimer() {
         let utilisateursASupprimer = this.selectionUtilisateur();
-        console.log(utilisateursASupprimer)
         axios.get("{{ path('participant_supprimer') }}", {
             params: {"utilisateursASupprimer": utilisateursASupprimer}
         })
@@ -126,6 +125,19 @@
                 location.reload();
         });
 
+    }
+
+    //Retourne les utilisateurs dont la saisi est contenu dans le pseudo ou nom ou prenom
+    function recherche() {
+        let rechercheSaisi = document.getElementById("champsRecherche");
+        let saisi = rechercheSaisi.value;
+        axios.get("{{ path('participant_rechercheParNomPrenomPseudo') }}", {
+            params: {"saisi": saisi}
+        })
+            .then(function (response) {
+                let listeResultats = document.getElementById("listeUtilisateurs");
+                listeResultats.innerHTML = response.data;
+            });
     }
 </script>
 {% endblock %}

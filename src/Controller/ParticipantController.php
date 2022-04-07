@@ -171,8 +171,21 @@ class ParticipantController extends AbstractController
         } catch(\Exception $exception) {
             $this->addFlash('danger', "Impossible de supprimer le(s) utilisateur(s), le(s) compte(s) sont actif(s) sur des sorties !");
         }
-
         return $this->redirectToRoute('participant_liste');
+    }
+
+    /**
+     * Fonction pour requete AJAX
+     * Recherche utilisateur selon un champs de saisi sur les attributs pseudo et/ou nom et/ou prenom
+     * @Route("/admin/rechercheParNomPrenomPseudo", name="rechercheParNomPrenomPseudo")
+     */
+    public function rechercheParNomPrenomPseudo(ParticipantRepository $participantRepository, Request $request):Response
+    {
+        $saisi = $request->query->get('saisi');
+        $participants = $participantRepository->findByNomPrenomPseudo($saisi);
+        return $this->render("participant/ajax_recherche.html.twig", [
+            'participants'=>$participants
+        ]);
     }
 
 }
