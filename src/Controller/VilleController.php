@@ -8,7 +8,6 @@ use App\Form\VilleType;
 use App\Model\RechercheVille;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use MobileDetectBundle\DeviceDetector\MobileDetector;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +25,7 @@ class VilleController extends AbstractController
      * d'utiliser un formulaire qui permet d'ajouter ou de modifier des villes
      * @Route("/liste", name="liste", host="sortir.com")
      */
-    public function liste(VilleRepository $villeRepository, Request $request, EntityManagerInterface $entityManager, MobileDetector $mobileDetector): Response
+    public function liste(VilleRepository $villeRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         //Recuperation de toutes les villes
         $listeVille = $villeRepository->findAll();
@@ -54,31 +53,38 @@ class VilleController extends AbstractController
                         return $this->redirectToRoute('ville_liste');
                     }
                 }
+            } else{
+                $this->addFlash('danger', "Impossible d'ajouter cette ville");
             }
         }else if ($villeForm->get('Modifier')->isClicked()){
             //Traitement dans le cas d'une modification de ville
-            try {
-                //Recuperation de l'objet ville à modifier
-                $idForm = $villeForm->get('id')->getData();
-                $villeAUpdate = $villeRepository->find($idForm);
+            if ($villeForm->isSubmitted() && $villeForm->isValid()){
+                try {
+                    //Recuperation de l'objet ville à modifier
+                    $idForm = $villeForm->get('id')->getData();
+                    $villeAUpdate = $villeRepository->find($idForm);
 
-                //Mise à jour avec les nouvelles valeurs
-                $villeAUpdate->setNom($villeForm->get('nom')->getData());
-                $villeAUpdate->setCodePostal($villeForm->get('codePostal')->getData());
+                    //Mise à jour avec les nouvelles valeurs
+                    $villeAUpdate->setNom($villeForm->get('nom')->getData());
+                    $villeAUpdate->setCodePostal($villeForm->get('codePostal')->getData());
 
-                //Envoi de l'objet ville en base de données
-                $entityManager->persist($villeAUpdate);
-                $entityManager->flush();
-                //Ajout du message flash et redirection
-                $this->addFlash('success', 'La ville '.$villeAUpdate->getNom().' est mise à jour');
-                return $this->redirectToRoute('ville_liste');
-            } catch (\Exception $ex) {
-                //Erreur d'unicité, on renvoi un flash qui indique l'erreur avec des termes simple à l'utilisateur
-                if ($ex->getCode() == 1062){
-                    $this->addFlash("danger", "Impossible d'ajouter la ville ".$ville->getNom()." car elle existe deja");
+                    //Envoi de l'objet ville en base de données
+                    $entityManager->persist($villeAUpdate);
+                    $entityManager->flush();
+                    //Ajout du message flash et redirection
+                    $this->addFlash('success', 'La ville '.$villeAUpdate->getNom().' est mise à jour');
                     return $this->redirectToRoute('ville_liste');
+                } catch (\Exception $ex) {
+                    //Erreur d'unicité, on renvoi un flash qui indique l'erreur avec des termes simple à l'utilisateur
+                    if ($ex->getCode() == 1062){
+                        $this->addFlash("danger", "Impossible d'ajouter la ville ".$ville->getNom()." car elle existe deja");
+                        return $this->redirectToRoute('ville_liste');
+                    }
                 }
+            } else{
+                $this->addFlash('danger', "Impossible de modifier cette ville car les valeur ne sont pas valide");
             }
+
         }
 
         //Début du formulaire de recherche de ville
@@ -98,7 +104,7 @@ class VilleController extends AbstractController
     }
 
     /**
-     * Fonction qui permet la suppresion d'une ville
+     * Fonction qui permet la suppression d'une ville
      * @Route("/supprimer/{id}", name="supprimer", host="sortir.com")
      */
     public function supprimer(Ville $ville ,EntityManagerInterface $entityManager)

@@ -54,6 +54,7 @@ class Sortie
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=10, max=5000)
+     * @Assert\NotBlank
      */
     private $infosSortie;
 

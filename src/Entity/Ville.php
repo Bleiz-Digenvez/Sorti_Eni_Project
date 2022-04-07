@@ -6,6 +6,7 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
@@ -21,10 +22,15 @@ class Ville
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank
      */
     private $nom;
     /**
      * @ORM\Column(type="string", length=5)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern="/[0-9]{5}/",
+     *     match=true)
      */
     private $codePostal;
 

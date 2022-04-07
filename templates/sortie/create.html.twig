@@ -121,15 +121,12 @@ Nouvelle sorti | {{ parent() }}
 
     <script>
         let ville_choix = document.getElementById('sortie_ville')
-        console.log(ville_choix)
         ville_choix.addEventListener("change", () => {
             let option = ville_choix.value;
-            console.log(option);
             axios.get(RECHERCHE_LIEU, {
                 params: {"option": option}
             })
                 .then((res) => {
-                    console.log(res.data)
                     let selectLieux = document.getElementById("sortie_lieu")
                     selectLieux.innerHTML = res.data;
                 })
@@ -144,7 +141,6 @@ Nouvelle sorti | {{ parent() }}
                 params: {"option": option}
             })
                 .then((res) => {
-                console.log(res.data)
                 let containerInfo = document.getElementById("container-info")
                 containerInfo.innerHTML = res.data
             })
