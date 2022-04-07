@@ -22,12 +22,14 @@ class Lieu
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Length(min=3, max=50)
+     * @Assert\NotBlank
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=80)
      * @Assert\Length(min=5, max=80)
+     * @Assert\NotBlank
      */
     private $rue;
 

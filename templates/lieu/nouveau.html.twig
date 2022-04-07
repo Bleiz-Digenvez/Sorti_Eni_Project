@@ -144,6 +144,7 @@
                 var markerSearch = L.marker([lat,long], {title: rueText.toString(),draggable: true}).addTo(map);
                 markerSearch.bindPopup(rueText.toString()).openPopup();
                 map.fitBounds(e.geocode.bbox);
+                console.log(e.geocode)
             })
             .addTo(map);
     </script>
