@@ -124,6 +124,5 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
 
     public function __call($name, $arguments)
     {
-        // TODO: Implement @method null loadUserByIdentifier(string $identifier)
     }
 }

@@ -26,8 +26,6 @@ class MainController extends AbstractController
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
         $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
-        //todo faire une redirection sur toute les route inaccessible en version mobile
-        //todo : requete pour récup toute mes sorti -> nom sorti date de la sorti et lieu, aucun bouton de dispo
 
         return $this->render('mobile/main/home.html.twig', []);
     }

@@ -24,7 +24,7 @@ class LieuController extends AbstractController
         $lieu = new Lieu();
         $formLieu = $this->createForm(LieuType::class, $lieu);
         $formLieu->handleRequest($request);
-        //todo: Faire la validation des form lieu et ville, form_error sur les villes
+
         if ($formLieu->isSubmitted() && $formLieu->isValid()){
             $em->persist($lieu);
             $em->flush();
