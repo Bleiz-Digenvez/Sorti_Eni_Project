@@ -64,3 +64,6 @@ main{
     bottom: 0;
     z-index: 100;
 }
+nav{
+    z-index: 9999;
+}
