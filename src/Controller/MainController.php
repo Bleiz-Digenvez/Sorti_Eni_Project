@@ -18,12 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
+     * Affichage de la page d'accueil en mode mobile
      * @Route("/",
      *     name="mobile_home",
      *     host="m.sortir.com")
      */
     public function mobileHome(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
+        //Recuperation de la liste des sorties dont l'utilisateur courant est inscrit
         $this->cronSimulation($sortieRepository, $etatRepository,$entityManager);
 
         return $this->render('mobile/main/home.html.twig', []);

@@ -84,8 +84,9 @@ class ParticipantController extends AbstractController
      */
     public function detail(int $id, ParticipantRepository $participantRepository)
     {
+        //Recuperation des informations de l'utilisateur demandé
         $participant = $participantRepository->find($id);
-        //Redirige si le participant demandé est l'utilisateur courant
+        //Redirection si le participant demandé est l'utilisateur courant
         if ($participant == $this->getUser()){
             return $this->redirectToRoute('participant_profil');
         }

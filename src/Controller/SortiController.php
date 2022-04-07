@@ -63,6 +63,8 @@ class SortiController extends AbstractController
     }
 
     /**
+     * Fonction pour requête AJAX
+     * Permet de récupèrer tous les lieux d'une ville choisie
      * @Route("/lieu/recherche", name="sortie_rechercheLieu", host="sortir.com")
      */
     public function rechercheLieu(Request $request, LieuRepository $lieuRepository): Response
@@ -79,6 +81,8 @@ class SortiController extends AbstractController
     }
 
     /**
+     * Fonction pour requête AJAX
+     * Permet d'afficher les informations d'un lieu choisi
      * @Route("/lieu/recherche/info", name="sortie_infoRecherche", host="sortir.com")
      */
     public function affichageInfoLieu(Request $request, LieuRepository $lieuRepository)
