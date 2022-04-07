@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
 
@@ -22,7 +22,7 @@
                     {{ form_errors(resetForm.plainPassword.second) }}
                 </div>
 
-                <button class="btn btn-primary">Valider le nouveau mot de passe</button>
+                <button class="btn btn-outline-primary">Valider le nouveau mot de passe</button>
                 {{ form_end(resetForm) }}
 
             </div>
