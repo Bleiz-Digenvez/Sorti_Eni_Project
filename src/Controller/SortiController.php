@@ -226,8 +226,8 @@ class SortiController extends AbstractController
         if($annulerForm->isSubmitted() && $annulerForm->isValid()){
             $sortie->setInfosSortie($annulerForm->get('motif')->getData());
 
-            $etat = $etatRepository->find(6);
-            $sortie->setEtat($etat);
+            $etatAnnulee = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+            $sortie->setEtat($etatAnnulee);
 
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -245,7 +245,7 @@ class SortiController extends AbstractController
     /**
      * @Route("/sorti/detail/{id}", name="sortie_mobile_detail", host="{subdomain}.sortir.com", defaults={"subdomain"="m"}, requirements={"subdomain"="m|mobile"})
      */
-    public function mobileDetail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    public function mobileDetail(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
 
@@ -261,7 +261,7 @@ class SortiController extends AbstractController
     /**
      * @Route("/sorti/detail/{id}", name="sortie_detail")
      */
-    public function detail(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    public function detail(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
 
