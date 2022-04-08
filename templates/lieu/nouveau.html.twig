@@ -95,47 +95,58 @@
     </div>
 
     <script>
+        // Gestion d'un carte avec leaflet et Geocoder
+
+        //Set de la position de dépars sur PARIS ZOOM
         var map = L.map('map').setView([48.865383562628416, 2.355273115002889],13);
+        //Set tuiles d'affichage de la map
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiYmxlaXotZGlnZW52ZXoiLCJhIjoiY2wxb3N6MWQ4MDdqNDNvbXU1MDJ4a3NrZCJ9.2ELwoD_A7OkdJKZGKVevgw'
         }).addTo(map);
+
+        // Utilisation de geocoder api servant a la recher de lieux A leaflet
         var geocoder = L.Control.geocoder({
             defaultMarkGeocode: false,
             placeholder: 'Recherche ...'
         })
             .on('markgeocode', function(e) {
+                //Suppression des ancien Marker
                 map.eachLayer(function (layer){
                     if(layer instanceof  L.Marker){
                         map.removeLayer(layer);
                     }
                 })
-                let markerSearch;
+
+                //Recuperation des donné via l'api
                 let lat = e.geocode.properties.lat;
                 let long = e.geocode.properties.lon;
                 let numRue = e.geocode.properties.address.house_number;
                 let rue = e.geocode.properties.address.road;
+                //concaténation du numéro et du nom de la rue
                 let rueText = (numRue==null?'':numRue.toString()) +' '+ rue;
 
+                //recupération des balise input
                 let latInput = document.getElementById('lieu_latitude');
                 let longInput = document.getElementById('lieu_longitude');
                 let rueInput = document.getElementById('lieu_rue');
 
+                //verification de la bonne récupération de la
                 if(rue !== undefined){
                     rueInput.setAttribute('value', rueText);
+                    //sinon mise en place du placeholder
                 }else{
                     rueInput.setAttribute('placeholder','Veuillez saisir la Rue demander')
                 }
-
+                //ajout des donner dans les champs
                 latInput.setAttribute('value', lat);
                 longInput.setAttribute('value', long);
 
-                markerSearch = L.marker([lat,long], {title: rueText.toString()}).addTo(map);
-                markerSearch.bindPopup(rueText.toString()).openPopup();
+                //Création du marker correspondant a la recherche + ajout sur la map
+                L.marker([lat,long], {title: rueText.toString()}).addTo(map);
                 map.fitBounds(e.geocode.bbox);
             })
             .addTo(map);
