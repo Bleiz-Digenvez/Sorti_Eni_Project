@@ -37,10 +37,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank
-     * @Assert\Length (min=8, max=4096)
      */
-    //@Assert\Regex(pattern="/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/", match=true);
     private $motPasse;
 
     /**
