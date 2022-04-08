@@ -106,8 +106,15 @@
         }).addTo(map);
         var geocoder = L.Control.geocoder({
             defaultMarkGeocode: false,
+            placeholder: 'Recherche ...'
         })
             .on('markgeocode', function(e) {
+                map.eachLayer(function (layer){
+                    if(layer instanceof  L.Marker){
+                        map.removeLayer(layer);
+                    }
+                })
+                let markerSearch;
                 let lat = e.geocode.properties.lat;
                 let long = e.geocode.properties.lon;
                 let numRue = e.geocode.properties.address.house_number;
@@ -127,10 +134,9 @@
                 latInput.setAttribute('value', lat);
                 longInput.setAttribute('value', long);
 
-                var markerSearch = L.marker([lat,long], {title: rueText.toString(),draggable: true}).addTo(map);
+                markerSearch = L.marker([lat,long], {title: rueText.toString()}).addTo(map);
                 markerSearch.bindPopup(rueText.toString()).openPopup();
                 map.fitBounds(e.geocode.bbox);
-                console.log(e.geocode)
             })
             .addTo(map);
     </script>
