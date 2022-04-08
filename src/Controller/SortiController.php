@@ -26,8 +26,8 @@ class SortiController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
         //Récuperation des état créee et ouvert
-        $etatCreee = $etatRepository->find(1);
-        $etatOuvert = $etatRepository->find(2);
+        $etatCreee = $etatRepository->findOneBy(['libelle' => 'Créee']);
+        $etatOuvert = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
 
         //Récuperation de l'utilisateur courant
         $user = $this->getUser();
