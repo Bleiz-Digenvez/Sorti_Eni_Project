@@ -1,8 +1,8 @@
 # sorti_Eni_Project
 
-Projet de formation sortir.com de l'ENI, réalisé par Guillaume Lombard, Baptiste Tielles et Edward Noel
-Ce projet est réalisé sur Symfony 5.4, avec PHP 7.4
-Nous utilisons une base MySQL, géré avec Doctrine
+- Projet de formation sortir.com de l'ENI, réalisé par Guillaume Lombard, Baptiste Tielles et Edward Noel
+- Ce projet est réalisé sur Symfony 5.4, avec PHP 7.4
+- Nous utilisons une base MySQL, géré avec Doctrine
 
 ## Pour executer le code
 ### Dans le terminal
@@ -19,3 +19,4 @@ Nous utilisons une base MySQL, géré avec Doctrine
 ### Parametrage du server
 - Pour éxécuter le plus facilement possible l'application merci de créer deux virtual Host : sortir.com & m.sortir.com
 - Une fois cela fait vous pouvez accéder à la parti desktop et la parti Mobile de l'application
+- 
