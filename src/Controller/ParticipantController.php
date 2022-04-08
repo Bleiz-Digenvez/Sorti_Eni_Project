@@ -18,7 +18,7 @@ class ParticipantController extends AbstractController
 {
     /**
      * Page servant a la modification de son compte
-     * @Route("/profil", name="participant_profil")
+     * @Route("/profil", name="participant_profil",host="sortir.com")
      */
     public function profil(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -80,7 +80,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/profil/detail/{id}", name="participant_detail")
+     * @Route("/profil/detail/{id}", name="participant_detail",host="sortir.com")
      */
     public function detail(int $id, ParticipantRepository $participantRepository)
     {
@@ -107,7 +107,7 @@ class ParticipantController extends AbstractController
 
     /**
      * Affiche la iste des tous les participants
-     * @Route("/admin/liste/", name="participant_liste")
+     * @Route("/admin/liste/", name="participant_liste",host="sortir.com")
      */
     public function liste(ParticipantRepository $participantRepository)
     {
@@ -125,7 +125,7 @@ class ParticipantController extends AbstractController
     /**
      * Désactive ou active les participants
      * Selon la liste d'ids et l'état (boolean) passés en paramétres
-     * @Route("/admin/desactiver/", name="participant_desactiver")
+     * @Route("/admin/desactiver/", name="participant_desactiver",host="sortir.com")
      */
     public function estActive(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
@@ -146,7 +146,7 @@ class ParticipantController extends AbstractController
     /**
      * Supprimer les participants
      * Selon la liste d'ids passés en paramétres
-     * @Route("/admin/supprimer/", name="participant_supprimer")
+     * @Route("/admin/supprimer/", name="participant_supprimer",host="sortir.com")
      */
     public function supprimer(Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
@@ -173,7 +173,7 @@ class ParticipantController extends AbstractController
     /**
      * Fonction pour requete AJAX
      * Recherche utilisateur selon un champs de saisi sur les attributs pseudo et/ou nom et/ou prenom
-     * @Route("/admin/rechercheParNomPrenomPseudo", name="participant_rechercheParNomPrenomPseudo")
+     * @Route("/admin/rechercheParNomPrenomPseudo", name="participant_rechercheParNomPrenomPseudo",host="sortir.com")
      */
     public function rechercheParNomPrenomPseudo(ParticipantRepository $participantRepository, Request $request):Response
     {
