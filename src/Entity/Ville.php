@@ -24,6 +24,7 @@ class Ville
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(max=50)
      * @Assert\NotBlank
      */
     private $nom;
