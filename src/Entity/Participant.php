@@ -29,7 +29,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Length(min=2)
+     * @Assert\Length(max=180)
      * @Assert\NotBlank
      */
     private $pseudo;
@@ -38,21 +38,21 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank
-     * @Assert\Length (min=6, max=4096)
+     * @Assert\Length (min=8, max=4096)
      */
     //@Assert\Regex(pattern="/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/", match=true);
     private $motPasse;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\Length(min=2)
+     * @Assert\Length(min=2, max=30)
      * @Assert\NotBlank
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\Length(min=2)
+     * @Assert\Length(min=2, max=30)
      * @Assert\NotBlank
      */
     private $prenom;
@@ -69,7 +69,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface, 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\Email
-     * @Assert\Length(min=10)
+     * @Assert\Length(min=10, max=50)
      * @Assert\NotBlank
      */
     private $mail;
