@@ -93,11 +93,9 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('s.organisateur = :organisateur');
             $queryBuilder->setParameter('organisateur', $rechercheSortie->getParticipant()->getId());
         }
-        //TODO : Guillaume boucle if non utiliser
-        //si l'utilisateur clique sur inscrit et n'est pas inscrit, on affiche tout.
-        if ($rechercheSortie->getInscrit() && $rechercheSortie->getPasInscrit()) {
-            //sinon n'afficher que les sorties ou le USER est inscrit
-        } else if ($rechercheSortie->getInscrit()) {
+
+        //sinon n'afficher que les sorties ou le USER est inscrit
+        if ($rechercheSortie->getInscrit()) {
             $queryBuilder
                 ->andWhere(' :participant MEMBER OF s.participants')
                 ->setParameter('participant', $rechercheSortie->getParticipant()->getId());
